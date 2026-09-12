@@ -22,9 +22,9 @@ fvm flutter run
 
 ### 확인한 환경
 
-**⚠️ 실제 기기나 시뮬레이터에서 실행 검증을 하지 못했습니다.**
-`flutter analyze` 통과와 테스트 21건 통과까지만 확인한 상태입니다.
-SVG 아이콘 렌더링, 폰트 적용, 실제 레이아웃은 눈으로 확인이 필요합니다.
+**iOS 18.5 시뮬레이터(iPhone 16)** 에서 실행해 화면을 확인했습니다.
+실제 네이버 데이터로 관심 목록 · 검색 · 상세가 모두 정상 동작합니다.
+Android 기기와 실제 iPhone에서는 확인하지 못했습니다.
 
 ---
 
@@ -84,7 +84,7 @@ SVG 아이콘 렌더링, 폰트 적용, 실제 레이아웃은 눈으로 확인�
 
 ```bash
 fvm flutter test
-# 21건 통과
+# 24건 통과
 ```
 
 | 파일 | 검증 내용 |
@@ -92,6 +92,7 @@ fvm flutter test
 | `parsing_test.dart` | 저장한 실제 응답으로 endpoint 4개 파싱 |
 | `page_cache_test.dart` | 일별 시세 페이지 요청 횟수와 재사용 |
 | `favorite_controller_test.dart` | 관심 상태 토글 · 중복 방지 · 불변성 |
+| `watchlist_sort_test.dart` | 정렬 규칙과 정렬 바텀시트 |
 | `widget_test.dart` | 앱 기동과 빈 상태 렌더링 |
 
 ---
