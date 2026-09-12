@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'binding/app_providers.dart';
 import 'theme/theme.dart';
+import 'views/screens/main_screen.dart';
 
 void main() {
-  runApp(const EdencrewAssignmentApp());
+  runApp(
+    MultiProvider(
+      providers: AppProviders.global,
+      child: const EdencrewAssignmentApp(),
+    ),
+  );
 }
 
 class EdencrewAssignmentApp extends StatelessWidget {
@@ -14,7 +22,7 @@ class EdencrewAssignmentApp extends StatelessWidget {
     return MaterialApp(
       title: '이든크루 평가 과제',
       theme: AppTheme.dark,
-      home: const StartHereScreen(),
+      home: const MainScreen(),
     );
   }
 }

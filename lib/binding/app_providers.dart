@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../core/repository/core_repository.dart';
+import '../domains/watchlist/controllers/favorite_controller.dart';
 
 /// 앱 전역 의존성. `main`에서 `MultiProvider`로 감싼다.
 ///
@@ -19,6 +20,10 @@ abstract final class AppProviders {
         Provider<CoreRepository>(
           create: (_) => CoreRepository(),
           dispose: (_, CoreRepository repository) => repository.close(),
+        ),
+        // 관심 · 검색 · 상세 세 화면이 같은 인스턴스를 봐야 한다.
+        ChangeNotifierProvider<FavoriteController>(
+          create: (_) => FavoriteController(),
         ),
       ];
 }
