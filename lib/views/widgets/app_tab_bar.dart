@@ -13,6 +13,9 @@ class AppTabBar extends StatelessWidget {
     super.key,
   });
 
+  /// 탭 바 높이. 토스트를 탭 바 위에 띄울 때 쓴다. (safe area 제외)
+  static const double height = 63;
+
   /// Figma 탭 아이콘 크기.
   static const double _iconSize = 22;
 
