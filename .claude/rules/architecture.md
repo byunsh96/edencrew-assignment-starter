@@ -10,26 +10,43 @@
 
 ```dart
 class WatchlistScreen extends StatelessWidget {
-  WatchlistScreen({super.key});
+  const WatchlistScreen({super.key});
 
-  final _controller = Get.find<WatchlistController>();
+  @override
+  Widget build(BuildContext context) {
+    // 화면 전용 컨트롤러는 여기 붙인다. 화면이 사라지면 함께 dispose된다.
+    return ChangeNotifierProvider<WatchlistController>(
+      create: (BuildContext context) => WatchlistController(
+        stockRepository: StockRepository(context.read<CoreRepository>()),
+        favoriteController: context.read<FavoriteController>(),
+      ),
+      child: const WatchlistView(),
+    );
+  }
+}
+
+class WatchlistView extends StatelessWidget {
+  const WatchlistView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colors.surfaceBase,
       body: Column(
-        children: [
-          const WatchlistHeader(),        // 정적 구간은 const, Obx 밖
+        children: <Widget>[
+          const WatchlistHeader(),                    // 정적 구간은 const, Consumer 밖
           Expanded(
-            child: Obx(() {               // 반응 구간만 감싼다
-              if (_controller.isLoading.value) return const WatchlistSkeleton();
-              if (_controller.isEmpty.value) return const WatchlistEmpty();
-              return ListView.builder(
-                itemCount: _controller.items.length,
-                itemBuilder: (context, index) => WatchlistRow(item: _controller.items[index]),
-              );
-            }),
+            child: Consumer<WatchlistController>(     // 갱신 구간만 감싼다
+              builder: (BuildContext context, WatchlistController controller, _) {
+                if (controller.isLoading) return const WatchlistSkeleton();
+                if (controller.isEmpty) return const WatchlistEmpty();
+                return ListView.builder(
+                  itemCount: controller.items.length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      WatchlistRow(item: controller.items[index]),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -40,8 +57,11 @@ class WatchlistScreen extends StatelessWidget {
 
 규칙:
 
-- **`Obx`는 반응이 필요한 구간만** 감싼다. `build` 전체를 감싸지 않는다.
-- 컨트롤러는 위젯 필드에 `Get.find`로 잡는다. `build` 안에서 매번 찾지 않는다.
+- **`Consumer`는 갱신이 필요한 구간만** 감싼다. `build` 전체를 감싸지 않는다.
+- 값을 읽기만 할 때는 `context.read<T>()`, 구독해야 할 때만 `Consumer`/`context.watch<T>()`를 쓴다.
+  - `onTap` 같은 이벤트 핸들러에서 `watch`를 쓰지 않는다. 불필요한 리빌드가 생긴다.
+- 필드 하나만 보면 되는 위젯은 `Selector<T, S>`로 리빌드 범위를 더 좁힌다.
+- `ChangeNotifierProvider`는 **화면 위젯에 붙인다.** 전역에 올리는 것은 `FavoriteController`뿐이다.
 - 화면은 `views/screens/`, 부분 위젯은 `views/widgets/`에 둔다.
 - 위젯 파일 하나에 최상위 public 위젯 하나. 파일명과 클래스명을 맞춘다.
 - 색은 `context.colors.*`, 간격은 `context.dimens.*`로만 꺼낸다.
@@ -51,77 +71,98 @@ class WatchlistScreen extends StatelessWidget {
 
 ## 2. Controller
 
-`GetxController`를 상속하고, 공통 책임은 mixin으로 붙인다.
+`ChangeNotifier`를 상속하고, 공통 책임은 mixin으로 붙인다.
 
 ```dart
-class WatchlistController extends GetxController {
-  final _stockRepository = StockRepository();
-  final _favoriteController = Get.find<FavoriteController>();
-
-  final RxList<WatchlistItem> items = <WatchlistItem>[].obs;
-  final RxBool isLoading = true.obs;
-  final Rx<WatchlistSort> sort = WatchlistSort.price.obs;
-
-  RxBool get isEmpty => (items.isEmpty).obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    _bindFavorites();
+class WatchlistController extends ChangeNotifier {
+  WatchlistController({
+    required StockRepository stockRepository,
+    required FavoriteController favoriteController,
+  })  : _stockRepository = stockRepository,
+        _favoriteController = favoriteController {
+    _favoriteController.addListener(_onFavoriteChanged);
     fetchQuotes();
   }
 
+  final StockRepository _stockRepository;
+  final FavoriteController _favoriteController;
+
+  List<WatchlistItem> _items = <WatchlistItem>[];
+  bool _isLoading = true;
+  WatchlistSort _sort = WatchlistSort.price;
+
+  List<WatchlistItem> get items => List<WatchlistItem>.unmodifiable(_items);
+  bool get isLoading => _isLoading;
+  bool get isEmpty => _items.isEmpty;
+  WatchlistSort get sort => _sort;
+
   /// 관심종목 시세를 한 번의 요청으로 조회한다.
   Future<void> fetchQuotes() async {
-    isLoading.value = true;
+    _isLoading = true;
+    notifyListeners();
 
-    final symbols = _favoriteController.symbols;
+    final List<String> symbols = _favoriteController.symbols;
     if (symbols.isEmpty) {
-      items.clear();
-      isLoading.value = false;
+      _items = <WatchlistItem>[];
+      _isLoading = false;
+      notifyListeners();
       return;
     }
 
-    final quotes = await _stockRepository.getRealtimeQuotes(symbols);  // 일괄 조회
-    items.value = _merge(symbols, quotes);
-    isLoading.value = false;
+    final List<StockQuote> quotes =
+        await _stockRepository.getRealtimeQuotes(symbols);   // 일괄 조회
+    _items = _merge(symbols, quotes);
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  void _onFavoriteChanged() => fetchQuotes();
+
+  @override
+  void dispose() {
+    _favoriteController.removeListener(_onFavoriteChanged);
+    super.dispose();
   }
 }
 ```
 
 규칙:
 
-- **Repository는 private 필드**로 잡는다. `final _stockRepository = StockRepository();`
-- **다른 컨트롤러 참조는 `Get.find`**로 잡되, 순환 참조가 생기면 getter로 미룬다.
-- 상태는 전부 `Rx*`로 노출한다. 외부에서 직접 대입하지 않도록 변경은 메서드로 감싼다.
-- `onInit`에서 초기 로딩을 건다. 생성자에서 비동기 작업을 하지 않는다.
+- **의존성은 생성자로 주입한다.** 컨트롤러 안에서 `context`를 읽지 않는다. 테스트에서 교체가 가능해진다.
+- **상태 필드는 private, 읽기는 getter**로 노출한다. 외부에서 직접 대입하지 못하게 한다.
+  - 리스트는 `unmodifiable`로 감싸 View가 원본을 건드리지 못하게 한다.
+- **상태를 바꾼 뒤 `notifyListeners()`를 부른다.** 연속으로 바꿀 때는 마지막에 한 번만 부른다.
+- 초기 로딩은 **생성자**에서 건다. `ChangeNotifier`에는 `onInit`이 없다.
+- 다른 컨트롤러를 구독하면 **`dispose`에서 반드시 `removeListener`** 한다. 빠뜨리면 화면을 나간 뒤에도 호출된다.
 - 화면에 쓰이는 파생값은 getter로 만든다. View에서 계산하지 않는다.
 - 공통 로직(정렬, 페이지 캐시 등)이 둘 이상의 컨트롤러에 필요해지면 **mixin으로 뽑는다.**
 
 ### 관심 상태 공유
 
-관심 등록/해제는 세 화면이 같은 상태를 봐야 한다. 단일 컨트롤러를 `permanent`로 올리고 모든 화면이 참조한다.
+관심 등록/해제는 세 화면이 같은 상태를 봐야 한다. 유일하게 전역에 올리는 컨트롤러다.
 
 ```dart
-// binding/initial_binding.dart
-Get.put(FavoriteController(), permanent: true);
+// binding/app_providers.dart
+ChangeNotifierProvider<FavoriteController>(create: (_) => FavoriteController()),
 ```
 
-각 화면은 `Get.find<FavoriteController>()`로 같은 인스턴스를 본다. 화면별로 관심 목록을 복사해 들고 있지 않는다.
+각 화면은 `context.read<FavoriteController>()`로 같은 인스턴스를 본다.
+화면별로 관심 목록을 복사해 들고 있지 않는다.
 
 ### 의존성 등록
 
-`binding/initial_binding.dart`에서 일괄 등록한다.
+| 대상 | 방식 | 위치 |
+|---|---|---|
+| 앱 전역 서비스 (`CoreRepository`) | `Provider` + `dispose` | `AppProviders.global` |
+| 공유 상태 (`FavoriteController`) | `ChangeNotifierProvider` | `AppProviders.global` |
+| 화면 컨트롤러 | `ChangeNotifierProvider` | 해당 **화면 위젯** |
+| Dialog · 바텀시트 전용 상태 | `StatefulWidget` 지역 상태 또는 `ChangeNotifierProvider.value` | 해당 위젯 |
 
-| 대상 | 방식 |
-|---|---|
-| 앱 전역 서비스 · 공유 상태 | `Get.put(..., permanent: true)` |
-| 화면 컨트롤러 | `Get.lazyPut(() => ..., fenix: true)` |
-| Dialog · 일시적 위젯 컨트롤러 | 위젯 내부에서 `GetBuilder(init:)` |
+**전역에 올리는 것은 `CoreRepository`와 `FavoriteController` 둘뿐이다.**
+화면 하나에서만 쓰는 컨트롤러를 전역에 올리지 않는다. 화면을 나가도 살아남아 상태가 남는다.
 
-Dialog에 `Get.put`을 쓰지 않는다. 닫혀도 인스턴스가 남는다.
-
----
+바텀시트·다이얼로그는 상위 트리와 분리된 route라 provider를 상속받지 못한다.
+값을 넘겨야 하면 `ChangeNotifierProvider.value`로 명시적으로 전달한다.
 
 ## 3. Repository
 
@@ -129,8 +170,10 @@ Dialog에 `Get.put`을 쓰지 않는다. 닫혀도 인스턴스가 남는다.
 
 ```dart
 class StockRepository {
-  CoreRepository get _coreRepository => Get.find<CoreRepository>();   // 반드시 getter
-  final _file = 'StockRepository';
+  StockRepository(this._coreRepository);   // 생성자 주입
+
+  final CoreRepository _coreRepository;
+  static const String _file = 'StockRepository';
 
   //GET https://ac.stock.naver.com/ac (검색 자동완성)
   Future<List<StockSearchItem>> getAutoComplete(String keyword) async {
@@ -153,7 +196,7 @@ class StockRepository {
 
 규칙:
 
-- **`CoreRepository`는 반드시 getter로 참조한다.** 필드로 잡으면 등록 전에 평가될 수 있다.
+- **`CoreRepository`는 생성자로 주입받는다.** Repository는 `context`를 모른다. 컨트롤러가 만들어 넘긴다.
 - 메서드 위에 `//GET <url> (설명)` 주석으로 endpoint를 명시한다.
 - 조회는 모델 또는 `List<T>` 반환, 변경은 `bool` 반환. **record/tuple 반환은 쓰지 않는다.**
 - `try/catch` + `LogUtil().logError('메서드명: $e', module: _file)` 후 빈 값으로 fallback한다.
@@ -180,7 +223,7 @@ Future<List<DailyQuote>> getDailyQuotes(String symbol, {required int page}) asyn
 
 ## 4. CoreRepository
 
-`GetConnect`를 상속한다. 네이버 endpoint는 호스트가 서로 달라 **`baseUrl`을 설정하지 않고 전체 URL을 넘긴다.**
+`Dio`를 감싼 일반 클래스다. 네이버 endpoint는 호스트가 서로 달라 **`baseUrl`을 설정하지 않고 전체 URL을 넘긴다.**
 
 책임:
 
@@ -188,7 +231,11 @@ Future<List<DailyQuote>> getDailyQuotes(String symbol, {required int page}) asyn
 - 요청/응답 로깅 (`DevConfig`로 on/off)
 - HTML 응답은 바이트를 받아 **EUC-KR 디코딩** 후 문자열로 반환 (`getHtml`)
 
-`getHtml`은 `GetConnect`가 body를 UTF-8로 디코딩해 한글이 깨지므로 `http` 패키지로 직접 요청해 `bodyBytes`를 다룬다.
+`getHtml`은 Dio가 body를 UTF-8로 디코딩하면 한글이 깨지므로 `ResponseType.bytes`로 원문을 받아
+`charset` 패키지의 `eucKr`로 직접 디코딩한다. (순수 Dart 코덱이라 네이티브 플러그인이 필요 없다)
+
+`validateStatus`를 항상 `true`로 두어 4xx·5xx를 예외로 던지지 않고 `ApiResponse.statusCode`에 담는다.
+`finance.naver.com`은 기본 User-Agent로는 응답하지 않는 경우가 있어 브라우저 UA를 붙인다.
 
 ---
 
@@ -236,8 +283,8 @@ class StockQuote implements HasSymbol {
 
 1. `domains/<도메인>/models/` — 모델과 `fromJson`
 2. `domains/<도메인>/repository/` — endpoint 메서드
-3. `domains/<도메인>/controllers/` — Rx 상태와 `onInit`
-4. `binding/initial_binding.dart` — 등록
+3. `domains/<도메인>/controllers/` — `ChangeNotifier` 상태와 생성자 초기 로딩
+4. `binding/app_providers.dart` — 전역만 등록 (화면 컨트롤러는 화면 위젯에 붙인다)
 5. `domains/<도메인>/views/screens/` — 화면
 6. `domains/<도메인>/views/widgets/` — 반복 요소 분리
 7. `flutter analyze`

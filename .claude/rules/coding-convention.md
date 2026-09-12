@@ -25,22 +25,47 @@ Dart는 `SCREAMING_SNAKE_CASE`를 쓰지 않는다. `constant_identifier_names` 
 
 ## 상태
 
-**`setState`를 쓰지 않는다.** `Rx` + `Obx`로 처리한다.
+**`setState`를 쓰지 않는다.** `ChangeNotifier` + `Consumer`로 처리한다.
 
 ```dart
 // 금지
 setState(() => _isExpanded = true);
 
-// 권장
-final isExpanded = false.obs;
-...
-Obx(() => isExpanded.value ? const DetailBody() : const SizedBox.shrink())
+// 권장 — 컨트롤러가 상태를 갖고 알린다
+class DetailController extends ChangeNotifier {
+  bool _isExpanded = false;
+  bool get isExpanded => _isExpanded;
+
+  void toggle() {
+    _isExpanded = !_isExpanded;
+    notifyListeners();
+  }
+}
+
+Consumer<DetailController>(
+  builder: (BuildContext context, DetailController controller, _) =>
+      controller.isExpanded ? const DetailBody() : const SizedBox.shrink(),
+)
 ```
+
+`context.read` / `context.watch` / `Consumer`를 구분해서 쓴다.
+
+| | 구독 | 쓰는 곳 |
+|---|---|---|
+| `context.read<T>()` | 안 함 | `onTap` 등 이벤트 핸들러 |
+| `context.watch<T>()` | 함 | `build`. 위젯 전체가 리빌드된다 |
+| `Consumer<T>` | 함 | 리빌드 범위를 좁힐 때 |
+| `Selector<T, S>` | 해당 값만 | 특정 필드만 볼 때 |
+
+`build` 안에서 `context.read`로 상태를 읽으면 갱신되지 않는다.
+`initState`에서 `context.watch`를 부르면 예외가 난다.
 
 `StatefulWidget`은 다음 경우에만 쓴다.
 
 - `TextEditingController` · `AnimationController` 등 dispose가 필요할 때
 - `initState`에서 1회 생성해야 하는 인스턴스가 있을 때
+
+컨트롤러 자체의 dispose는 `ChangeNotifierProvider`가 처리하므로 그것 때문에 `StatefulWidget`을 쓰지 않는다.
 
 ### build 안에서 인스턴스 생성 금지
 
@@ -87,7 +112,9 @@ Text('삼성전자', style: TextStyle(color: context.colors.textPrimary))
 - 색상 hex를 화면 코드에 직접 쓰지 않는다.
 - `AppPalette`를 화면에서 바로 참조하지 않는다. 반드시 `AppColors`(= `context.colors`)를 거친다.
 - 토큰이 정말 없으면 추가해도 된다. **단 왜 추가했는지 README에 남긴다.**
-- 글자 크기와 행간은 토큰에 없다. Figma 텍스트 레이어 값을 그대로 쓴다.
+- 글자 크기와 행간은 스타터 토큰(`AppTypography`)에 없다. `AppTextStyles`를 쓴다.
+  - `AppTextStyles`는 Figma 텍스트 스타일을 그대로 옮긴 것이다. 화면에서 `fontSize`를 직접 적지 않는다.
+  - 색은 들어 있지 않다. `AppTextStyles.body.copyWith(color: context.colors.textPrimary)` 형태로 조합한다.
 
 ### 등락 색상
 
@@ -154,7 +181,7 @@ LogUtil().logInfo('페이지 캐시 적중: $page', module: _file);
 
 - `Future`를 반환하는 메서드는 `Future<T>`로 반환 타입을 명시한다. (lint로 강제되지는 않으니 직접 챙긴다)
 - `await`를 빠뜨리지 않는다. 의도적으로 기다리지 않으면 `unawaited()`로 표시한다.
-- 화면이 사라진 뒤 `Rx`에 대입하지 않도록 `onClose`에서 정리한다.
+- 화면이 사라진 뒤 `notifyListeners`가 불리지 않도록 `dispose`에서 리스너와 타이머를 정리한다.
 
 ---
 
@@ -162,7 +189,7 @@ LogUtil().logInfo('페이지 캐시 적중: $page', module: _file);
 
 | 금지 | 대안 |
 |---|---|
-| `setState` | `Rx` + `Obx` |
+| `setState` | `ChangeNotifier` + `Consumer` |
 | `print` | `LogUtil` |
 | `build` 안 인스턴스 생성 | `initState` + `late final` |
 | 색상 hex 직접 입력 | `context.colors.*` |
@@ -170,7 +197,10 @@ LogUtil().logInfo('페이지 캐시 적중: $page', module: _file);
 | 매직 넘버 (`9999`) | named const + 근거 주석 |
 | repository record/tuple 반환 | 모델 또는 `bool` |
 | Controller에서 raw json 접근 | repository에서 모델 변환 |
-| Dialog에 `Get.put` | `GetBuilder(init:)` |
+| 화면 전용 컨트롤러를 전역 provider에 등록 | 화면 위젯에 `ChangeNotifierProvider` |
+| 이벤트 핸들러에서 `context.watch` | `context.read` |
+| 컨트롤러 안에서 `context` 참조 | 생성자 주입 |
+| `removeListener` 누락 | `dispose`에서 해제 |
 | 종목별 개별 시세 호출 | 일괄 조회 1회 |
 | 기존 주석 삭제 | 수정만 |
 
