@@ -231,8 +231,27 @@ Future<List<DailyQuote>> getDailyQuotes(String symbol, {required int page}) asyn
 - 요청/응답 로깅 (`DevConfig`로 on/off)
 - HTML 응답은 바이트를 받아 **EUC-KR 디코딩** 후 문자열로 반환 (`getHtml`)
 
-`getHtml`은 Dio가 body를 UTF-8로 디코딩하면 한글이 깨지므로 `ResponseType.bytes`로 원문을 받아
-`charset` 패키지의 `eucKr`로 직접 디코딩한다. (순수 Dart 코덱이라 네이티브 플러그인이 필요 없다)
+### 인코딩
+
+**endpoint마다 인코딩이 다르다.** JSON이라고 UTF-8인 것이 아니다.
+
+| endpoint | Content-Type |
+|---|---|
+| `ac.stock.naver.com` | (헤더 없음 → UTF-8) |
+| `polling.finance.naver.com` | `text/plain;charset=EUC-KR` — **JSON인데 EUC-KR** |
+| `stock.naver.com` | `application/json; charset=utf-8` |
+| `finance.naver.com` | `text/html;charset=EUC-KR` |
+
+그래서 `getData`와 `getHtml` 모두 `ResponseType.bytes`로 원문을 받고,
+응답 헤더의 charset을 보고 디코딩한다. 실시간 시세를 UTF-8로 읽으면 종목명이 깨진다.
+
+디코딩은 `cp949_codec`의 `cp949`를 쓴다. CP949는 EUC-KR의 상위 호환이고 순수 Dart라
+네이티브 플러그인이 필요 없다. 덕분에 기기 없이 `flutter test`에서도 파싱을 검증할 수 있다.
+
+> `charset` 패키지(2.0.1)는 쓰지 않는다. `eucKrToUtf8`과 `utf8ToEucKr` 테이블의 이름이
+> 뒤바뀌어 있어 인코딩·디코딩 양방향이 모두 깨진다. (`삼성전자` → `鋱鏋飜飅`)
+
+### 기타
 
 `validateStatus`를 항상 `true`로 두어 4xx·5xx를 예외로 던지지 않고 `ApiResponse.statusCode`에 담는다.
 `finance.naver.com`은 기본 User-Agent로는 응답하지 않는 경우가 있어 브라우저 UA를 붙인다.
