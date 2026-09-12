@@ -6,6 +6,7 @@ import '../../../../core/repository/core_repository.dart';
 import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
 import '../../../../views/widgets/app_empty_view.dart';
+import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/favorite_controller.dart';
 import '../../controllers/watchlist_controller.dart';
 import '../../models/watchlist_item.dart';
@@ -62,7 +63,13 @@ class _WatchlistView extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: items.length,
                   itemBuilder: (BuildContext context, int index) =>
-                      WatchlistRow(item: items[index]),
+                      WatchlistRow(
+                    item: items[index],
+                    onTap: () => StockDetailScreen.push(
+                      context,
+                      items[index].stock,
+                    ),
+                  ),
                 ),
               );
             },

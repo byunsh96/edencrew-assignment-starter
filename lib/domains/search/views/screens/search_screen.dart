@@ -6,7 +6,9 @@ import '../../../../core/repository/core_repository.dart';
 import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
 import '../../../../views/widgets/app_empty_view.dart';
+import '../../../../models/favorite_stock.dart';
 import '../../../../views/widgets/app_toast.dart';
+import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/stock_search_controller.dart';
 import '../../models/stock_search_item.dart';
 import '../widgets/search_field.dart';
@@ -107,6 +109,14 @@ class _SearchViewState extends State<_SearchView> {
                   item: results[index],
                   keyword: controller.keyword,
                   onFavoriteToggled: _onFavoriteToggled,
+                  onTap: () => StockDetailScreen.push(
+                    context,
+                    FavoriteStock(
+                      symbol: results[index].symbol,
+                      name: results[index].name,
+                      marketName: results[index].marketName,
+                    ),
+                  ),
                 ),
               );
             },
