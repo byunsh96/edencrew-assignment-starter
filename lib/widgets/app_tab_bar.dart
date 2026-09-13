@@ -1,3 +1,4 @@
+import 'package:edencrew_assignment_starter/widgets/app_ink_well.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_icons.dart';
@@ -8,9 +9,6 @@ import 'app_svg_icon.dart';
 
 class AppTabBar extends StatelessWidget {
   const AppTabBar({super.key, required this.current, required this.onChanged});
-
-  /// 아이콘과 레이블 사이 간격.
-  static const double _iconLabelGap = 3;
 
   final MainTab current;
   final ValueChanged<MainTab> onChanged;
@@ -32,7 +30,10 @@ class AppTabBar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
-            children: <Widget>[for (final MainTab tab in MainTab.values) _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab))],
+            children: <Widget>[
+              for (final MainTab tab in MainTab.values)
+                _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab)),
+            ],
           ),
         ),
       ),
@@ -59,12 +60,12 @@ class _Tab extends StatelessWidget {
     final Color color = isSelected ? colors.navActive : colors.navInactive;
 
     return Expanded(
-      child: InkWell(
+      child: AppInkWell(
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Column(
-            spacing: AppTabBar._iconLabelGap,
+            spacing: 3,
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
