@@ -46,7 +46,7 @@ abstract final class AppTextStyles {
     fontSize: 15,
     height: 20 / 15,
     fontWeight: AppTypography.medium,
-    letterSpacing: -0.1, // -0.0067em × 15
+    letterSpacing: -0.1,
   );
 
   /// Figma `label` — 13/18 Bold. 강조 레이블.
