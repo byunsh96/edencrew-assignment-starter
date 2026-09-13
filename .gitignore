@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# IDE가 생성하는 DevTools 확장 설정. 팀 공유 설정이 없어 추적하지 않는다.
+devtools_options.yaml

@@ -18,6 +18,11 @@ analyzer:
     - linux/**
 include: package:flutter_lints/flutter.yaml
 
+# 에디터와 CLI가 같은 기준으로 포맷하도록 여기서 정한다.
+# Dart 3.7부터 후행 콤마로는 줄바꿈을 강제할 수 없고 너비로만 결정된다.
+formatter:
+  page_width: 100
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
