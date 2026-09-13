@@ -72,6 +72,7 @@ abstract final class AppTextStyles {
     fontFamily: AppTypography.fontFamily,
     fontSize: 11,
     height: 14 / 11,
+    letterSpacing: 0,
     fontWeight: AppTypography.regular,
   );
 }
