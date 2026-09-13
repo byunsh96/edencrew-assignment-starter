@@ -6,7 +6,7 @@ import '../../../../widgets/app_empty_view.dart';
 import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/favorite_controller.dart';
 import '../../controllers/favorite_list_controller.dart';
-import '../../models/watchlist_item.dart';
+import '../../models/favorite_list_item.dart';
 import '../widgets/favorite_list_header.dart';
 import '../widgets/favorite_list_row.dart';
 
@@ -43,7 +43,7 @@ class _FavoriteListView extends StatelessWidget {
                 );
               }
 
-              final List<WatchlistItem> items = controller.items;
+              final List<FavoriteListItem> items = controller.items;
 
               return RefreshIndicator(
                 onRefresh: controller.fetchQuotes,

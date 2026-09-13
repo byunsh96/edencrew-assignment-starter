@@ -4,7 +4,7 @@ import '../../../models/favorite_stock.dart';
 import '../../../models/stock_quote.dart';
 import '../../../repository/stock_repository.dart';
 import '../enums/favorite_list_sort.dart';
-import '../models/watchlist_item.dart';
+import '../models/favorite_list_item.dart';
 import 'favorite_controller.dart';
 
 //TODO 리뷰 확인
@@ -36,9 +36,9 @@ class FavoriteListController extends ChangeNotifier {
   FavoriteListSort get sort => _sort;
 
   /// 관심 목록에 현재 시세를 붙이고 정렬해서 돌려준다.
-  List<WatchlistItem> get items {
-    final List<WatchlistItem> result = _favoriteController.items
-        .map((FavoriteStock stock) => WatchlistItem(stock: stock, quote: _quotes[stock.symbol]))
+  List<FavoriteListItem> get items {
+    final List<FavoriteListItem> result = _favoriteController.items
+        .map((FavoriteStock stock) => FavoriteListItem(stock: stock, quote: _quotes[stock.symbol]))
         .toList();
 
     result.sort(_compare);
@@ -88,7 +88,7 @@ class FavoriteListController extends ChangeNotifier {
   ///
   /// Figma에 정의되지 않은 부분이다. 0으로 취급하면 하락 종목과 섞여
   /// 실제로 떨어진 종목처럼 읽히므로 목록 끝으로 몰았다.
-  int _compare(WatchlistItem a, WatchlistItem b) {
+  int _compare(FavoriteListItem a, FavoriteListItem b) {
     final StockQuote? left = a.quote;
     final StockQuote? right = b.quote;
 

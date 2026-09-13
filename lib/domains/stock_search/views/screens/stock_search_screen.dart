@@ -15,8 +15,8 @@ import '../widgets/search_result_row.dart';
 //TODO 리뷰 확인
 
 /// 검색 화면.
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+class StockSearchScreen extends StatelessWidget {
+  const StockSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,22 +54,36 @@ class _SearchViewState extends State<_SearchView> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
-        SearchField(controller: _textController, onChanged: context.read<StockSearchController>().onKeywordChanged, onCleared: _onCleared),
+      children: [
+        SearchField(
+          controller: _textController,
+          onChanged: context.read<StockSearchController>().onKeywordChanged,
+          onCleared: _onCleared,
+        ),
         Expanded(
           child: Consumer<StockSearchController>(
             builder: (BuildContext context, StockSearchController controller, _) {
               if (!controller.hasKeyword) {
-                return const AppEmptyView(icon: AppIcons.search, title: '종목을 검색해 보세요', description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.');
+                return const AppEmptyView(
+                  icon: AppIcons.search,
+                  title: '종목을 검색해 보세요',
+                  description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.',
+                );
               }
 
               if (controller.isLoading) {
-                return Center(child: CircularProgressIndicator(color: context.colors.accentDefault));
+                return Center(
+                  child: CircularProgressIndicator(color: context.colors.accentDefault),
+                );
               }
 
               final List<StockSearchItem> results = controller.results;
               if (results.isEmpty) {
-                return AppEmptyView(icon: AppIcons.searchEmpty, title: '검색 결과가 없습니다', description: _notFoundMessage(controller.keyword));
+                return AppEmptyView(
+                  icon: AppIcons.searchEmpty,
+                  title: '검색 결과가 없습니다',
+                  description: _notFoundMessage(controller.keyword),
+                );
               }
 
               return ListView.builder(
@@ -79,7 +93,14 @@ class _SearchViewState extends State<_SearchView> {
                   item: results[index],
                   keyword: controller.keyword,
                   onFavoriteToggled: _onFavoriteToggled,
-                  onTap: () => StockDetailScreen.push(context, FavoriteStock(symbol: results[index].symbol, name: results[index].name, marketName: results[index].marketName)),
+                  onTap: () => StockDetailScreen.push(
+                    context,
+                    FavoriteStock(
+                      symbol: results[index].symbol,
+                      name: results[index].name,
+                      marketName: results[index].marketName,
+                    ),
+                  ),
                 ),
               );
             },
@@ -96,7 +117,9 @@ class _SearchViewState extends State<_SearchView> {
   String _notFoundMessage(String keyword) {
     const int maxLength = 20;
     final String trimmed = keyword.trim();
-    final String shown = trimmed.length <= maxLength ? trimmed : '${trimmed.substring(0, maxLength)}...';
+    final String shown = trimmed.length <= maxLength
+        ? trimmed
+        : '${trimmed.substring(0, maxLength)}...';
 
     return "'$shown'와\n일치하는 검색 결과를 찾지 못했습니다.";
   }

@@ -29,6 +29,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
     required this.iconXlg,
     required this.rowMinHeight,
     required this.tabBarHeight,
+    required this.bottomSheetTitleHeight,
   });
 
   const AppDimens.standard()
@@ -50,7 +51,8 @@ class AppDimens extends ThemeExtension<AppDimens> {
       iconLg = 24,
       iconXlg = 40,
       rowMinHeight = 56,
-      tabBarHeight = 56;
+      tabBarHeight = 56,
+      bottomSheetTitleHeight = 64;
 
   final double spaceHalf;
   final double space1;
@@ -87,6 +89,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
   /// 하단 탭 바의 높이입니다.
   final double tabBarHeight;
 
+  /// 하단 시트 제목의 최소 높이입니다.
+  final double bottomSheetTitleHeight;
+
   @override
   AppDimens copyWith({
     double? spaceHalf,
@@ -108,6 +113,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? iconXlg,
     double? rowMinHeight,
     double? tabBarHeight,
+    double? bottomSheetTitleHeight,
   }) {
     return AppDimens(
       spaceHalf: spaceHalf ?? this.spaceHalf,
@@ -129,6 +135,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       iconXlg: iconXlg ?? this.iconXlg,
       rowMinHeight: rowMinHeight ?? this.rowMinHeight,
       tabBarHeight: tabBarHeight ?? this.tabBarHeight,
+      bottomSheetTitleHeight: bottomSheetTitleHeight ?? this.bottomSheetTitleHeight,
     );
   }
 
@@ -155,6 +162,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       iconXlg: lerpDouble(iconXlg, other.iconXlg, t)!,
       rowMinHeight: lerpDouble(rowMinHeight, other.rowMinHeight, t)!,
       tabBarHeight: lerpDouble(tabBarHeight, other.tabBarHeight, t)!,
+      bottomSheetTitleHeight: lerpDouble(bottomSheetTitleHeight, other.bottomSheetTitleHeight, t)!,
     );
   }
 }

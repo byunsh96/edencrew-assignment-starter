@@ -31,25 +31,15 @@ class SearchField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: _fieldVerticalPadding,
-        ),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: _fieldVerticalPadding),
+        foregroundDecoration: BoxDecoration(
           color: colors.surfaceSunken,
-          border: Border.all(
-            color: colors.borderStrong,
-            width: dimens.borderHairline,
-          ),
+          border: Border.all(color: colors.borderStrong, width: dimens.borderHairline),
           borderRadius: BorderRadius.circular(dimens.radiusMd),
         ),
         child: Row(
           children: <Widget>[
-            AppSvgIcon(
-              AppIcons.search,
-              size: dimens.iconSm,
-              color: colors.textTertiary,
-            ),
+            AppSvgIcon(AppIcons.search, size: dimens.iconSm, color: colors.textTertiary),
             SizedBox(width: dimens.space2),
             Expanded(
               child: TextField(
@@ -63,8 +53,7 @@ class SearchField extends StatelessWidget {
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
                   hintText: '종목명 또는 종목코드',
-                  hintStyle:
-                      AppTextStyles.body.copyWith(color: colors.textTertiary),
+                  hintStyle: AppTextStyles.body.copyWith(color: colors.textTertiary),
                 ),
               ),
             ),

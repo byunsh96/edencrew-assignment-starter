@@ -6,7 +6,7 @@ import 'package:edencrew_assignment_starter/core/repository/core_repository.dart
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_list_controller.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/enums/favorite_list_sort.dart';
-import 'package:edencrew_assignment_starter/domains/favorite_list/models/watchlist_item.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/models/favorite_list_item.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/favorite_list_sort_sheet.dart';
 import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
@@ -44,21 +44,21 @@ void main() {
   tearDown(() => controller.dispose());
 
   test('현재가순은 내림차순이고 시세 미수신 행이 맨 뒤로 간다', () {
-    final List<WatchlistItem> items = controller.items;
+    final List<FavoriteListItem> items = controller.items;
 
     expect(items.last.stock.symbol, '999999');
     expect(items.last.hasQuote, isFalse);
 
     final List<int> prices = items
-        .where((WatchlistItem e) => e.hasQuote)
-        .map((WatchlistItem e) => e.quote!.currentPrice)
+        .where((FavoriteListItem e) => e.hasQuote)
+        .map((FavoriteListItem e) => e.quote!.currentPrice)
         .toList();
     expect(prices, List<int>.from(prices)..sort((int a, int b) => b - a));
   });
 
   test('가나다순에서도 시세 미수신 행은 뒤로 간다', () {
     controller.changeSort(FavoriteListSort.name);
-    final List<WatchlistItem> items = controller.items;
+    final List<FavoriteListItem> items = controller.items;
 
     // '가상종목'은 가나다순으로 맨 앞이지만 시세가 없어 뒤로 밀린다.
     expect(items.last.stock.name, '가상종목');

@@ -1,7 +1,7 @@
 import '../constants/naver_api.dart';
 import '../core/models/api_response.dart';
 import '../core/repository/core_repository.dart';
-import '../domains/search/models/stock_search_item.dart';
+import '../domains/stock_search/models/stock_search_item.dart';
 import '../domains/stock_detail/models/daily_quote_page.dart';
 import '../models/stock_meta.dart';
 import '../models/stock_quote.dart';

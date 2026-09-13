@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cp949_codec/cp949_codec.dart';
-import 'package:edencrew_assignment_starter/domains/search/models/stock_search_item.dart';
+import 'package:edencrew_assignment_starter/domains/stock_search/models/stock_search_item.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote_page.dart';
 import 'package:edencrew_assignment_starter/enums/price_direction.dart';

@@ -50,7 +50,8 @@ class FavoriteListSortSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
+            Container(
+              height: dimens.bottomSheetTitleHeight,
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -80,8 +81,9 @@ class _Option extends StatelessWidget {
 
     return AppInkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      child: Container(
+        height: dimens.rowMinHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
