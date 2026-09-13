@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cp949_codec/cp949_codec.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../constants/dev_config.dart';
 import '../../utils/log_util.dart';
@@ -15,6 +16,20 @@ import '../models/api_response.dart';
 /// 호출부가 `NaverApi`의 전체 URL을 그대로 넘긴다.
 class CoreRepository {
   CoreRepository({Dio? dio}) : _dio = dio ?? Dio(_defaultOptions);
+
+  static CoreRepository _instance = CoreRepository();
+
+  /// 앱 전체가 Dio 커넥션 풀 하나를 공유한다.
+  /// 상태를 갖지 않아 위젯 트리에 수명을 묶을 이유가 없어 싱글턴으로 둔다.
+  static CoreRepository get instance => _instance;
+
+  /// 테스트에서 mock adapter를 물린 Dio로 갈아끼우는 지점.
+  ///
+  /// 읽기는 막지 않고 쓰기에만 `@visibleForTesting`을 달아,
+  /// 프로덕션 코드가 실수로 싱글턴을 바꾸면 분석기가 잡아낸다.
+  /// 주입 지점을 여기 하나로 모아 컨트롤러 생성자가 테스트 사정을 떠안지 않게 한다.
+  @visibleForTesting
+  static set instance(CoreRepository repository) => _instance = repository;
 
   static const String _file = 'CoreRepository';
 

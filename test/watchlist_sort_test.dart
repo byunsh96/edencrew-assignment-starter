@@ -3,13 +3,12 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:edencrew_assignment_starter/core/repository/core_repository.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/controllers/favorite_controller.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/controllers/watchlist_controller.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/enums/watchlist_sort.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/models/watchlist_item.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/views/widgets/watchlist_sort_sheet.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_list_controller.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/enums/watchlist_sort.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/models/watchlist_item.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/watchlist_sort_sheet.dart';
 import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
-import 'package:edencrew_assignment_starter/repository/stock_repository.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,10 +33,8 @@ void main() {
     }
 
     final Dio dio = Dio()..httpClientAdapter = _MockAdapter();
-    controller = WatchlistController(
-      stockRepository: StockRepository(CoreRepository(dio: dio)),
-      favoriteController: favorites,
-    );
+    CoreRepository.instance = CoreRepository(dio: dio);
+    controller = WatchlistController(favoriteController: favorites);
 
     while (controller.isLoading) {
       await Future<void>.delayed(const Duration(milliseconds: 10));

@@ -15,7 +15,10 @@ import '../utils/parse_util.dart';
 /// 세 화면이 같은 endpoint를 나눠 쓰기 때문에 도메인별로 쪼개지 않고 한 클래스에 모았다.
 /// endpoint 하나당 메서드 하나다.
 class StockRepository {
-  StockRepository(this._coreRepository);
+  /// 상태가 없어 화면마다 새로 만들어도 비용이 없다.
+  /// 인자를 넘기지 않으면 공유 싱글턴을 쓰고, 테스트에서만 교체한다.
+  StockRepository([CoreRepository? coreRepository])
+    : _coreRepository = coreRepository ?? CoreRepository.instance;
 
   static const String _file = 'StockRepository';
 
@@ -26,10 +29,7 @@ class StockRepository {
     try {
       final ApiResponse response = await _coreRepository.getData(
         NaverApi.autoComplete,
-        query: <String, dynamic>{
-          'q': keyword,
-          'target': 'stock,ipo,index,marketindicator',
-        },
+        query: <String, dynamic>{'q': keyword, 'target': 'stock,ipo,index,marketindicator'},
       );
 
       final Map<String, dynamic>? json = response.asMap;
@@ -40,10 +40,7 @@ class StockRepository {
         json,
         'items',
         (Map<String, dynamic> item) => item,
-      )
-          .where(StockSearchItem.isDomesticStock)
-          .map(StockSearchItem.fromJson)
-          .toList();
+      ).where(StockSearchItem.isDomesticStock).map(StockSearchItem.fromJson).toList();
     } catch (e) {
       LogUtil().logError('getAutoComplete: $e', module: _file);
     }
@@ -59,9 +56,7 @@ class StockRepository {
     try {
       final ApiResponse response = await _coreRepository.getData(
         NaverApi.realtime,
-        query: <String, dynamic>{
-          'query': '${NaverApi.realtimeQueryPrefix}${symbols.join(',')}',
-        },
+        query: <String, dynamic>{'query': '${NaverApi.realtimeQueryPrefix}${symbols.join(',')}'},
       );
 
       final Map<String, dynamic>? json = response.asMap;
@@ -85,8 +80,7 @@ class StockRepository {
   //GET https://stock.naver.com/api/securityFe/api/fchart/domestic/stock/{symbol} (종목 메타)
   Future<StockMeta?> getStockMeta(String symbol) async {
     try {
-      final ApiResponse response =
-          await _coreRepository.getData(NaverApi.stockMeta(symbol));
+      final ApiResponse response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
 
       final Map<String, dynamic>? json = response.asMap;
       if (json == null) return null;

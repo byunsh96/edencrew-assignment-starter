@@ -1,4 +1,4 @@
-import 'package:edencrew_assignment_starter/domains/watchlist/controllers/favorite_controller.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -11,14 +11,11 @@ import '../models/stock_search_item.dart';
 ///
 /// Flutter Material의 `SearchController`와 이름이 겹치지 않도록 접두사를 붙였다.
 class StockSearchController extends ChangeNotifier {
-  StockSearchController({required StockRepository stockRepository})
-      : _stockRepository = stockRepository;
-
   /// 입력이 멈춘 뒤 요청까지 기다리는 시간.
   /// 한 글자마다 호출하면 자동완성 endpoint에 요청이 몰린다.
   static const Duration _debounce = Duration(milliseconds: 300);
 
-  final StockRepository _stockRepository;
+  final StockRepository _stockRepository = StockRepository();
 
   Timer? _debounceTimer;
   String _keyword = '';

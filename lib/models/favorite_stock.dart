@@ -1,5 +1,3 @@
-//TODO 리뷰 확인
-
 /// 관심 목록에 담긴 종목.
 ///
 /// 이름과 거래소명을 함께 들고 있는다. 실시간 시세 응답에는 거래소명이 없어서
@@ -11,7 +9,11 @@ class FavoriteStock {
     required this.marketName,
   });
 
+  /// 6자리 종목코드. `005930` / `000660`
+  /// 앞자리 0이 의미를 가지므로 int로 다루지 않는다.
   final String symbol;
+
+  /// `삼성전자` / `SK하이닉스`
   final String name;
 
   /// `코스피` / `코스닥`

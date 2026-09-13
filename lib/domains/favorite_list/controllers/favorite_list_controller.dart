@@ -11,16 +11,13 @@ import 'favorite_controller.dart';
 
 /// 관심 화면 상태.
 class WatchlistController extends ChangeNotifier {
-  WatchlistController({
-    required StockRepository stockRepository,
-    required FavoriteController favoriteController,
-  })  : _stockRepository = stockRepository,
-        _favoriteController = favoriteController {
+  WatchlistController({required FavoriteController favoriteController})
+      : _favoriteController = favoriteController {
     _favoriteController.addListener(_onFavoritesChanged);
     fetchQuotes();
   }
 
-  final StockRepository _stockRepository;
+  final StockRepository _stockRepository = StockRepository();
   final FavoriteController _favoriteController;
 
   /// symbol로 바로 찾을 수 있게 Map으로 들고 있는다.

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../../models/favorite_stock.dart';
 import '../../../models/stock_quote.dart';
 import '../../../repository/stock_repository.dart';
-import '../../watchlist/controllers/favorite_controller.dart';
+import '../../favorite_list/controllers/favorite_controller.dart';
 import '../enums/chart_period.dart';
 import '../models/daily_quote.dart';
 import '../models/daily_quote_page.dart';
@@ -15,16 +15,14 @@ import '../models/daily_quote_page.dart';
 /// 종목 상세 화면 상태.
 class StockDetailController extends ChangeNotifier {
   StockDetailController({
-    required StockRepository stockRepository,
     required FavoriteController favoriteController,
     required FavoriteStock stock,
-  })  : _stockRepository = stockRepository,
-        _favoriteController = favoriteController,
+  })  : _favoriteController = favoriteController,
         _stock = stock {
     _load();
   }
 
-  final StockRepository _stockRepository;
+  final StockRepository _stockRepository = StockRepository();
   final FavoriteController _favoriteController;
   final FavoriteStock _stock;
 

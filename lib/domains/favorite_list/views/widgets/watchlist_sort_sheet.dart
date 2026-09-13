@@ -5,7 +5,7 @@ import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_svg_icon.dart';
-import '../../controllers/watchlist_controller.dart';
+import '../../controllers/favorite_list_controller.dart';
 import '../../enums/watchlist_sort.dart';
 
 //TODO 리뷰 확인

@@ -6,9 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:edencrew_assignment_starter/core/repository/core_repository.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/controllers/stock_detail_controller.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/enums/chart_period.dart';
-import 'package:edencrew_assignment_starter/domains/watchlist/controllers/favorite_controller.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
-import 'package:edencrew_assignment_starter/repository/stock_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// 일별 시세 페이지를 필요한 만큼만 요청하고 재사용하는지 검증한다.
@@ -26,9 +25,9 @@ void main() {
   setUp(() {
     adapter = _RecordingAdapter();
     final Dio dio = Dio()..httpClientAdapter = adapter;
+    CoreRepository.instance = CoreRepository(dio: dio);
 
     controller = StockDetailController(
-      stockRepository: StockRepository(CoreRepository(dio: dio)),
       favoriteController: FavoriteController(),
       stock: samsung,
     );

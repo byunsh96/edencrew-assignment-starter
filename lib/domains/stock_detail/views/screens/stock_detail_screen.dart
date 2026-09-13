@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/app_text_styles.dart';
-import '../../../../core/repository/core_repository.dart';
 import '../../../../models/favorite_stock.dart';
 import '../../../../models/stock_quote.dart';
-import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_toast.dart';
 import '../../../../widgets/app_toast_scope.dart';
-import '../../../watchlist/controllers/favorite_controller.dart';
+import '../../../favorite_list/controllers/favorite_controller.dart';
 import '../../controllers/stock_detail_controller.dart';
 import '../widgets/candle_chart.dart';
 import '../widgets/daily_quote_table.dart';
@@ -39,7 +37,6 @@ class StockDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<StockDetailController>(
       create: (BuildContext context) => StockDetailController(
-        stockRepository: StockRepository(context.read<CoreRepository>()),
         favoriteController: context.read<FavoriteController>(),
         stock: stock,
       ),

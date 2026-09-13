@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/app_icons.dart';
-import '../../../../core/repository/core_repository.dart';
-import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_empty_view.dart';
 import '../../../../models/favorite_stock.dart';
@@ -23,7 +21,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<StockSearchController>(
-      create: (BuildContext context) => StockSearchController(stockRepository: StockRepository(context.read<CoreRepository>())),
+      create: (_) => StockSearchController(),
       child: const _SearchView(),
     );
   }
