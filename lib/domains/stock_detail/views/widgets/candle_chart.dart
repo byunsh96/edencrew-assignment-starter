@@ -31,7 +31,6 @@ class CandleChart extends StatelessWidget {
           upColor: colors.chartLineUp,
           downColor: colors.chartLineDown,
           flatColor: colors.chartLineFlat,
-          baselineColor: colors.chartBaseline,
         ),
       ),
     );
@@ -44,7 +43,6 @@ class _CandlePainter extends CustomPainter {
     required this.upColor,
     required this.downColor,
     required this.flatColor,
-    required this.baselineColor,
   });
 
   /// 캔들 사이 간격이 차지하는 비율. 나머지가 몸통 너비가 된다.
@@ -60,7 +58,6 @@ class _CandlePainter extends CustomPainter {
   final Color upColor;
   final Color downColor;
   final Color flatColor;
-  final Color baselineColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -79,16 +76,6 @@ class _CandlePainter extends CustomPainter {
         math.max(slotWidth * (1 - _gapRatio), _minBodyWidth);
 
     double toY(num price) => size.height * (highest - price) / range;
-
-    // 시작가 기준선. 기간 전체의 등락을 한눈에 보이게 한다.
-    final double baselineY = toY(quotes.first.closePrice);
-    canvas.drawLine(
-      Offset(0, baselineY),
-      Offset(size.width, baselineY),
-      Paint()
-        ..color = baselineColor
-        ..strokeWidth = 0.5,
-    );
 
     for (int i = 0; i < quotes.length; i++) {
       final DailyQuote quote = quotes[i];
