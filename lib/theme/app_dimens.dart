@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 @immutable
 class AppDimens extends ThemeExtension<AppDimens> {
   const AppDimens({
+    required this.spaceHalf,
     required this.space1,
     required this.space2,
     required this.space3,
@@ -29,7 +30,8 @@ class AppDimens extends ThemeExtension<AppDimens> {
   });
 
   const AppDimens.standard()
-    : space1 = 4,
+    : spaceHalf = 2,
+      space1 = 4,
       space2 = 8,
       space3 = 12,
       space4 = 16,
@@ -46,6 +48,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       rowMinHeight = 56,
       tabBarHeight = 56;
 
+  final double spaceHalf;
   final double space1;
   final double space2;
   final double space3;
@@ -73,6 +76,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
 
   @override
   AppDimens copyWith({
+    double? spaceHalf,
     double? space1,
     double? space2,
     double? space3,
@@ -91,6 +95,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? tabBarHeight,
   }) {
     return AppDimens(
+      spaceHalf: spaceHalf ?? this.spaceHalf,
       space1: space1 ?? this.space1,
       space2: space2 ?? this.space2,
       space3: space3 ?? this.space3,
@@ -114,6 +119,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
   AppDimens lerp(covariant AppDimens? other, double t) {
     if (other == null) return this;
     return AppDimens(
+      spaceHalf: lerpDouble(spaceHalf, other.spaceHalf, t)!,
       space1: lerpDouble(space1, other.space1, t)!,
       space2: lerpDouble(space2, other.space2, t)!,
       space3: lerpDouble(space3, other.space3, t)!,

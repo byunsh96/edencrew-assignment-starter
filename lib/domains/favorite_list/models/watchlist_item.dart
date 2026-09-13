@@ -14,3 +14,8 @@ class WatchlistItem {
 
   bool get hasQuote => quote != null;
 }
+
+extension WatchlistItemExtension on WatchlistItem{
+
+  
+}

@@ -38,16 +38,15 @@ class FavoriteListRow extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
+                spacing: dimens.spaceHalf,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     item.stock.name,
-                    // 긴 종목명이 시세를 밀어내지 않도록 한 줄로 자른다.
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.body.copyWith(color: colors.textPrimary),
                   ),
-                  SizedBox(height: dimens.space1 / 2),
                   Text(
                     item.stock.symbolWithMarket,
                     maxLines: 1,
@@ -57,7 +56,6 @@ class FavoriteListRow extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: dimens.space3),
             if (item.quote case final StockQuote quote)
               _Quote(quote: quote)
             else
