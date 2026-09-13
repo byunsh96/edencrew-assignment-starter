@@ -20,8 +20,6 @@ class StockDetailAppBar extends StatelessWidget {
 
   /// Figma 상단바 세로 여백.
   static const double _verticalPadding = 10;
-  static const double _backIconSize = 20;
-  static const double _starIconSize = 22;
 
   final FavoriteStock stock;
   final ValueChanged<bool> onFavoriteToggled;
@@ -50,7 +48,7 @@ class StockDetailAppBar extends StatelessWidget {
             onTap: Navigator.of(context).pop,
             child: AppSvgIcon(
               AppIcons.back,
-              size: _backIconSize,
+              size: dimens.iconMd,
               color: colors.textSecondary,
             ),
           ),
@@ -86,7 +84,7 @@ class StockDetailAppBar extends StatelessWidget {
               ),
               child: AppSvgIcon(
                 isFavorite ? AppIcons.starFill : AppIcons.star,
-                size: _starIconSize,
+                size: dimens.iconMdLg,
                 color: isFavorite
                     ? colors.favoriteActive
                     : colors.favoriteInactive,

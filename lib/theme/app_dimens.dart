@@ -24,7 +24,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
     required this.borderHairline,
     required this.iconSm,
     required this.iconMd,
+    required this.iconMdLg,
     required this.iconLg,
+    required this.iconXlg,
     required this.rowMinHeight,
     required this.tabBarHeight,
   });
@@ -44,7 +46,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
       borderHairline = 1,
       iconSm = 16,
       iconMd = 20,
+      iconMdLg = 22,
       iconLg = 24,
+      iconXlg = 40,
       rowMinHeight = 56,
       tabBarHeight = 56;
 
@@ -66,7 +70,16 @@ class AppDimens extends ThemeExtension<AppDimens> {
 
   final double iconSm;
   final double iconMd;
+
+  /// 관심 별 · 탭 바 아이콘 크기입니다.
+  ///
+  /// Figma가 iconMd(20)와 iconLg(24) 사이 값을 쓰므로 스케일에 끼워 둡니다.
+  final double iconMdLg;
+
   final double iconLg;
+
+  /// 빈 상태 일러스트 크기입니다.
+  final double iconXlg;
 
   /// 목록 행의 최소 높이입니다.
   final double rowMinHeight;
@@ -90,7 +103,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? borderHairline,
     double? iconSm,
     double? iconMd,
+    double? iconMdLg,
     double? iconLg,
+    double? iconXlg,
     double? rowMinHeight,
     double? tabBarHeight,
   }) {
@@ -109,7 +124,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
       borderHairline: borderHairline ?? this.borderHairline,
       iconSm: iconSm ?? this.iconSm,
       iconMd: iconMd ?? this.iconMd,
+      iconMdLg: iconMdLg ?? this.iconMdLg,
       iconLg: iconLg ?? this.iconLg,
+      iconXlg: iconXlg ?? this.iconXlg,
       rowMinHeight: rowMinHeight ?? this.rowMinHeight,
       tabBarHeight: tabBarHeight ?? this.tabBarHeight,
     );
@@ -133,7 +150,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
       borderHairline: lerpDouble(borderHairline, other.borderHairline, t)!,
       iconSm: lerpDouble(iconSm, other.iconSm, t)!,
       iconMd: lerpDouble(iconMd, other.iconMd, t)!,
+      iconMdLg: lerpDouble(iconMdLg, other.iconMdLg, t)!,
       iconLg: lerpDouble(iconLg, other.iconLg, t)!,
+      iconXlg: lerpDouble(iconXlg, other.iconXlg, t)!,
       rowMinHeight: lerpDouble(rowMinHeight, other.rowMinHeight, t)!,
       tabBarHeight: lerpDouble(tabBarHeight, other.tabBarHeight, t)!,
     );

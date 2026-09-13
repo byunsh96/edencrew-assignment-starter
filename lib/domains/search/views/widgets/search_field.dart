@@ -16,9 +16,6 @@ class SearchField extends StatelessWidget {
     super.key,
   });
 
-  /// Figma 검색바 아이콘 크기.
-  static const double _iconSize = 16;
-
   /// Figma 입력칸 세로 여백.
   static const double _fieldVerticalPadding = 10;
 
@@ -50,7 +47,7 @@ class SearchField extends StatelessWidget {
           children: <Widget>[
             AppSvgIcon(
               AppIcons.search,
-              size: _iconSize,
+              size: dimens.iconSm,
               color: colors.textTertiary,
             ),
             SizedBox(width: dimens.space2),
@@ -77,13 +74,13 @@ class SearchField extends StatelessWidget {
               valueListenable: controller,
               builder: (BuildContext context, TextEditingValue value, _) {
                 if (value.text.isEmpty) {
-                  return const SizedBox(width: _iconSize);
+                  return SizedBox(width: dimens.iconSm);
                 }
                 return InkWell(
                   onTap: onCleared,
                   child: AppSvgIcon(
                     AppIcons.close,
-                    size: _iconSize,
+                    size: dimens.iconSm,
                     color: colors.textTertiary,
                   ),
                 );

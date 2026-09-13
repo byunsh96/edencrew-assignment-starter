@@ -21,9 +21,6 @@ class SearchResultRow extends StatelessWidget {
     super.key,
   });
 
-  /// Figma 관심 별 아이콘 크기.
-  static const double _starSize = 22;
-
   final StockSearchItem item;
   final String keyword;
   final ValueChanged<bool> onFavoriteToggled;
@@ -119,6 +116,7 @@ class _FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
 
     // 관심 상태만 구독한다. 목록 전체가 아니라 이 행만 다시 그린다.
     return Selector<FavoriteController, bool>(
@@ -137,7 +135,7 @@ class _FavoriteButton extends StatelessWidget {
         },
         child: AppSvgIcon(
           isFavorite ? AppIcons.starFill : AppIcons.star,
-          size: SearchResultRow._starSize,
+          size: dimens.iconMdLg,
           color: isFavorite ? colors.favoriteActive : colors.favoriteInactive,
         ),
       ),

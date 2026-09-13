@@ -13,8 +13,6 @@ class AppEmptyView extends StatelessWidget {
     super.key,
   });
 
-  static const double _iconSize = 40;
-
   final String icon;
   final String title;
   final String description;
@@ -32,7 +30,7 @@ class AppEmptyView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            AppSvgIcon(icon, size: _iconSize, color: colors.textTertiary),
+            AppSvgIcon(icon, size: dimens.iconXlg, color: colors.textTertiary),
             Text(title, style: AppTextStyles.title.copyWith(color: colors.textSecondary)),
             Text(
               description,

@@ -9,9 +9,6 @@ import 'app_svg_icon.dart';
 class AppTabBar extends StatelessWidget {
   const AppTabBar({super.key, required this.current, required this.onChanged});
 
-  /// Figma 탭 아이콘 크기.
-  static const double _iconSize = 22;
-
   /// 아이콘과 레이블 사이 간격.
   static const double _iconLabelGap = 3;
 
@@ -71,7 +68,7 @@ class _Tab extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AppSvgIcon(_icon, size: AppTabBar._iconSize, color: color),
+              AppSvgIcon(_icon, size: context.dimens.iconMdLg, color: color),
               Text(tab.label, style: AppTextStyles.caption.copyWith(color: color)),
             ],
           ),
