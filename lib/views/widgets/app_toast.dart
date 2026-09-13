@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/app_icons.dart';
 import '../../constants/app_text_styles.dart';
 import '../../theme/theme.dart';
 import 'app_svg_icon.dart';
@@ -21,9 +22,25 @@ abstract final class AppToast {
 
   static OverlayEntry? _current;
 
+  /// 관심 등록 · 해제 토스트.
+  ///
+  /// 두 화면에서 같은 문구와 아이콘을 쓰므로 여기서 한 번에 정한다.
+  static void favorite(BuildContext context, {required bool added}) {
+    final AppColors colors = context.colors;
+
+    show(
+      context,
+      icon: added ? AppIcons.starFill : AppIcons.star,
+      // 등록은 채워진 금색 별, 해제는 외곽선 회색 별이다.
+      iconColor: added ? colors.favoriteActive : colors.textSecondary,
+      message: added ? '관심이 등록되었습니다' : '관심이 해제되었습니다',
+    );
+  }
+
   static void show(
     BuildContext context, {
     required String icon,
+    required Color iconColor,
     required String message,
   }) {
     final OverlayState overlay = Overlay.of(context);
@@ -32,6 +49,7 @@ abstract final class AppToast {
     final OverlayEntry entry = OverlayEntry(
       builder: (BuildContext context) => _ToastCard(
         icon: icon,
+        iconColor: iconColor,
         message: message,
         visibleDuration: _visibleDuration,
         fadeDuration: _fadeDuration,
@@ -52,6 +70,7 @@ abstract final class AppToast {
 class _ToastCard extends StatefulWidget {
   const _ToastCard({
     required this.icon,
+    required this.iconColor,
     required this.message,
     required this.visibleDuration,
     required this.fadeDuration,
@@ -59,6 +78,7 @@ class _ToastCard extends StatefulWidget {
   });
 
   final String icon;
+  final Color iconColor;
   final String message;
   final Duration visibleDuration;
   final Duration fadeDuration;
@@ -135,7 +155,7 @@ class _ToastCardState extends State<_ToastCard>
                 AppSvgIcon(
                   widget.icon,
                   size: AppToast._iconSize,
-                  color: colors.favoriteActive,
+                  color: widget.iconColor,
                 ),
                 SizedBox(width: dimens.space2),
                 Flexible(

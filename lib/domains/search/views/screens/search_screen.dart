@@ -51,13 +51,8 @@ class _SearchViewState extends State<_SearchView> {
     context.read<StockSearchController>().clear();
   }
 
-  void _onFavoriteToggled(bool added) {
-    AppToast.show(
-      context,
-      icon: added ? AppIcons.starFill : AppIcons.star,
-      message: added ? '관심이 등록되었습니다' : '관심이 해제되었습니다',
-    );
-  }
+  void _onFavoriteToggled(bool added) =>
+      AppToast.favorite(context, added: added);
 
   @override
   Widget build(BuildContext context) {

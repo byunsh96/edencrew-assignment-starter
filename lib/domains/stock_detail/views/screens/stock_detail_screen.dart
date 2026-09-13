@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../core/repository/core_repository.dart';
 import '../../../../models/favorite_stock.dart';
@@ -56,13 +55,8 @@ class _StockDetailView extends StatelessWidget {
 
   final FavoriteStock stock;
 
-  void _onFavoriteToggled(BuildContext context, bool added) {
-    AppToast.show(
-      context,
-      icon: added ? AppIcons.starFill : AppIcons.star,
-      message: added ? '관심이 등록되었습니다' : '관심이 해제되었습니다',
-    );
-  }
+  void _onFavoriteToggled(BuildContext context, bool added) =>
+      AppToast.favorite(context, added: added);
 
   @override
   Widget build(BuildContext context) {
