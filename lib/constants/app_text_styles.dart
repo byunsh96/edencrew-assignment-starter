@@ -37,7 +37,7 @@ abstract final class AppTextStyles {
     fontSize: 19,
     height: 22 / 19,
     fontWeight: AppTypography.bold,
-    letterSpacing: -0.2, // -0.0105em × 19
+    letterSpacing: -0.2,
   );
 
   /// Figma `body` — 15/20 Medium. 종목명·현재가 등 본문.

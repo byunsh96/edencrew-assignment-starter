@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../../models/favorite_stock.dart';
 import '../../../models/stock_quote.dart';
 import '../../../repository/stock_repository.dart';
-import '../enums/watchlist_sort.dart';
+import '../enums/favorite_list_sort.dart';
 import '../models/watchlist_item.dart';
 import 'favorite_controller.dart';
 
@@ -25,7 +25,7 @@ class FavoriteListController extends ChangeNotifier {
 
   bool _isLoading = true;
   bool _hasError = false;
-  WatchlistSort _sort = WatchlistSort.price;
+  FavoriteListSort _sort = FavoriteListSort.price;
 
   bool get isLoading => _isLoading;
 
@@ -33,7 +33,7 @@ class FavoriteListController extends ChangeNotifier {
 
   bool get isEmpty => _favoriteController.isEmpty;
 
-  WatchlistSort get sort => _sort;
+  FavoriteListSort get sort => _sort;
 
   /// 관심 목록에 현재 시세를 붙이고 정렬해서 돌려준다.
   List<WatchlistItem> get items {
@@ -73,7 +73,7 @@ class FavoriteListController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeSort(WatchlistSort next) {
+  void changeSort(FavoriteListSort next) {
     if (_sort == next) return;
     _sort = next;
     notifyListeners();
@@ -99,9 +99,9 @@ class FavoriteListController extends ChangeNotifier {
     if (right == null) return -1;
 
     return switch (_sort) {
-      WatchlistSort.price => right.currentPrice.compareTo(left.currentPrice),
-      WatchlistSort.changeRate => right.changeRate.compareTo(left.changeRate),
-      WatchlistSort.name => a.stock.name.compareTo(b.stock.name),
+      FavoriteListSort.price => right.currentPrice.compareTo(left.currentPrice),
+      FavoriteListSort.changeRate => right.changeRate.compareTo(left.changeRate),
+      FavoriteListSort.name => a.stock.name.compareTo(b.stock.name),
     };
   }
 

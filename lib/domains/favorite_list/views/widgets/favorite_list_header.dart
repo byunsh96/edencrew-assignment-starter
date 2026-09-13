@@ -4,16 +4,17 @@ import 'package:provider/provider.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../controllers/favorite_list_controller.dart';
-import '../../enums/watchlist_sort.dart';
-import 'watchlist_sort_sheet.dart';
+import '../../enums/favorite_list_sort.dart';
+import 'favorite_list_sort_sheet.dart';
 
 //TODO 리뷰 확인
 
 /// 관심 화면 헤더. 제목 · 정렬 칩 · 새로고침.
-class WatchlistHeader extends StatelessWidget {
-  const WatchlistHeader({super.key});
+class FavoriteListHeader extends StatelessWidget {
+  const FavoriteListHeader({super.key});
 
   /// Figma 헤더 아이콘 크기.
   static const double _iconSize = 20;
@@ -27,13 +28,15 @@ class WatchlistHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Text('관심', style: AppTextStyles.title.copyWith(color: colors.textPrimary)),
           Row(
-            children: <Widget>[
+            spacing: dimens.space4,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
               const _SortChip(),
-              SizedBox(width: dimens.space4),
-              InkWell(
+              AppInkWell(
                 onTap: context.read<FavoriteListController>().fetchQuotes,
                 child: AppSvgIcon(AppIcons.refresh, size: _iconSize, color: colors.textSecondary),
               ),
@@ -52,18 +55,28 @@ class _SortChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
 
-    return InkWell(
-      onTap: () => WatchlistSortSheet.show(context),
-      child: Row(
-        children: <Widget>[
-          Selector<FavoriteListController, WatchlistSort>(
-            selector: (_, FavoriteListController controller) => controller.sort,
-            builder: (_, WatchlistSort sort, _) =>
-                Text(sort.label, style: AppTextStyles.label.copyWith(color: colors.textSecondary)),
-          ),
-          AppSvgIcon(AppIcons.align, size: WatchlistHeader._iconSize, color: colors.textSecondary),
-        ],
+    return AppInkWell(
+      onTap: () => FavoriteListSortSheet.show(context),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: dimens.space1),
+        child: Row(
+          children: [
+            Selector<FavoriteListController, FavoriteListSort>(
+              selector: (_, FavoriteListController controller) => controller.sort,
+              builder: (_, FavoriteListSort sort, _) => Text(
+                sort.label,
+                style: AppTextStyles.label.copyWith(color: colors.textSecondary),
+              ),
+            ),
+            AppSvgIcon(
+              AppIcons.align,
+              size: FavoriteListHeader._iconSize,
+              color: colors.textSecondary,
+            ),
+          ],
+        ),
       ),
     );
   }

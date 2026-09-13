@@ -19,6 +19,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textSecondary,
     required this.textTertiary,
     required this.textDisabled,
+    required this.textFafafa,
     required this.borderSubtle,
     required this.borderStrong,
     required this.priceUpText,
@@ -48,39 +49,40 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// Figma `Semantic` 컬렉션의 Dark 모드 값입니다.
   const AppColors.dark()
-      : surfaceBase = AppPalette.neutral950,
-        surfaceRaised = AppPalette.neutral900,
-        surfaceSunken = AppPalette.neutral800,
-        surfaceOverlay = AppPalette.neutral700,
-        textPrimary = AppPalette.neutral0,
-        textSecondary = AppPalette.neutral200,
-        textTertiary = AppPalette.neutral300,
-        textDisabled = AppPalette.neutral400,
-        borderSubtle = AppPalette.neutral700,
-        borderStrong = AppPalette.neutral500,
-        priceUpText = AppPalette.red400,
-        priceUpBg = AppPalette.redAlpha12,
-        priceDownText = AppPalette.blue400,
-        priceDownBg = AppPalette.blueAlpha12,
-        priceFlatText = AppPalette.neutral200,
-        priceFlatBg = AppPalette.neutral700,
-        chartLineUp = AppPalette.red400,
-        chartLineDown = AppPalette.blue400,
-        chartLineFlat = AppPalette.neutral200,
-        chartAreaUp = AppPalette.redAlpha12,
-        chartAreaDown = AppPalette.blueAlpha12,
-        chartBaseline = AppPalette.neutral400,
-        chartAxisLabel = AppPalette.neutral300,
-        chartVolumeBar = AppPalette.neutral500,
-        accentDefault = AppPalette.violet500,
-        accentBg = AppPalette.violetAlpha12,
-        favoriteActive = AppPalette.gold500,
-        favoriteInactive = AppPalette.neutral400,
-        navActive = AppPalette.neutral0,
-        navInactive = AppPalette.neutral300,
-        feedbackWarning = AppPalette.amber500,
-        feedbackSkeleton = AppPalette.neutral700,
-        searchHighlight = AppPalette.violet500;
+    : surfaceBase = AppPalette.neutral950,
+      surfaceRaised = AppPalette.neutral900,
+      surfaceSunken = AppPalette.neutral800,
+      surfaceOverlay = AppPalette.neutral700,
+      textPrimary = AppPalette.neutral0,
+      textSecondary = AppPalette.neutral200,
+      textTertiary = AppPalette.neutral300,
+      textDisabled = AppPalette.neutral400,
+      textFafafa = AppPalette.fafafa,
+      borderSubtle = AppPalette.neutral700,
+      borderStrong = AppPalette.neutral500,
+      priceUpText = AppPalette.red400,
+      priceUpBg = AppPalette.redAlpha12,
+      priceDownText = AppPalette.blue400,
+      priceDownBg = AppPalette.blueAlpha12,
+      priceFlatText = AppPalette.neutral200,
+      priceFlatBg = AppPalette.neutral700,
+      chartLineUp = AppPalette.red400,
+      chartLineDown = AppPalette.blue400,
+      chartLineFlat = AppPalette.neutral200,
+      chartAreaUp = AppPalette.redAlpha12,
+      chartAreaDown = AppPalette.blueAlpha12,
+      chartBaseline = AppPalette.neutral400,
+      chartAxisLabel = AppPalette.neutral300,
+      chartVolumeBar = AppPalette.neutral500,
+      accentDefault = AppPalette.violet500,
+      accentBg = AppPalette.violetAlpha12,
+      favoriteActive = AppPalette.gold500,
+      favoriteInactive = AppPalette.neutral400,
+      navActive = AppPalette.neutral0,
+      navInactive = AppPalette.neutral300,
+      feedbackWarning = AppPalette.amber500,
+      feedbackSkeleton = AppPalette.neutral700,
+      searchHighlight = AppPalette.violet500;
 
   /// 화면 배경 계층.
   final Color surfaceBase;
@@ -93,6 +95,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color textSecondary;
   final Color textTertiary;
   final Color textDisabled;
+
+  //bottom sheet check
+  final Color textFafafa;
 
   final Color borderSubtle;
   final Color borderStrong;
@@ -147,6 +152,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textSecondary,
     Color? textTertiary,
     Color? textDisabled,
+    Color? textFafafa,
     Color? borderSubtle,
     Color? borderStrong,
     Color? priceUpText,
@@ -182,6 +188,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textSecondary: textSecondary ?? this.textSecondary,
       textTertiary: textTertiary ?? this.textTertiary,
       textDisabled: textDisabled ?? this.textDisabled,
+      textFafafa: textFafafa ?? this.textFafafa,
       borderSubtle: borderSubtle ?? this.borderSubtle,
       borderStrong: borderStrong ?? this.borderStrong,
       priceUpText: priceUpText ?? this.priceUpText,
@@ -222,6 +229,7 @@ class AppColors extends ThemeExtension<AppColors> {
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       textTertiary: Color.lerp(textTertiary, other.textTertiary, t)!,
       textDisabled: Color.lerp(textDisabled, other.textDisabled, t)!,
+      textFafafa: Color.lerp(textFafafa, other.textFafafa, t)!,
       borderSubtle: Color.lerp(borderSubtle, other.borderSubtle, t)!,
       borderStrong: Color.lerp(borderStrong, other.borderStrong, t)!,
       priceUpText: Color.lerp(priceUpText, other.priceUpText, t)!,

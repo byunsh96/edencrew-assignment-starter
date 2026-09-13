@@ -43,4 +43,7 @@ abstract final class AppPalette {
   static const Color redAlpha12 = Color(0x1FFF5B5B);
   static const Color blueAlpha12 = Color(0x1F4D9BEE);
   static const Color violetAlpha12 = Color(0x1F8B7CF6);
+
+  //TODO bottom sheet FAFAFA 색상
+  static const Color fafafa = Color(0xFFFAFAFA);
 }

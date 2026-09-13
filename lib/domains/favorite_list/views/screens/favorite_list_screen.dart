@@ -8,7 +8,7 @@ import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/favorite_controller.dart';
 import '../../controllers/favorite_list_controller.dart';
 import '../../models/watchlist_item.dart';
-import '../widgets/watchlist_header.dart';
+import '../widgets/favorite_list_header.dart';
 import '../widgets/watchlist_row.dart';
 
 //TODO 리뷰 확인
@@ -34,7 +34,7 @@ class _FavoriteListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const WatchlistHeader(),
+        const FavoriteListHeader(),
         Expanded(
           child: Consumer<FavoriteListController>(
             builder: (BuildContext context, FavoriteListController controller, _) {

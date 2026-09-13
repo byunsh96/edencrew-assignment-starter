@@ -5,9 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:edencrew_assignment_starter/core/repository/core_repository.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_list_controller.dart';
-import 'package:edencrew_assignment_starter/domains/favorite_list/enums/watchlist_sort.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/enums/favorite_list_sort.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/models/watchlist_item.dart';
-import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/watchlist_sort_sheet.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/favorite_list_sort_sheet.dart';
 import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ void main() {
   });
 
   test('가나다순에서도 시세 미수신 행은 뒤로 간다', () {
-    controller.changeSort(WatchlistSort.name);
+    controller.changeSort(FavoriteListSort.name);
     final List<WatchlistItem> items = controller.items;
 
     // '가상종목'은 가나다순으로 맨 앞이지만 시세가 없어 뒤로 밀린다.
@@ -73,22 +73,25 @@ void main() {
         home: Scaffold(
           body: ChangeNotifierProvider<FavoriteListController>.value(
             value: controller,
-            child: const WatchlistSortSheet(selected: WatchlistSort.changeRate, onSelected: _noop),
+            child: const FavoriteListSortSheet(
+              selected: FavoriteListSort.changeRate,
+              onSelected: _noop,
+            ),
           ),
         ),
       ),
     );
 
     expect(find.text('정렬'), findsOneWidget);
-    for (final WatchlistSort sort in WatchlistSort.values) {
+    for (final FavoriteListSort sort in FavoriteListSort.values) {
       expect(find.text(sort.label), findsOneWidget);
     }
     // 체크 아이콘은 선택된 항목 하나에만 붙는다.
-    expect(find.byType(InkWell), findsNWidgets(WatchlistSort.values.length));
+    expect(find.byType(InkWell), findsNWidgets(FavoriteListSort.values.length));
   });
 }
 
-void _noop(WatchlistSort _) {}
+void _noop(FavoriteListSort _) {}
 
 /// 저장한 실시간 시세 응답을 돌려준다. 999999는 응답에 없다.
 class _MockAdapter implements HttpClientAdapter {

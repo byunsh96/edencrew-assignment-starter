@@ -19,28 +19,32 @@ class AppDimens extends ThemeExtension<AppDimens> {
     required this.radiusSm,
     required this.radiusMd,
     required this.radiusLg,
+    required this.radiusXlg,
     required this.borderHairline,
     required this.iconSm,
     required this.iconMd,
+    required this.iconLg,
     required this.rowMinHeight,
     required this.tabBarHeight,
   });
 
   const AppDimens.standard()
-      : space1 = 4,
-        space2 = 8,
-        space3 = 12,
-        space4 = 16,
-        space5 = 20,
-        space6 = 24,
-        radiusSm = 4,
-        radiusMd = 8,
-        radiusLg = 12,
-        borderHairline = 1,
-        iconSm = 16,
-        iconMd = 20,
-        rowMinHeight = 56,
-        tabBarHeight = 56;
+    : space1 = 4,
+      space2 = 8,
+      space3 = 12,
+      space4 = 16,
+      space5 = 20,
+      space6 = 24,
+      radiusSm = 4,
+      radiusMd = 8,
+      radiusLg = 12,
+      radiusXlg = 16,
+      borderHairline = 1,
+      iconSm = 16,
+      iconMd = 20,
+      iconLg = 24,
+      rowMinHeight = 56,
+      tabBarHeight = 56;
 
   final double space1;
   final double space2;
@@ -52,11 +56,14 @@ class AppDimens extends ThemeExtension<AppDimens> {
   final double radiusSm;
   final double radiusMd;
   final double radiusLg;
+  // bottom sheet의 radius
+  final double radiusXlg;
 
   final double borderHairline;
 
   final double iconSm;
   final double iconMd;
+  final double iconLg;
 
   /// 목록 행의 최소 높이입니다.
   final double rowMinHeight;
@@ -75,9 +82,11 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? radiusSm,
     double? radiusMd,
     double? radiusLg,
+    double? radiusXlg,
     double? borderHairline,
     double? iconSm,
     double? iconMd,
+    double? iconLg,
     double? rowMinHeight,
     double? tabBarHeight,
   }) {
@@ -91,9 +100,11 @@ class AppDimens extends ThemeExtension<AppDimens> {
       radiusSm: radiusSm ?? this.radiusSm,
       radiusMd: radiusMd ?? this.radiusMd,
       radiusLg: radiusLg ?? this.radiusLg,
+      radiusXlg: radiusXlg ?? this.radiusXlg,
       borderHairline: borderHairline ?? this.borderHairline,
       iconSm: iconSm ?? this.iconSm,
       iconMd: iconMd ?? this.iconMd,
+      iconLg: iconLg ?? this.iconLg,
       rowMinHeight: rowMinHeight ?? this.rowMinHeight,
       tabBarHeight: tabBarHeight ?? this.tabBarHeight,
     );
@@ -112,9 +123,11 @@ class AppDimens extends ThemeExtension<AppDimens> {
       radiusSm: lerpDouble(radiusSm, other.radiusSm, t)!,
       radiusMd: lerpDouble(radiusMd, other.radiusMd, t)!,
       radiusLg: lerpDouble(radiusLg, other.radiusLg, t)!,
+      radiusXlg: lerpDouble(radiusXlg, other.radiusXlg, t)!,
       borderHairline: lerpDouble(borderHairline, other.borderHairline, t)!,
       iconSm: lerpDouble(iconSm, other.iconSm, t)!,
       iconMd: lerpDouble(iconMd, other.iconMd, t)!,
+      iconLg: lerpDouble(iconLg, other.iconLg, t)!,
       rowMinHeight: lerpDouble(rowMinHeight, other.rowMinHeight, t)!,
       tabBarHeight: lerpDouble(tabBarHeight, other.tabBarHeight, t)!,
     );
