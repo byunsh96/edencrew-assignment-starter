@@ -5,13 +5,14 @@ import '../../../../enums/price_direction.dart';
 import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
+import '../../../../widgets/app_ink_well.dart';
 import '../../models/watchlist_item.dart';
 
 //TODO 리뷰 확인
 
 /// 관심 목록 한 행. 종목명 · 코드 · 현재가 · 등락.
-class WatchlistRow extends StatelessWidget {
-  const WatchlistRow({required this.item, this.onTap, super.key});
+class FavoriteListRow extends StatelessWidget {
+  const FavoriteListRow({required this.item, this.onTap, super.key});
 
   final WatchlistItem item;
   final VoidCallback? onTap;
@@ -21,24 +22,20 @@ class WatchlistRow extends StatelessWidget {
     final AppColors colors = context.colors;
     final AppDimens dimens = context.dimens;
 
-    return InkWell(
+    return AppInkWell(
       onTap: onTap,
       child: Container(
-        constraints: BoxConstraints(minHeight: dimens.rowMinHeight),
-        decoration: BoxDecoration(
+        // 구분선이 행 높이를 먹지 않도록 foregroundDecoration에 둔다.
+        // decoration에 두면 Border 두께가 padding에 더해져 행이 1px 커진다.
+        foregroundDecoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: colors.borderSubtle,
-              width: dimens.borderHairline,
-            ),
+            bottom: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
           ),
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
-          children: <Widget>[
+          spacing: dimens.space3,
+          children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,16 +45,14 @@ class WatchlistRow extends StatelessWidget {
                     // 긴 종목명이 시세를 밀어내지 않도록 한 줄로 자른다.
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.body
-                        .copyWith(color: colors.textPrimary),
+                    style: AppTextStyles.body.copyWith(color: colors.textPrimary),
                   ),
                   SizedBox(height: dimens.space1 / 2),
                   Text(
                     item.stock.symbolWithMarket,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.caption
-                        .copyWith(color: colors.textSecondary),
+                    style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
                   ),
                 ],
               ),

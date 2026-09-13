@@ -38,7 +38,9 @@ class SearchResultRow extends StatelessWidget {
       onTap: onTap,
       child: Container(
         constraints: BoxConstraints(minHeight: dimens.rowMinHeight),
-        decoration: BoxDecoration(
+        // 구분선이 행 높이를 먹지 않도록 foregroundDecoration에 둔다.
+        // decoration에 두면 Border 두께가 padding에 더해져 rowMinHeight를 1px 넘긴다.
+        foregroundDecoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
               color: colors.borderSubtle,

@@ -10,14 +10,9 @@ import '../../controllers/favorite_list_controller.dart';
 import '../../enums/favorite_list_sort.dart';
 import 'favorite_list_sort_sheet.dart';
 
-//TODO 리뷰 확인
-
 /// 관심 화면 헤더. 제목 · 정렬 칩 · 새로고침.
 class FavoriteListHeader extends StatelessWidget {
   const FavoriteListHeader({super.key});
-
-  /// Figma 헤더 아이콘 크기.
-  static const double _iconSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +33,11 @@ class FavoriteListHeader extends StatelessWidget {
               const _SortChip(),
               AppInkWell(
                 onTap: context.read<FavoriteListController>().fetchQuotes,
-                child: AppSvgIcon(AppIcons.refresh, size: _iconSize, color: colors.textSecondary),
+                child: AppSvgIcon(
+                  AppIcons.refresh,
+                  size: dimens.iconMd,
+                  color: colors.textSecondary,
+                ),
               ),
             ],
           ),
@@ -55,6 +54,7 @@ class _SortChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
 
     return AppInkWell(
       onTap: () => FavoriteListSortSheet.show(context),
@@ -69,11 +69,7 @@ class _SortChip extends StatelessWidget {
                 style: AppTextStyles.label.copyWith(color: colors.textSecondary),
               ),
             ),
-            AppSvgIcon(
-              AppIcons.align,
-              size: FavoriteListHeader._iconSize,
-              color: colors.textSecondary,
-            ),
+            AppSvgIcon(AppIcons.align, size: dimens.iconMd, color: colors.textSecondary),
           ],
         ),
       ),
