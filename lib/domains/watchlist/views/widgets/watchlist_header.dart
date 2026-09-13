@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_svg_icon.dart';
+import '../../../../widgets/app_svg_icon.dart';
 import '../../controllers/watchlist_controller.dart';
 import '../../enums/watchlist_sort.dart';
 import 'watchlist_sort_sheet.dart';
@@ -22,28 +22,18 @@ class WatchlistHeader extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: dimens.space4,
-        vertical: dimens.space3,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            '관심',
-            style: AppTextStyles.title.copyWith(color: colors.textPrimary),
-          ),
+          Text('관심', style: AppTextStyles.title.copyWith(color: colors.textPrimary)),
           Row(
             children: <Widget>[
               const _SortChip(),
               SizedBox(width: dimens.space4),
               InkWell(
                 onTap: context.read<WatchlistController>().fetchQuotes,
-                child: AppSvgIcon(
-                  AppIcons.refresh,
-                  size: _iconSize,
-                  color: colors.textSecondary,
-                ),
+                child: AppSvgIcon(AppIcons.refresh, size: _iconSize, color: colors.textSecondary),
               ),
             ],
           ),
@@ -67,16 +57,9 @@ class _SortChip extends StatelessWidget {
         children: <Widget>[
           Selector<WatchlistController, WatchlistSort>(
             selector: (_, WatchlistController controller) => controller.sort,
-            builder: (_, WatchlistSort sort, _) => Text(
-              sort.label,
-              style: AppTextStyles.label.copyWith(color: colors.textSecondary),
-            ),
+            builder: (_, WatchlistSort sort, _) => Text(sort.label, style: AppTextStyles.label.copyWith(color: colors.textSecondary)),
           ),
-          AppSvgIcon(
-            AppIcons.align,
-            size: WatchlistHeader._iconSize,
-            color: colors.textSecondary,
-          ),
+          AppSvgIcon(AppIcons.align, size: WatchlistHeader._iconSize, color: colors.textSecondary),
         ],
       ),
     );

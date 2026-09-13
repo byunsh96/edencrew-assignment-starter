@@ -1,7 +1,7 @@
 import 'package:edencrew_assignment_starter/constants/app_icons.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
-import 'package:edencrew_assignment_starter/views/widgets/app_svg_icon.dart';
-import 'package:edencrew_assignment_starter/views/widgets/app_toast.dart';
+import 'package:edencrew_assignment_starter/widgets/app_svg_icon.dart';
+import 'package:edencrew_assignment_starter/widgets/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

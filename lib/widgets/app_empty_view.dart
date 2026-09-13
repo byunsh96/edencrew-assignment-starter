@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_text_styles.dart';
-import '../../theme/theme.dart';
+import '../constants/app_text_styles.dart';
+import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
 /// 목록이 비었을 때 보여주는 안내. 관심 · 검색 화면이 같은 구조를 쓴다.
 class AppEmptyView extends StatelessWidget {
-  const AppEmptyView({
-    required this.icon,
-    required this.title,
-    required this.description,
-    super.key,
-  });
+  const AppEmptyView({required this.icon, required this.title, required this.description, super.key});
 
   /// Figma 빈 상태 아이콘 크기.
   static const double _iconSize = 40;
@@ -33,10 +28,7 @@ class AppEmptyView extends StatelessWidget {
           children: <Widget>[
             AppSvgIcon(icon, size: _iconSize, color: colors.textTertiary),
             SizedBox(height: dimens.space3),
-            Text(
-              title,
-              style: AppTextStyles.title.copyWith(color: colors.textSecondary),
-            ),
+            Text(title, style: AppTextStyles.title.copyWith(color: colors.textSecondary)),
             SizedBox(height: dimens.space3),
             Text(
               description,

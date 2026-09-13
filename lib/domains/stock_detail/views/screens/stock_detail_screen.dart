@@ -7,7 +7,7 @@ import '../../../../models/favorite_stock.dart';
 import '../../../../models/stock_quote.dart';
 import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_toast.dart';
+import '../../../../widgets/app_toast.dart';
 import '../../../watchlist/controllers/favorite_controller.dart';
 import '../../controllers/stock_detail_controller.dart';
 import '../widgets/candle_chart.dart';

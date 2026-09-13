@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_icons.dart';
-import '../../constants/app_text_styles.dart';
-import '../../theme/theme.dart';
+import '../constants/app_icons.dart';
+import '../constants/app_text_styles.dart';
+import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 import 'app_tab_bar.dart';
 
@@ -37,24 +37,12 @@ abstract final class AppToast {
     );
   }
 
-  static void show(
-    BuildContext context, {
-    required String icon,
-    required Color iconColor,
-    required String message,
-  }) {
+  static void show(BuildContext context, {required String icon, required Color iconColor, required String message}) {
     final OverlayState overlay = Overlay.of(context);
     _dismiss();
 
     final OverlayEntry entry = OverlayEntry(
-      builder: (BuildContext context) => _ToastCard(
-        icon: icon,
-        iconColor: iconColor,
-        message: message,
-        visibleDuration: _visibleDuration,
-        fadeDuration: _fadeDuration,
-        onFinished: _dismiss,
-      ),
+      builder: (BuildContext context) => _ToastCard(icon: icon, iconColor: iconColor, message: message, visibleDuration: _visibleDuration, fadeDuration: _fadeDuration, onFinished: _dismiss),
     );
 
     _current = entry;
@@ -68,14 +56,7 @@ abstract final class AppToast {
 }
 
 class _ToastCard extends StatefulWidget {
-  const _ToastCard({
-    required this.icon,
-    required this.iconColor,
-    required this.message,
-    required this.visibleDuration,
-    required this.fadeDuration,
-    required this.onFinished,
-  });
+  const _ToastCard({required this.icon, required this.iconColor, required this.message, required this.visibleDuration, required this.fadeDuration, required this.onFinished});
 
   final String icon;
   final Color iconColor;
@@ -88,12 +69,8 @@ class _ToastCard extends StatefulWidget {
   State<_ToastCard> createState() => _ToastCardState();
 }
 
-class _ToastCardState extends State<_ToastCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: widget.fadeDuration,
-  );
+class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(vsync: this, duration: widget.fadeDuration);
 
   @override
   void initState() {
@@ -126,9 +103,7 @@ class _ToastCardState extends State<_ToastCard>
       left: dimens.space4,
       right: dimens.space4,
       // 하단 탭 바를 가리지 않게 그 위에 띄운다.
-      bottom: MediaQuery.paddingOf(context).bottom +
-          AppTabBar.height +
-          dimens.space3,
+      bottom: MediaQuery.paddingOf(context).bottom + AppTabBar.height + dimens.space3,
       child: FadeTransition(
         opacity: _controller,
         child: Material(
@@ -152,18 +127,10 @@ class _ToastCardState extends State<_ToastCard>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                AppSvgIcon(
-                  widget.icon,
-                  size: AppToast._iconSize,
-                  color: widget.iconColor,
-                ),
+                AppSvgIcon(widget.icon, size: AppToast._iconSize, color: widget.iconColor),
                 SizedBox(width: dimens.space2),
                 Flexible(
-                  child: Text(
-                    widget.message,
-                    style: AppTextStyles.label
-                        .copyWith(color: colors.textPrimary),
-                  ),
+                  child: Text(widget.message, style: AppTextStyles.label.copyWith(color: colors.textPrimary)),
                 ),
               ],
             ),

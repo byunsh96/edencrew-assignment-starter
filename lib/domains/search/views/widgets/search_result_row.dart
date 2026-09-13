@@ -5,7 +5,7 @@ import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../models/favorite_stock.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_svg_icon.dart';
+import '../../../../widgets/app_svg_icon.dart';
 import '../../../watchlist/controllers/favorite_controller.dart';
 import '../../models/stock_search_item.dart';
 

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_svg_icon.dart';
+import '../../../../widgets/app_svg_icon.dart';
 import '../../controllers/watchlist_controller.dart';
 import '../../enums/watchlist_sort.dart';
 

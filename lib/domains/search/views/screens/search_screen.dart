@@ -5,9 +5,9 @@ import '../../../../constants/app_icons.dart';
 import '../../../../core/repository/core_repository.dart';
 import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_empty_view.dart';
+import '../../../../widgets/app_empty_view.dart';
 import '../../../../models/favorite_stock.dart';
-import '../../../../views/widgets/app_toast.dart';
+import '../../../../widgets/app_toast.dart';
 import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/stock_search_controller.dart';
 import '../../models/stock_search_item.dart';
@@ -21,9 +21,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<StockSearchController>(
-      create: (BuildContext context) => StockSearchController(
-        stockRepository: StockRepository(context.read<CoreRepository>()),
-      ),
+      create: (BuildContext context) => StockSearchController(stockRepository: StockRepository(context.read<CoreRepository>())),
       child: const _SearchView(),
     );
   }
@@ -51,67 +49,37 @@ class _SearchViewState extends State<_SearchView> {
     context.read<StockSearchController>().clear();
   }
 
-  void _onFavoriteToggled(bool added) =>
-      AppToast.favorite(context, added: added);
+  void _onFavoriteToggled(bool added) => AppToast.favorite(context, added: added);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SearchField(
-          controller: _textController,
-          onChanged: context.read<StockSearchController>().onKeywordChanged,
-          onCleared: _onCleared,
-        ),
+        SearchField(controller: _textController, onChanged: context.read<StockSearchController>().onKeywordChanged, onCleared: _onCleared),
         Expanded(
           child: Consumer<StockSearchController>(
-            builder: (
-              BuildContext context,
-              StockSearchController controller,
-              _,
-            ) {
+            builder: (BuildContext context, StockSearchController controller, _) {
               if (!controller.hasKeyword) {
-                return const AppEmptyView(
-                  icon: AppIcons.search,
-                  title: '종목을 검색해 보세요',
-                  description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.',
-                );
+                return const AppEmptyView(icon: AppIcons.search, title: '종목을 검색해 보세요', description: '종목명 또는 종목코드 6자리로\n검색하실 수 있습니다.');
               }
 
               if (controller.isLoading) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: context.colors.accentDefault,
-                  ),
-                );
+                return Center(child: CircularProgressIndicator(color: context.colors.accentDefault));
               }
 
               final List<StockSearchItem> results = controller.results;
               if (results.isEmpty) {
-                return AppEmptyView(
-                  icon: AppIcons.searchEmpty,
-                  title: '검색 결과가 없습니다',
-                  description: _notFoundMessage(controller.keyword),
-                );
+                return AppEmptyView(icon: AppIcons.searchEmpty, title: '검색 결과가 없습니다', description: _notFoundMessage(controller.keyword));
               }
 
               return ListView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 itemCount: results.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    SearchResultRow(
+                itemBuilder: (BuildContext context, int index) => SearchResultRow(
                   item: results[index],
                   keyword: controller.keyword,
                   onFavoriteToggled: _onFavoriteToggled,
-                  onTap: () => StockDetailScreen.push(
-                    context,
-                    FavoriteStock(
-                      symbol: results[index].symbol,
-                      name: results[index].name,
-                      marketName: results[index].marketName,
-                    ),
-                  ),
+                  onTap: () => StockDetailScreen.push(context, FavoriteStock(symbol: results[index].symbol, name: results[index].name, marketName: results[index].marketName)),
                 ),
               );
             },
@@ -128,9 +96,7 @@ class _SearchViewState extends State<_SearchView> {
   String _notFoundMessage(String keyword) {
     const int maxLength = 20;
     final String trimmed = keyword.trim();
-    final String shown = trimmed.length <= maxLength
-        ? trimmed
-        : '${trimmed.substring(0, maxLength)}...';
+    final String shown = trimmed.length <= maxLength ? trimmed : '${trimmed.substring(0, maxLength)}...';
 
     return "'$shown'와\n일치하는 검색 결과를 찾지 못했습니다.";
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
-import '../../../../views/widgets/app_svg_icon.dart';
+import '../../../../widgets/app_svg_icon.dart';
 
 /// 검색 입력창. 돋보기 · 입력칸 · 지우기 버튼.
 class SearchField extends StatelessWidget {
