@@ -61,7 +61,6 @@ class _StockDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
-    final AppDimens dimens = context.dimens;
 
     return Scaffold(
       backgroundColor: colors.surfaceBase,
@@ -91,12 +90,7 @@ class _StockDetailView extends StatelessWidget {
                   }
 
                   return SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(
-                      dimens.space4,
-                      _bodyTopPadding,
-                      dimens.space4,
-                      dimens.space4,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(16, _bodyTopPadding, 16, 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[

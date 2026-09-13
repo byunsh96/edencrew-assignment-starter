@@ -36,8 +36,8 @@ class PeriodTabs extends StatelessWidget {
               borderRadius: BorderRadius.circular(dimens.radiusMd),
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(
-                  horizontal: dimens.space3,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
                   vertical: _verticalPadding,
                 ),
                 decoration: BoxDecoration(

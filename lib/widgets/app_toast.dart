@@ -110,8 +110,8 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: dimens.space4,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
               vertical: 14, // Figma 토스트 세로 여백
             ),
             decoration: BoxDecoration(

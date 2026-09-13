@@ -32,8 +32,8 @@ class StockDetailAppBar extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: dimens.space4,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
         vertical: _verticalPadding,
       ),
       decoration: BoxDecoration(

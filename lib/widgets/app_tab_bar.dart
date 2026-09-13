@@ -33,7 +33,7 @@ class AppTabBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: dimens.space2),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             children: <Widget>[for (final MainTab tab in MainTab.values) _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab))],
           ),
@@ -65,7 +65,7 @@ class _Tab extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: context.dimens.space1),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Column(
             spacing: AppTabBar._iconLabelGap,
             mainAxisSize: MainAxisSize.min,

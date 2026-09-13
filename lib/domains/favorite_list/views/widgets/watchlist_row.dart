@@ -34,8 +34,8 @@ class WatchlistRow extends StatelessWidget {
           ),
         ),
         padding: EdgeInsets.symmetric(
-          horizontal: dimens.space4,
-          vertical: dimens.space3,
+          horizontal: 16,
+          vertical: 12,
         ),
         child: Row(
           children: <Widget>[

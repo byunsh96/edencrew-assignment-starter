@@ -32,15 +32,10 @@ class SearchField extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        dimens.space4,
-        dimens.space2,
-        dimens.space4,
-        dimens.space3,
-      ),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: dimens.space3,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
           vertical: _fieldVerticalPadding,
         ),
         decoration: BoxDecoration(

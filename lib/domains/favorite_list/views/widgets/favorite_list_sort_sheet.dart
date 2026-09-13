@@ -51,7 +51,7 @@ class FavoriteListSortSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: dimens.space6),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('정렬', style: AppTextStyles.title.copyWith(color: colors.textPrimary)),
