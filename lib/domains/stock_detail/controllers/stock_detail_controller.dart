@@ -10,6 +10,8 @@ import '../enums/chart_period.dart';
 import '../models/daily_quote.dart';
 import '../models/daily_quote_page.dart';
 
+//TODO 리뷰 확인
+
 /// 종목 상세 화면 상태.
 class StockDetailController extends ChangeNotifier {
   StockDetailController({

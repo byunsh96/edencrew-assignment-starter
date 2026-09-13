@@ -1,3 +1,5 @@
+//TODO 리뷰 확인
+
 /// 네트워크 응답 공통 래퍼.
 ///
 /// Repository는 이 객체만 받아 모델로 바꾼다. Controller가 raw json을 보지 않는다.

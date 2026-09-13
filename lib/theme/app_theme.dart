@@ -5,6 +5,8 @@ import 'app_dimens.dart';
 import 'app_palette.dart';
 import 'app_typography.dart';
 
+//TODO summer + 추가 필요 부분있는지 확인
+
 /// 앱 전역 테마입니다.
 ///
 /// `MaterialApp`에 아래와 같이 연결해서 사용해 주세요.

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 
 import '../../../models/favorite_stock.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 종목 상태. 관심 · 검색 · 상세 세 화면이 같은 인스턴스를 본다.
 ///
 /// 유일하게 전역(`AppProviders.global`)에 올리는 컨트롤러다.

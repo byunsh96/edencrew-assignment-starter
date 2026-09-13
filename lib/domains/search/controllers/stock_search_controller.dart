@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import '../../../repository/stock_repository.dart';
 import '../models/stock_search_item.dart';
 
+//TODO 리뷰 확인
+
 /// 검색 화면 상태.
 ///
 /// Flutter Material의 `SearchController`와 이름이 겹치지 않도록 접두사를 붙였다.

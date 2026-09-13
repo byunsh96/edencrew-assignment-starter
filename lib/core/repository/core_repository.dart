@@ -7,6 +7,8 @@ import '../../constants/dev_config.dart';
 import '../../utils/log_util.dart';
 import '../models/api_response.dart';
 
+//TODO 리뷰 확인
+
 /// 모든 네트워크 요청이 지나가는 지점.
 ///
 /// 네이버 endpoint는 호스트가 서로 달라 `baseUrl`을 두지 않는다.

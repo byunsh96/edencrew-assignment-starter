@@ -6,6 +6,8 @@ import '../../widgets/app_tab_bar.dart';
 import '../search/views/screens/search_screen.dart';
 import '../watchlist/views/screens/watchlist_screen.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 · 검색 두 탭을 담는 화면.
 ///
 /// `IndexedStack`을 써서 탭을 오갈 때 각 화면의 상태와 스크롤 위치를 유지한다.

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
+//TODO 리뷰 확인
+
 /// 등락 방향.
 ///
 /// 국내 시장 관행을 따라 상승은 빨강, 하락은 파랑이다.

@@ -5,6 +5,8 @@ import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 
+//TODO 리뷰 확인
+
 /// 시가 · 고가 · 저가 · 거래량 · 시가총액 요약 카드.
 class QuoteSummary extends StatelessWidget {
   const QuoteSummary({required this.quote, super.key});

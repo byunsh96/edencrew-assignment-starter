@@ -5,6 +5,8 @@ import 'binding/app_providers.dart';
 import 'theme/theme.dart';
 import 'domains/home/home_screen.dart';
 
+//TODO 리뷰 확인
+
 void main() {
   runApp(MultiProvider(providers: AppProviders.global, child: const EdencrewAssignmentApp()));
 }

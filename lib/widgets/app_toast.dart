@@ -6,6 +6,8 @@ import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 import 'app_tab_bar.dart';
 
+//TODO 리뷰 확인
+
 /// 화면 하단에 잠깐 떴다 사라지는 알림.
 ///
 /// Figma에는 떠 있는 모습만 있다. 노출 시간과 사라지는 방식은 직접 정했다.

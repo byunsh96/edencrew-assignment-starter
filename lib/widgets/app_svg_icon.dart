@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+//TODO 리뷰 확인
+
 /// Figma에서 내려받은 SVG 아이콘.
 ///
 /// SVG 파일에는 Figma 시안의 색이 박혀 있다. 같은 아이콘이 상태에 따라 다른 토큰 색을

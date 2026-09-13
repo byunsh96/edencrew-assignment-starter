@@ -4,6 +4,8 @@ import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
 import '../../enums/chart_period.dart';
 
+//TODO 리뷰 확인
+
 /// 기간 선택 칩. `1개월` / `3개월` / `6개월` / `1년`.
 class PeriodTabs extends StatelessWidget {
   const PeriodTabs({

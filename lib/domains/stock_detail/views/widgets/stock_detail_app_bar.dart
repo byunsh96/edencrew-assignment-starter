@@ -8,6 +8,8 @@ import '../../../../theme/theme.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../../watchlist/controllers/favorite_controller.dart';
 
+//TODO 리뷰 확인
+
 /// 상세 화면 상단. 뒤로가기 · 종목명 · 관심 토글.
 class StockDetailAppBar extends StatelessWidget {
   const StockDetailAppBar({

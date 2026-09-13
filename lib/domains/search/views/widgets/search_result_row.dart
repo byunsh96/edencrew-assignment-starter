@@ -9,6 +9,8 @@ import '../../../../widgets/app_svg_icon.dart';
 import '../../../watchlist/controllers/favorite_controller.dart';
 import '../../models/stock_search_item.dart';
 
+//TODO 리뷰 확인
+
 /// 검색 결과 한 행. 종목명(검색어 하이라이트) · 코드 · 관심 토글.
 class SearchResultRow extends StatelessWidget {
   const SearchResultRow({

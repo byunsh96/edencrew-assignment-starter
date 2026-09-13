@@ -5,6 +5,8 @@ import '../../../utils/format_util.dart';
 import '../../../utils/parse_util.dart';
 import 'daily_quote.dart';
 
+//TODO 리뷰 확인
+
 /// 일별 시세 HTML 한 페이지의 파싱 결과.
 ///
 /// `lastPage`를 알아야 그보다 큰 페이지를 요청하지 않는다.

@@ -5,6 +5,8 @@ import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_svg_icon.dart';
 
+//TODO 리뷰 확인
+
 /// 검색 입력창. 돋보기 · 입력칸 · 지우기 버튼.
 class SearchField extends StatelessWidget {
   const SearchField({

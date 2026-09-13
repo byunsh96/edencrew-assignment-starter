@@ -6,6 +6,8 @@ import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 import '../../models/daily_quote.dart';
 
+//TODO 리뷰 확인
+
 /// 일별 시세 표. 날짜 · 종가 · 등락 · 거래량.
 class DailyQuoteTable extends StatelessWidget {
   const DailyQuoteTable({required this.quotes, super.key});

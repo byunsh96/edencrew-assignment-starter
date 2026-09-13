@@ -2,6 +2,8 @@ import 'dart:developer' as developer;
 
 import '../constants/dev_config.dart';
 
+//TODO 리뷰 확인
+
 /// 앱 전역 로거. `print` 대신 사용한다.
 ///
 /// `LogUtil().logError('메서드명: $e', module: _file)` 형태로 호출한다.

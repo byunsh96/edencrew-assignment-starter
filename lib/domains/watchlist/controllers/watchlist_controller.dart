@@ -7,6 +7,8 @@ import '../enums/watchlist_sort.dart';
 import '../models/watchlist_item.dart';
 import 'favorite_controller.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 화면 상태.
 class WatchlistController extends ChangeNotifier {
   WatchlistController({

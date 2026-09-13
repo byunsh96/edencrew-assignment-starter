@@ -1,5 +1,7 @@
 import '../../utils/parse_util.dart';
 
+//TODO 리뷰 확인
+
 /// 리스트가 특정 키 안에 담겨 오는 응답을 공통으로 푼다.
 ///
 /// 항목 하나가 깨져도 나머지는 살린다. ([ParseUtil.parseList])

@@ -9,6 +9,8 @@ import '../../controllers/watchlist_controller.dart';
 import '../../enums/watchlist_sort.dart';
 import 'watchlist_sort_sheet.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 화면 헤더. 제목 · 정렬 칩 · 새로고침.
 class WatchlistHeader extends StatelessWidget {
   const WatchlistHeader({super.key});

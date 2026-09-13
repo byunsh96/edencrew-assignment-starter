@@ -8,6 +8,8 @@ import '../models/stock_quote.dart';
 import '../utils/log_util.dart';
 import '../utils/parse_util.dart';
 
+//TODO 리뷰 확인
+
 /// 네이버 증권 endpoint 4개를 담당한다.
 ///
 /// 세 화면이 같은 endpoint를 나눠 쓰기 때문에 도메인별로 쪼개지 않고 한 클래스에 모았다.

@@ -1,3 +1,5 @@
+//TODO 리뷰 확인
+
 /// 네이버 증권 endpoint 모음.
 ///
 /// endpoint마다 호스트가 달라 `CoreRepository`에 `baseUrl`을 두지 않는다.

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'app_palette.dart';
 
+//TODO summer + 추가 필요 부분있는지 확인
+
 /// Figma `Semantic` 컬렉션(Dark 모드)을 옮긴 시맨틱 색상 토큰입니다.
 ///
 /// 화면 코드에서는 `context.colors.priceUpText` 형태로 사용해 주세요.

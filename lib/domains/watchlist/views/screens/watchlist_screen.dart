@@ -13,6 +13,8 @@ import '../../models/watchlist_item.dart';
 import '../widgets/watchlist_header.dart';
 import '../widgets/watchlist_row.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 화면.
 class WatchlistScreen extends StatelessWidget {
   const WatchlistScreen({super.key});

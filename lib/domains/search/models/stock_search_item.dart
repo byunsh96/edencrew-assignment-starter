@@ -1,5 +1,7 @@
 import '../../../utils/parse_util.dart';
 
+//TODO 리뷰 확인
+
 /// 검색 자동완성 결과 한 건.
 class StockSearchItem {
   const StockSearchItem({

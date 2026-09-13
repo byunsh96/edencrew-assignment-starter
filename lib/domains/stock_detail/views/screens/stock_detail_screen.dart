@@ -17,6 +17,8 @@ import '../widgets/quote_summary.dart';
 import '../widgets/stock_detail_app_bar.dart';
 import '../widgets/stock_price_header.dart';
 
+//TODO 리뷰 확인
+
 /// 종목 상세 화면.
 class StockDetailScreen extends StatelessWidget {
   const StockDetailScreen({required this.stock, super.key});

@@ -1,5 +1,7 @@
 import '../utils/parse_util.dart';
 
+//TODO 리뷰 확인
+
 /// 종목의 기본 정보. 화면에 `005930 · 코스피` 로 보이는 부분이다.
 class StockMeta {
   const StockMeta({

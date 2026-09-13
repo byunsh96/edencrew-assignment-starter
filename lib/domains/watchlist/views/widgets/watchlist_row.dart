@@ -7,6 +7,8 @@ import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 import '../../models/watchlist_item.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 목록 한 행. 종목명 · 코드 · 현재가 · 등락.
 class WatchlistRow extends StatelessWidget {
   const WatchlistRow({required this.item, this.onTap, super.key});

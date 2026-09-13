@@ -6,6 +6,8 @@ import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 
+//TODO 리뷰 확인
+
 /// 현재가와 전일 대비 등락.
 class StockPriceHeader extends StatelessWidget {
   const StockPriceHeader({required this.quote, super.key});

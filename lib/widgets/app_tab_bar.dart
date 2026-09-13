@@ -6,6 +6,8 @@ import '../enums/main_tab.dart';
 import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
+//TODO 리뷰 확인
+
 /// 관심 · 검색을 오가는 하단 탭 바.
 class AppTabBar extends StatelessWidget {
   const AppTabBar({required this.current, required this.onChanged, super.key});

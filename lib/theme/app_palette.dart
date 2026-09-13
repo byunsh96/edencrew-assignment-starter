@@ -1,5 +1,7 @@
 import 'dart:ui' show Color;
 
+//TODO summer + 추가 필요 부분있는지 확인
+
 /// Figma `Primitives` 컬렉션을 그대로 옮긴 원시 팔레트입니다.
 ///
 /// 화면 코드에서 이 클래스를 직접 참조하지 마세요.

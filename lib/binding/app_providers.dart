@@ -4,6 +4,8 @@ import 'package:provider/single_child_widget.dart';
 import '../core/repository/core_repository.dart';
 import '../domains/watchlist/controllers/favorite_controller.dart';
 
+//TODO 리뷰 확인
+
 /// 앱 전역 의존성. `main`에서 `MultiProvider`로 감싼다.
 ///
 /// **여기에는 여러 화면이 공유하는 것만 올린다.** 한 화면에서만 쓰는 컨트롤러는

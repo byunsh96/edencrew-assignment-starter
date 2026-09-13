@@ -1,3 +1,5 @@
+//TODO 리뷰 확인
+
 /// 상세 화면 기간 탭.
 enum ChartPeriod {
   oneMonth('1개월', 2),
