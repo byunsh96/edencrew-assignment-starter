@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_icons.dart';
 import '../constants/app_text_styles.dart';
+import '../enums/main_tab.dart';
 import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
 /// 관심 · 검색을 오가는 하단 탭 바.
 class AppTabBar extends StatelessWidget {
-  const AppTabBar({required this.currentIndex, required this.onChanged, super.key});
+  const AppTabBar({required this.current, required this.onChanged, super.key});
 
   /// 탭 바 높이. 토스트를 탭 바 위에 띄울 때 쓴다. (safe area 제외)
   static const double height = 63;
@@ -18,8 +19,8 @@ class AppTabBar extends StatelessWidget {
   /// 아이콘과 레이블 사이 간격.
   static const double _iconLabelGap = 3;
 
-  final int currentIndex;
-  final ValueChanged<int> onChanged;
+  final MainTab current;
+  final ValueChanged<MainTab> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +40,8 @@ class AppTabBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: dimens.space2),
           child: Row(
             children: <Widget>[
-              _Tab(
-                // 관심 탭은 선택됐을 때만 채워진 별을 쓴다.
-                icon: currentIndex == 0 ? AppIcons.starFill : AppIcons.star,
-                label: '관심',
-                isSelected: currentIndex == 0,
-                onTap: () => onChanged(0),
-              ),
-              _Tab(icon: AppIcons.search, label: '검색', isSelected: currentIndex == 1, onTap: () => onChanged(1)),
+              for (final MainTab tab in MainTab.values)
+                _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab)),
             ],
           ),
         ),
@@ -56,12 +51,17 @@ class AppTabBar extends StatelessWidget {
 }
 
 class _Tab extends StatelessWidget {
-  const _Tab({required this.icon, required this.label, required this.isSelected, required this.onTap});
+  const _Tab({required this.tab, required this.isSelected, required this.onTap});
 
-  final String icon;
-  final String label;
+  final MainTab tab;
   final bool isSelected;
   final VoidCallback onTap;
+
+  /// 관심 탭만 선택 여부에 따라 채워진 별과 빈 별이 갈린다.
+  String get _icon => switch (tab) {
+        MainTab.watchlist => isSelected ? AppIcons.starFill : AppIcons.star,
+        MainTab.search => AppIcons.search,
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +77,8 @@ class _Tab extends StatelessWidget {
             spacing: AppTabBar._iconLabelGap,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              AppSvgIcon(icon, size: AppTabBar._iconSize, color: color),
-              Text(label, style: AppTextStyles.caption.copyWith(color: color)),
+              AppSvgIcon(_icon, size: AppTabBar._iconSize, color: color),
+              Text(tab.label, style: AppTextStyles.caption.copyWith(color: color)),
             ],
           ),
         ),

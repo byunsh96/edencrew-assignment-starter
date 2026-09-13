@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../enums/main_tab.dart';
 import '../../theme/theme.dart';
 import '../../widgets/app_tab_bar.dart';
 import '../search/views/screens/search_screen.dart';
@@ -16,13 +17,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
+  final ValueNotifier<MainTab> _currentTab = ValueNotifier<MainTab>(MainTab.watchlist);
 
   @override
   void dispose() {
-    _currentIndex.dispose();
+    _currentTab.dispose();
     super.dispose();
   }
+
+  /// 탭에 대응하는 화면. `switch`라서 탭을 추가하면 컴파일러가 빠진 분기를 잡아준다.
+  Widget _screenOf(MainTab tab) => switch (tab) {
+        MainTab.watchlist => const WatchlistScreen(),
+        MainTab.search => const SearchScreen(),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: context.colors.surfaceBase,
       body: SafeArea(
         bottom: false,
-        child: ValueListenableBuilder<int>(
-          valueListenable: _currentIndex,
-          builder: (BuildContext context, int index, _) => Column(
+        child: ValueListenableBuilder<MainTab>(
+          valueListenable: _currentTab,
+          builder: (BuildContext context, MainTab tab, _) => Column(
             children: <Widget>[
               Expanded(
-                child: IndexedStack(index: index, children: const <Widget>[WatchlistScreen(), SearchScreen()]),
+                child: IndexedStack(
+                  // children을 MainTab.values에서 만들므로 순서가 어긋날 수 없다.
+                  index: tab.index,
+                  children: <Widget>[for (final MainTab each in MainTab.values) _screenOf(each)],
+                ),
               ),
-              AppTabBar(currentIndex: index, onChanged: (int next) => _currentIndex.value = next),
+              AppTabBar(current: tab, onChanged: (MainTab next) => _currentTab.value = next),
             ],
           ),
         ),
