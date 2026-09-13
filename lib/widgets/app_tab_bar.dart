@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/app_icons.dart';
-import '../../constants/app_text_styles.dart';
-import '../../theme/theme.dart';
+import '../constants/app_icons.dart';
+import '../constants/app_text_styles.dart';
+import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
 /// 관심 · 검색을 오가는 하단 탭 바.
 class AppTabBar extends StatelessWidget {
-  const AppTabBar({
-    required this.currentIndex,
-    required this.onChanged,
-    super.key,
-  });
+  const AppTabBar({required this.currentIndex, required this.onChanged, super.key});
 
   /// 탭 바 높이. 토스트를 탭 바 위에 띄울 때 쓴다. (safe area 제외)
   static const double height = 63;
@@ -34,10 +30,7 @@ class AppTabBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.surfaceRaised,
         border: Border(
-          top: BorderSide(
-            color: colors.borderSubtle,
-            width: dimens.borderHairline,
-          ),
+          top: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
         ),
       ),
       child: SafeArea(
@@ -53,12 +46,7 @@ class AppTabBar extends StatelessWidget {
                 isSelected: currentIndex == 0,
                 onTap: () => onChanged(0),
               ),
-              _Tab(
-                icon: AppIcons.search,
-                label: '검색',
-                isSelected: currentIndex == 1,
-                onTap: () => onChanged(1),
-              ),
+              _Tab(icon: AppIcons.search, label: '검색', isSelected: currentIndex == 1, onTap: () => onChanged(1)),
             ],
           ),
         ),
@@ -68,12 +56,7 @@ class AppTabBar extends StatelessWidget {
 }
 
 class _Tab extends StatelessWidget {
-  const _Tab({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _Tab({required this.icon, required this.label, required this.isSelected, required this.onTap});
 
   final String icon;
   final String label;
@@ -91,10 +74,10 @@ class _Tab extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: context.dimens.space1),
           child: Column(
+            spacing: AppTabBar._iconLabelGap,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               AppSvgIcon(icon, size: AppTabBar._iconSize, color: color),
-              const SizedBox(height: AppTabBar._iconLabelGap),
               Text(label, style: AppTextStyles.caption.copyWith(color: color)),
             ],
           ),
