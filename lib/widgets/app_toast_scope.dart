@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-//TODO 리뷰 확인
-
 /// 토스트가 뜰 수 있는 영역을 만든다.
 ///
 /// `AppToast`는 `Overlay.of(context)`로 **가장 가까운 상위 `Overlay`** 를 찾고,

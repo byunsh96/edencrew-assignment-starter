@@ -6,11 +6,8 @@ import '../enums/main_tab.dart';
 import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
-//TODO 리뷰 확인
-
-/// 관심 · 검색을 오가는 하단 탭 바.
 class AppTabBar extends StatelessWidget {
-  const AppTabBar({required this.current, required this.onChanged, super.key});
+  const AppTabBar({super.key, required this.current, required this.onChanged});
 
   /// Figma 탭 아이콘 크기.
   static const double _iconSize = 22;
@@ -38,10 +35,7 @@ class AppTabBar extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: dimens.space2),
           child: Row(
-            children: <Widget>[
-              for (final MainTab tab in MainTab.values)
-                _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab)),
-            ],
+            children: <Widget>[for (final MainTab tab in MainTab.values) _Tab(tab: tab, isSelected: tab == current, onTap: () => onChanged(tab))],
           ),
         ),
       ),
@@ -58,9 +52,9 @@ class _Tab extends StatelessWidget {
 
   /// 관심 탭만 선택 여부에 따라 채워진 별과 빈 별이 갈린다.
   String get _icon => switch (tab) {
-        MainTab.watchlist => isSelected ? AppIcons.starFill : AppIcons.star,
-        MainTab.search => AppIcons.search,
-      };
+    MainTab.watchlist => isSelected ? AppIcons.starFill : AppIcons.star,
+    MainTab.search => AppIcons.search,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +69,8 @@ class _Tab extends StatelessWidget {
           child: Column(
             spacing: AppTabBar._iconLabelGap,
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               AppSvgIcon(_icon, size: AppTabBar._iconSize, color: color),
               Text(tab.label, style: AppTextStyles.caption.copyWith(color: color)),
             ],
