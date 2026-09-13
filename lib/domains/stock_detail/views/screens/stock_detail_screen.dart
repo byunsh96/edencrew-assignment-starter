@@ -8,6 +8,7 @@ import '../../../../models/stock_quote.dart';
 import '../../../../repository/stock_repository.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_toast.dart';
+import '../../../../widgets/app_toast_scope.dart';
 import '../../../watchlist/controllers/favorite_controller.dart';
 import '../../controllers/stock_detail_controller.dart';
 import '../widgets/candle_chart.dart';
@@ -76,7 +77,9 @@ class _StockDetailView extends StatelessWidget {
                   _onFavoriteToggled(context, added),
             ),
             Expanded(
-              child: Consumer<StockDetailController>(
+              // 탭 바가 없는 화면이라 본문 영역이 곧 토스트의 아래쪽 경계가 된다.
+              child: AppToastScope(
+                child: Consumer<StockDetailController>(
                 builder: (
                   BuildContext context,
                   StockDetailController controller,
@@ -132,7 +135,8 @@ class _StockDetailView extends StatelessWidget {
                       ],
                     ),
                   );
-                },
+                  },
+                ),
               ),
             ),
           ],

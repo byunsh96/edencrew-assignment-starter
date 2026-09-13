@@ -34,7 +34,31 @@ enum에 값을 추가하면 컴파일러가 빠진 분기를 잡아줍니다.
 
 ## 2. 토스트의 인라인 숫자
 
-- [ ] 미착수
+- [~] 일부 완료 — 탭 바 높이 의존 제거됨. 나머지는 미착수
+
+### 완료: 탭 바 높이 의존 (`AppTabBar.height = 63`)
+
+```dart
+bottom: MediaQuery.paddingOf(context).bottom + AppTabBar.height + dimens.space3,
+```
+
+토스트가 자기 아래에 무엇이 얼마나 있는지 직접 계산하고 있었습니다.
+63은 토큰에서 나오는 값(8×2 + 4×2 + 22 + 3 + 14)을 손으로 적어둔 것이라
+토큰이 바뀌면 조용히 어긋납니다.
+
+더 큰 문제는 **탭 바가 없는 상세 화면에서도 63을 더해 토스트가 63px 위에 떴다**는 점입니다.
+
+`AppToastScope`(내부 `Overlay`)를 두고 `Overlay.of(context)`가 가장 가까운 것을 찾게 했습니다.
+토스트에는 `bottom: dimens.space3` 한 줄만 남고 `AppTabBar.height`는 삭제했습니다.
+
+### 남은 것
+
+```dart
+vertical: 14,                  // Figma 토스트 세로 여백
+blurRadius: 24,
+offset: Offset(0, 8),
+color: Color(0x8C000000),      // rgba(0, 0, 0, 0.55)
+```
 
 **대상** `lib/widgets/app_toast.dart`
 

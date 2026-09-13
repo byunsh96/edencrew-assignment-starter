@@ -4,7 +4,6 @@ import '../constants/app_icons.dart';
 import '../constants/app_text_styles.dart';
 import '../theme/theme.dart';
 import 'app_svg_icon.dart';
-import 'app_tab_bar.dart';
 
 //TODO 리뷰 확인
 
@@ -104,8 +103,8 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
     return Positioned(
       left: dimens.space4,
       right: dimens.space4,
-      // 하단 탭 바를 가리지 않게 그 위에 띄운다.
-      bottom: MediaQuery.paddingOf(context).bottom + AppTabBar.height + dimens.space3,
+      // 아래쪽 경계는 `AppToastScope`가 정한다. 여기서 탭 바 높이나 safe area를 계산하지 않는다.
+      bottom: dimens.space3,
       child: FadeTransition(
         opacity: _controller,
         child: Material(

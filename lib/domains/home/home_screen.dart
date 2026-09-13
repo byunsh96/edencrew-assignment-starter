@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../enums/main_tab.dart';
 import '../../theme/theme.dart';
 import '../../widgets/app_tab_bar.dart';
+import '../../widgets/app_toast_scope.dart';
 import '../search/views/screens/search_screen.dart';
 import '../watchlist/views/screens/watchlist_screen.dart';
 
@@ -44,10 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (BuildContext context, MainTab tab, _) => Column(
             children: <Widget>[
               Expanded(
-                child: IndexedStack(
-                  // children을 MainTab.values에서 만들므로 순서가 어긋날 수 없다.
-                  index: tab.index,
-                  children: <Widget>[for (final MainTab each in MainTab.values) _screenOf(each)],
+                // 토스트가 탭 바를 가리지 않도록 탭 바를 뺀 영역만 감싼다.
+                child: AppToastScope(
+                  child: IndexedStack(
+                    // children을 MainTab.values에서 만들므로 순서가 어긋날 수 없다.
+                    index: tab.index,
+                    children: <Widget>[for (final MainTab each in MainTab.values) _screenOf(each)],
+                  ),
                 ),
               ),
               AppTabBar(current: tab, onChanged: (MainTab next) => _currentTab.value = next),
