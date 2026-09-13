@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// 탭에 대응하는 화면. `switch`라서 탭을 추가하면 컴파일러가 빠진 분기를 잡아준다.
   Widget _screenOf(MainTab tab) => switch (tab) {
-    MainTab.watchlist => const FavoritelistScreen(),
+    MainTab.watchlist => const FavoriteListScreen(),
     MainTab.search => const SearchScreen(),
   };
 

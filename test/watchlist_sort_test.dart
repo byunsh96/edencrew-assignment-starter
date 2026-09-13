@@ -24,7 +24,7 @@ void main() {
     FavoriteStock(symbol: '999999', name: '가상종목', marketName: '코스닥'),
   ];
 
-  late WatchlistController controller;
+  late FavoriteListController controller;
 
   setUp(() async {
     final FavoriteController favorites = FavoriteController();
@@ -34,7 +34,7 @@ void main() {
 
     final Dio dio = Dio()..httpClientAdapter = _MockAdapter();
     CoreRepository.instance = CoreRepository(dio: dio);
-    controller = WatchlistController(favoriteController: favorites);
+    controller = FavoriteListController(favoriteController: favorites);
 
     while (controller.isLoading) {
       await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -71,12 +71,9 @@ void main() {
         theme: AppTheme.dark,
         // 실제로는 showModalBottomSheet가 Material을 제공한다.
         home: Scaffold(
-          body: ChangeNotifierProvider<WatchlistController>.value(
+          body: ChangeNotifierProvider<FavoriteListController>.value(
             value: controller,
-            child: const WatchlistSortSheet(
-              selected: WatchlistSort.changeRate,
-              onSelected: _noop,
-            ),
+            child: const WatchlistSortSheet(selected: WatchlistSort.changeRate, onSelected: _noop),
           ),
         ),
       ),
@@ -95,8 +92,7 @@ void _noop(WatchlistSort _) {}
 
 /// 저장한 실시간 시세 응답을 돌려준다. 999999는 응답에 없다.
 class _MockAdapter implements HttpClientAdapter {
-  late final List<int> _realtime =
-      File('assets/mock/realtime_quote.json').readAsBytesSync();
+  late final List<int> _realtime = File('assets/mock/realtime_quote.json').readAsBytesSync();
 
   @override
   Future<ResponseBody> fetch(

@@ -14,31 +14,30 @@ import '../widgets/watchlist_row.dart';
 //TODO 리뷰 확인
 
 /// 관심 화면.
-class FavoritelistScreen extends StatelessWidget {
-  const FavoritelistScreen({super.key});
+class FavoriteListScreen extends StatelessWidget {
+  const FavoriteListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 화면 전용 컨트롤러라 화면 위젯에 붙인다. 화면이 사라지면 함께 dispose된다.
-    return ChangeNotifierProvider<WatchlistController>(
+    return ChangeNotifierProvider<FavoriteListController>(
       create: (BuildContext context) =>
-          WatchlistController(favoriteController: context.read<FavoriteController>()),
-      child: const _WatchlistView(),
+          FavoriteListController(favoriteController: context.read<FavoriteController>()),
+      child: const _FavoriteListView(),
     );
   }
 }
 
-class _WatchlistView extends StatelessWidget {
-  const _WatchlistView();
+class _FavoriteListView extends StatelessWidget {
+  const _FavoriteListView();
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         const WatchlistHeader(),
         Expanded(
-          child: Consumer<WatchlistController>(
-            builder: (BuildContext context, WatchlistController controller, _) {
+          child: Consumer<FavoriteListController>(
+            builder: (BuildContext context, FavoriteListController controller, _) {
               if (controller.isEmpty) {
                 return const AppEmptyView(
                   icon: AppIcons.star,

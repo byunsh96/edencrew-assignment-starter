@@ -10,9 +10,9 @@ import 'favorite_controller.dart';
 //TODO 리뷰 확인
 
 /// 관심 화면 상태.
-class WatchlistController extends ChangeNotifier {
-  WatchlistController({required FavoriteController favoriteController})
-      : _favoriteController = favoriteController {
+class FavoriteListController extends ChangeNotifier {
+  FavoriteListController({required FavoriteController favoriteController})
+    : _favoriteController = favoriteController {
     _favoriteController.addListener(_onFavoritesChanged);
     fetchQuotes();
   }
@@ -38,12 +38,7 @@ class WatchlistController extends ChangeNotifier {
   /// 관심 목록에 현재 시세를 붙이고 정렬해서 돌려준다.
   List<WatchlistItem> get items {
     final List<WatchlistItem> result = _favoriteController.items
-        .map(
-          (FavoriteStock stock) => WatchlistItem(
-            stock: stock,
-            quote: _quotes[stock.symbol],
-          ),
-        )
+        .map((FavoriteStock stock) => WatchlistItem(stock: stock, quote: _quotes[stock.symbol]))
         .toList();
 
     result.sort(_compare);
@@ -65,15 +60,12 @@ class WatchlistController extends ChangeNotifier {
     _hasError = false;
     notifyListeners();
 
-    final List<StockQuote> quotes =
-        await _stockRepository.getRealtimeQuotes(symbols);
+    final List<StockQuote> quotes = await _stockRepository.getRealtimeQuotes(symbols);
 
     // 관심 목록에서 빠진 종목의 시세가 남지 않도록 통째로 갈아끼운다.
     _quotes
       ..clear()
-      ..addEntries(
-        quotes.map((StockQuote e) => MapEntry<String, StockQuote>(e.symbol, e)),
-      );
+      ..addEntries(quotes.map((StockQuote e) => MapEntry<String, StockQuote>(e.symbol, e)));
 
     // 요청은 했는데 한 건도 못 받았다면 네트워크 문제로 본다.
     _hasError = quotes.isEmpty;

@@ -10,7 +10,6 @@ import 'app_svg_icon.dart';
 class AppEmptyView extends StatelessWidget {
   const AppEmptyView({required this.icon, required this.title, required this.description, super.key});
 
-  /// Figma 빈 상태 아이콘 크기.
   static const double _iconSize = 40;
 
   final String icon;

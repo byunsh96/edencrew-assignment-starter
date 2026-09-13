@@ -34,7 +34,7 @@ class WatchlistHeader extends StatelessWidget {
               const _SortChip(),
               SizedBox(width: dimens.space4),
               InkWell(
-                onTap: context.read<WatchlistController>().fetchQuotes,
+                onTap: context.read<FavoriteListController>().fetchQuotes,
                 child: AppSvgIcon(AppIcons.refresh, size: _iconSize, color: colors.textSecondary),
               ),
             ],
@@ -57,9 +57,10 @@ class _SortChip extends StatelessWidget {
       onTap: () => WatchlistSortSheet.show(context),
       child: Row(
         children: <Widget>[
-          Selector<WatchlistController, WatchlistSort>(
-            selector: (_, WatchlistController controller) => controller.sort,
-            builder: (_, WatchlistSort sort, _) => Text(sort.label, style: AppTextStyles.label.copyWith(color: colors.textSecondary)),
+          Selector<FavoriteListController, WatchlistSort>(
+            selector: (_, FavoriteListController controller) => controller.sort,
+            builder: (_, WatchlistSort sort, _) =>
+                Text(sort.label, style: AppTextStyles.label.copyWith(color: colors.textSecondary)),
           ),
           AppSvgIcon(AppIcons.align, size: WatchlistHeader._iconSize, color: colors.textSecondary),
         ],

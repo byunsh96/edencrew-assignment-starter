@@ -12,11 +12,7 @@ import '../../enums/watchlist_sort.dart';
 
 /// 정렬 기준을 고르는 바텀시트.
 class WatchlistSortSheet extends StatelessWidget {
-  const WatchlistSortSheet({
-    required this.selected,
-    required this.onSelected,
-    super.key,
-  });
+  const WatchlistSortSheet({required this.selected, required this.onSelected, super.key});
 
   /// Figma 시트 상단 라운드.
   static const double _sheetRadius = 16;
@@ -39,7 +35,7 @@ class WatchlistSortSheet extends StatelessWidget {
   /// 바텀시트는 별도 route라 상위 provider를 상속받지 못한다.
   /// 필요한 값만 꺼내 넘기고 결과를 콜백으로 돌려받는다.
   static Future<void> show(BuildContext context) {
-    final WatchlistController controller = context.read<WatchlistController>();
+    final FavoriteListController controller = context.read<FavoriteListController>();
 
     return showModalBottomSheet<void>(
       context: context,
@@ -61,9 +57,7 @@ class WatchlistSortSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: colors.surfaceOverlay,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(_sheetRadius),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(_sheetRadius)),
       ),
       child: SafeArea(
         top: false,
@@ -74,25 +68,15 @@ class WatchlistSortSheet extends StatelessWidget {
             SizedBox(
               height: _titleHeight,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: _horizontalPadding,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    '정렬',
-                    style: AppTextStyles.title
-                        .copyWith(color: colors.textPrimary),
-                  ),
+                  child: Text('정렬', style: AppTextStyles.title.copyWith(color: colors.textPrimary)),
                 ),
               ),
             ),
             for (final WatchlistSort sort in WatchlistSort.values)
-              _Option(
-                sort: sort,
-                isSelected: sort == selected,
-                onTap: () => onSelected(sort),
-              ),
+              _Option(sort: sort, isSelected: sort == selected, onTap: () => onSelected(sort)),
           ],
         ),
       ),
@@ -101,11 +85,7 @@ class WatchlistSortSheet extends StatelessWidget {
 }
 
 class _Option extends StatelessWidget {
-  const _Option({
-    required this.sort,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _Option({required this.sort, required this.isSelected, required this.onTap});
 
   final WatchlistSort sort;
   final bool isSelected;
@@ -120,17 +100,14 @@ class _Option extends StatelessWidget {
       child: SizedBox(
         height: WatchlistSortSheet._optionHeight,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: WatchlistSortSheet._horizontalPadding,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: WatchlistSortSheet._horizontalPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 sort.label,
                 style: AppTextStyles.body.copyWith(
-                  color:
-                      isSelected ? colors.textPrimary : colors.textSecondary,
+                  color: isSelected ? colors.textPrimary : colors.textSecondary,
                 ),
               ),
               if (isSelected)
