@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
-import '../../../../models/favorite_stock.dart';
+import '../../../../models/stock.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
@@ -21,7 +21,7 @@ class StockDetailAppBar extends StatelessWidget {
   /// Figma 상단바 세로 여백.
   static const double _verticalPadding = 10;
 
-  final FavoriteStock stock;
+  final Stock stock;
   final ValueChanged<bool> onFavoriteToggled;
 
   @override

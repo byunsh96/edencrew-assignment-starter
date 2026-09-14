@@ -1,7 +1,7 @@
 import '../constants/naver_api.dart';
 import '../core/models/api_response.dart';
 import '../core/repository/core_repository.dart';
-import '../domains/stock_search/models/stock_search_item.dart';
+import '../models/stock.dart';
 import '../domains/stock_detail/models/daily_quote_page.dart';
 import '../models/stock_meta.dart';
 import '../models/stock_quote.dart';
@@ -25,7 +25,7 @@ class StockRepository {
   final CoreRepository _coreRepository;
 
   //GET https://ac.stock.naver.com/ac (검색 자동완성)
-  Future<List<StockSearchItem>> getAutoComplete(String keyword) async {
+  Future<List<Stock>> getAutoComplete(String keyword) async {
     try {
       final ApiResponse response = await _coreRepository.getData(
         NaverApi.autoComplete,
@@ -33,18 +33,18 @@ class StockRepository {
       );
 
       final Map<String, dynamic>? json = response.asMap;
-      if (json == null) return <StockSearchItem>[];
+      if (json == null) return <Stock>[];
 
       // 지수·ETF·해외 종목이 함께 내려오므로 국내 주식만 남긴다.
       return ParseUtil.parseList<Map<String, dynamic>>(
         json,
         'items',
         (Map<String, dynamic> item) => item,
-      ).where(StockSearchItem.isDomesticStock).map(StockSearchItem.fromJson).toList();
+      ).where(Stock.isDomesticStock).map(Stock.fromJson).toList();
     } catch (e) {
       LogUtil().logError('getAutoComplete: $e', module: _file);
     }
-    return <StockSearchItem>[];
+    return <Stock>[];
   }
 
   //GET https://polling.finance.naver.com/api/realtime (실시간 시세)

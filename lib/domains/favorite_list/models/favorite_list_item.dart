@@ -1,4 +1,4 @@
-import '../../../models/favorite_stock.dart';
+import '../../../models/stock.dart';
 import '../../../models/stock_quote.dart';
 
 /// 관심 목록 한 행.
@@ -7,7 +7,7 @@ import '../../../models/stock_quote.dart';
 class FavoriteListItem {
   const FavoriteListItem({required this.stock, this.quote});
 
-  final FavoriteStock stock;
+  final Stock stock;
   final StockQuote? quote;
 
   bool get hasQuote => quote != null;

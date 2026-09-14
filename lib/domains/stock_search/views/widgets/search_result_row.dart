@@ -3,12 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
-import '../../../../models/favorite_stock.dart';
+import '../../../../models/stock.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
-import '../../models/stock_search_item.dart';
 
 /// 검색 결과 한 행. 종목명(검색어 하이라이트) · 코드 · 관심 토글.
 class SearchResultRow extends StatelessWidget {
@@ -20,7 +19,7 @@ class SearchResultRow extends StatelessWidget {
     super.key,
   });
 
-  final StockSearchItem item;
+  final Stock item;
   final String keyword;
   final ValueChanged<bool> onFavoriteToggled;
   final VoidCallback? onTap;
@@ -94,7 +93,7 @@ class SearchResultRow extends StatelessWidget {
 class _FavoriteButton extends StatelessWidget {
   const _FavoriteButton({required this.item, required this.onToggled});
 
-  final StockSearchItem item;
+  final Stock item;
   final ValueChanged<bool> onToggled;
 
   @override
@@ -107,9 +106,7 @@ class _FavoriteButton extends StatelessWidget {
       selector: (_, FavoriteController controller) => controller.contains(item.symbol),
       builder: (BuildContext context, bool isFavorite, _) => AppInkWell(
         onTap: () {
-          final bool added = context.read<FavoriteController>().toggle(
-            FavoriteStock(symbol: item.symbol, name: item.name, marketName: item.marketName),
-          );
+          final bool added = context.read<FavoriteController>().toggle(item);
           onToggled(added);
         },
         child: AppSvgIcon(

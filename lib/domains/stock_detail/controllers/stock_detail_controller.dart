@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 
-import '../../../models/favorite_stock.dart';
+import '../../../models/stock.dart';
 import '../../../models/stock_quote.dart';
 import '../../../repository/stock_repository.dart';
 import '../../favorite_list/controllers/favorite_controller.dart';
@@ -16,7 +16,7 @@ import '../models/daily_quote_page.dart';
 class StockDetailController extends ChangeNotifier {
   StockDetailController({
     required FavoriteController favoriteController,
-    required FavoriteStock stock,
+    required Stock stock,
   })  : _favoriteController = favoriteController,
         _stock = stock {
     _load();
@@ -24,7 +24,7 @@ class StockDetailController extends ChangeNotifier {
 
   final StockRepository _stockRepository = StockRepository();
   final FavoriteController _favoriteController;
-  final FavoriteStock _stock;
+  final Stock _stock;
 
   /// 페이지 번호 -> 그 페이지의 일별 시세.
   ///
@@ -40,7 +40,7 @@ class StockDetailController extends ChangeNotifier {
   bool _isLoading = true;
   bool _isPeriodLoading = false;
 
-  FavoriteStock get stock => _stock;
+  Stock get stock => _stock;
 
   StockQuote? get quote => _quote;
 

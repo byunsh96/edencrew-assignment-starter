@@ -4,11 +4,10 @@ import 'package:provider/provider.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_empty_view.dart';
-import '../../../../models/favorite_stock.dart';
+import '../../../../models/stock.dart';
 import '../../../../widgets/app_toast.dart';
 import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/stock_search_controller.dart';
-import '../../models/stock_search_item.dart';
 import '../widgets/search_field.dart';
 import '../widgets/search_result_row.dart';
 
@@ -75,7 +74,7 @@ class _SearchViewState extends State<_SearchView> {
                 );
               }
 
-              final List<StockSearchItem> results = controller.results;
+              final List<Stock> results = controller.results;
               if (results.isEmpty) {
                 return AppEmptyView(
                   icon: AppIcons.searchEmpty,
@@ -91,14 +90,7 @@ class _SearchViewState extends State<_SearchView> {
                   item: results[index],
                   keyword: controller.keyword,
                   onFavoriteToggled: _onFavoriteToggled,
-                  onTap: () => StockDetailScreen.push(
-                    context,
-                    FavoriteStock(
-                      symbol: results[index].symbol,
-                      name: results[index].name,
-                      marketName: results[index].marketName,
-                    ),
-                  ),
+                  onTap: () => StockDetailScreen.push(context, results[index]),
                 ),
               );
             },

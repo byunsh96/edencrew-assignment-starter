@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../models/favorite_stock.dart';
+import '../../../models/stock.dart';
 
 //TODO 리뷰 확인
 
@@ -9,28 +9,28 @@ import '../../../models/favorite_stock.dart';
 /// 유일하게 전역(`AppProviders.global`)에 올리는 컨트롤러다.
 /// 화면별로 목록을 복사해 들고 있지 않는다.
 class FavoriteController extends ChangeNotifier {
-  final List<FavoriteStock> _items = <FavoriteStock>[];
+  final List<Stock> _items = <Stock>[];
 
   /// 등록한 순서를 유지한다. 정렬은 화면 컨트롤러가 맡는다.
-  List<FavoriteStock> get items => List<FavoriteStock>.unmodifiable(_items);
+  List<Stock> get items => List<Stock>.unmodifiable(_items);
 
   List<String> get symbols =>
-      _items.map((FavoriteStock e) => e.symbol).toList(growable: false);
+      _items.map((Stock e) => e.symbol).toList(growable: false);
 
   bool get isEmpty => _items.isEmpty;
 
   bool contains(String symbol) =>
-      _items.any((FavoriteStock e) => e.symbol == symbol);
+      _items.any((Stock e) => e.symbol == symbol);
 
   /// 관심 등록 / 해제를 뒤집고 결과를 돌려준다.
   ///
   /// 토스트 문구가 등록과 해제로 갈리므로 호출부가 결과를 알아야 한다.
-  bool toggle(FavoriteStock stock) {
+  bool toggle(Stock stock) {
     final bool willAdd = !contains(stock.symbol);
     if (willAdd) {
       _items.add(stock);
     } else {
-      _items.removeWhere((FavoriteStock e) => e.symbol == stock.symbol);
+      _items.removeWhere((Stock e) => e.symbol == stock.symbol);
     }
     notifyListeners();
     return willAdd;
@@ -38,7 +38,7 @@ class FavoriteController extends ChangeNotifier {
 
   void remove(String symbol) {
     if (!contains(symbol)) return;
-    _items.removeWhere((FavoriteStock e) => e.symbol == symbol);
+    _items.removeWhere((Stock e) => e.symbol == symbol);
     notifyListeners();
   }
 }

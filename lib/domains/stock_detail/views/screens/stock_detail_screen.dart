@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/app_text_styles.dart';
-import '../../../../models/favorite_stock.dart';
+import '../../../../models/stock.dart';
 import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_toast.dart';
@@ -22,10 +22,10 @@ import '../widgets/stock_price_header.dart';
 class StockDetailScreen extends StatelessWidget {
   const StockDetailScreen({required this.stock, super.key});
 
-  final FavoriteStock stock;
+  final Stock stock;
 
   /// 관심 · 검색 목록에서 이 화면으로 이동한다.
-  static Future<void> push(BuildContext context, FavoriteStock stock) {
+  static Future<void> push(BuildContext context, Stock stock) {
     return Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => StockDetailScreen(stock: stock),
@@ -53,7 +53,7 @@ class _StockDetailView extends StatelessWidget {
   static const double _sectionGap = 24;
   static const double _priceGroupGap = 16;
 
-  final FavoriteStock stock;
+  final Stock stock;
 
   void _onFavoriteToggled(BuildContext context, bool added) =>
       AppToast.favorite(context, added: added);

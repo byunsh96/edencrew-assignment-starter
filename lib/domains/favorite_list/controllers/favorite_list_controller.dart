@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../models/favorite_stock.dart';
+import '../../../models/stock.dart';
 import '../../../models/stock_quote.dart';
 import '../../../repository/stock_repository.dart';
 import '../enums/favorite_list_sort.dart';
@@ -38,7 +38,7 @@ class FavoriteListController extends ChangeNotifier {
   /// 관심 목록에 현재 시세를 붙이고 정렬해서 돌려준다.
   List<FavoriteListItem> get items {
     final List<FavoriteListItem> result = _favoriteController.items
-        .map((FavoriteStock stock) => FavoriteListItem(stock: stock, quote: _quotes[stock.symbol]))
+        .map((Stock stock) => FavoriteListItem(stock: stock, quote: _quotes[stock.symbol]))
         .toList();
 
     result.sort(_compare);
