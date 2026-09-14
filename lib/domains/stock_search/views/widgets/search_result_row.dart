@@ -105,7 +105,7 @@ class _FavoriteButton extends StatelessWidget {
     // 관심 상태만 구독한다. 목록 전체가 아니라 이 행만 다시 그린다.
     return Selector<FavoriteController, bool>(
       selector: (_, FavoriteController controller) => controller.contains(item.symbol),
-      builder: (BuildContext context, bool isFavorite, _) => InkWell(
+      builder: (BuildContext context, bool isFavorite, _) => AppInkWell(
         onTap: () {
           final bool added = context.read<FavoriteController>().toggle(
             FavoriteStock(symbol: item.symbol, name: item.name, marketName: item.marketName),

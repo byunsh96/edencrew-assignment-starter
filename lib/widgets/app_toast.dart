@@ -13,7 +13,7 @@ import 'app_svg_icon.dart';
 /// - 이미 떠 있는 토스트가 있으면 교체한다. 빠르게 여러 번 누를 때 쌓이면
 ///   마지막 동작의 결과를 알 수 없다.
 abstract final class AppToast {
-  static const Duration _visibleDuration = Duration(seconds: 2);
+  static const Duration _visibleDuration = Duration(seconds: 10);
   static const Duration _fadeDuration = Duration(milliseconds: 200);
 
   static OverlayEntry? _current;
@@ -131,17 +131,18 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
               color: colors.surfaceOverlay,
               borderRadius: BorderRadius.circular(dimens.radiusLg),
               boxShadow: <BoxShadow>[
-                BoxShadow(color: AppColors.dropShadow, blurRadius: 24, offset: Offset(0, 8)),
+                BoxShadow(color: colors.dropShadow, blurRadius: 24, offset: Offset(0, 8)),
               ],
             ),
             child: Row(
+              spacing: dimens.space2,
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 AppSvgIcon(widget.icon, size: dimens.iconSmMd, color: widget.iconColor),
-                SizedBox(width: dimens.space2),
                 Flexible(
                   child: Text(
                     widget.message,
+                    textAlign: TextAlign.left,
                     style: AppTextStyles.label.copyWith(color: colors.textPrimary),
                   ),
                 ),

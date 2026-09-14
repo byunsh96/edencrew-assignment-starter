@@ -12,8 +12,6 @@ import '../../models/stock_search_item.dart';
 import '../widgets/search_field.dart';
 import '../widgets/search_result_row.dart';
 
-//TODO 리뷰 확인
-
 /// 검색 화면.
 class StockSearchScreen extends StatelessWidget {
   const StockSearchScreen({super.key});

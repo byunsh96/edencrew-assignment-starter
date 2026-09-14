@@ -45,5 +45,5 @@ abstract final class AppPalette {
   // 하단 시트 FAFAFA 색상
   static const Color fafafa = Color(0xFFFAFAFA);
   // drop shadow에 사용될 000000
-  static const Color neutral1000 = Color(0xFF000000);
+  static const Color dropShadow = Color(0x8C000000);
 }

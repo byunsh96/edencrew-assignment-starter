@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'app_palette.dart';
 
-//TODO summer + 추가 필요 부분있는지 확인
-
 /// Figma `Semantic` 컬렉션(Dark 모드)을 옮긴 시맨틱 색상 토큰입니다.
 ///
 /// 화면 코드에서는 `context.colors.priceUpText` 형태로 사용해 주세요.
@@ -45,6 +43,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.feedbackWarning,
     required this.feedbackSkeleton,
     required this.searchHighlight,
+    required this.dropShadow,
   });
 
   /// Figma `Semantic` 컬렉션의 Dark 모드 값입니다.
@@ -82,7 +81,8 @@ class AppColors extends ThemeExtension<AppColors> {
       navInactive = AppPalette.neutral300,
       feedbackWarning = AppPalette.amber500,
       feedbackSkeleton = AppPalette.neutral700,
-      searchHighlight = AppPalette.violet500;
+      searchHighlight = AppPalette.violet500,
+      dropShadow = AppPalette.dropShadow;
 
   /// 화면 배경 계층.
   final Color surfaceBase;
@@ -142,8 +142,8 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 검색 결과에서 검색어와 일치하는 부분.
   final Color searchHighlight;
 
-  // drop shadow
-  static Color get dropShadow => AppPalette.neutral1000.withValues(alpha: 0.55);
+  /// drop shadow
+  final Color dropShadow;
 
   @override
   AppColors copyWith({
@@ -181,6 +181,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? feedbackWarning,
     Color? feedbackSkeleton,
     Color? searchHighlight,
+    Color? dropShadow,
   }) {
     return AppColors(
       surfaceBase: surfaceBase ?? this.surfaceBase,
@@ -217,6 +218,7 @@ class AppColors extends ThemeExtension<AppColors> {
       feedbackWarning: feedbackWarning ?? this.feedbackWarning,
       feedbackSkeleton: feedbackSkeleton ?? this.feedbackSkeleton,
       searchHighlight: searchHighlight ?? this.searchHighlight,
+      dropShadow: dropShadow ?? this.dropShadow,
     );
   }
 
@@ -258,6 +260,7 @@ class AppColors extends ThemeExtension<AppColors> {
       feedbackWarning: Color.lerp(feedbackWarning, other.feedbackWarning, t)!,
       feedbackSkeleton: Color.lerp(feedbackSkeleton, other.feedbackSkeleton, t)!,
       searchHighlight: Color.lerp(searchHighlight, other.searchHighlight, t)!,
+      dropShadow: Color.lerp(dropShadow, other.dropShadow, t)!,
     );
   }
 }
