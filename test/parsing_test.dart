@@ -13,18 +13,21 @@ import 'package:edencrew_assignment_starter/models/stock_model.dart';
 /// `assets/mock/`에 저장해 둔 실제 응답으로 파싱을 검증한다.
 ///
 /// 네이버 endpoint는 호출이 잦으면 차단될 수 있어 저장본으로 테스트한다.
+///
+/// 종목명은 화면만 보고 mock 여부를 구분하려고 가상 이름(`성훈전자` …)으로 바꿔 두었다.
+/// 종목코드·가격·날짜는 실제 응답 그대로다. (`assets/mock/README.md`)
 void main() {
-  Map<String, dynamic> readJson(String name, {required bool isEucKr}) {
+  /// JSON mock 3개는 저장할 때 UTF-8로 옮겼다.
+  /// 실시간 시세는 실제로 EUC-KR로 오지만, 그 디코딩은 저장본을 다시 CP949로 인코딩해
+  /// `CoreRepository`에 태우는 `page_cache_test`·`watchlist_sort_test`가 검증한다.
+  Map<String, dynamic> readJson(String name) {
     final List<int> bytes = File('assets/mock/$name').readAsBytesSync();
-    final String body = isEucKr
-        ? cp949.decode(bytes, allowInvalid: true)
-        : utf8.decode(bytes, allowMalformed: true);
-    return jsonDecode(body) as Map<String, dynamic>;
+    return jsonDecode(utf8.decode(bytes, allowMalformed: true)) as Map<String, dynamic>;
   }
 
   group('검색 자동완성', () {
     test('국내 6자리 종목코드만 통과시킨다', () {
-      final Map<String, dynamic> json = readJson('auto_complete.json', isEucKr: false);
+      final Map<String, dynamic> json = readJson('auto_complete.json');
 
       final List<StockModel> items = ParseUtil.parseList<Map<String, dynamic>>(
         json,
@@ -39,7 +42,7 @@ void main() {
       }
 
       final StockModel samsung = items.firstWhere((StockModel e) => e.symbol == '005930');
-      expect(samsung.name, '삼성전자');
+      expect(samsung.name, '성훈전자');
       expect(samsung.marketName, '코스피');
       expect(samsung.canonicalId, 'domestic:005930');
       expect(samsung.symbolWithMarket, '005930 · 코스피');
@@ -47,8 +50,8 @@ void main() {
   });
 
   group('실시간 시세', () {
-    test('EUC-KR 응답에서 종목명이 깨지지 않는다', () {
-      final Map<String, dynamic> json = readJson('realtime_quote.json', isEucKr: true);
+    test('datas에서 종목명과 시세를 읽는다', () {
+      final Map<String, dynamic> json = readJson('realtime_quote.json');
       final Map<String, dynamic> area = Map<String, dynamic>.from(
         ((json['result'] as Map<String, dynamic>)['areas'] as List<dynamic>).first
             as Map<dynamic, dynamic>,
@@ -65,13 +68,13 @@ void main() {
       final StockQuoteModel samsung = quotes.firstWhere(
         (StockQuoteModel e) => e.symbol == '005930',
       );
-      expect(samsung.name, '삼성전자'); // UTF-8로 읽으면 깨진다
+      expect(samsung.name, '성훈전자');
       expect(samsung.currentPrice, greaterThan(0));
       expect(samsung.listedShareCount, greaterThan(0));
     });
 
     test('등락은 응답 값이 아니라 nv - pcv로 계산한다', () {
-      final Map<String, dynamic> json = readJson('realtime_quote.json', isEucKr: true);
+      final Map<String, dynamic> json = readJson('realtime_quote.json');
       final Map<String, dynamic> area = Map<String, dynamic>.from(
         ((json['result'] as Map<String, dynamic>)['areas'] as List<dynamic>).first
             as Map<dynamic, dynamic>,
@@ -97,10 +100,10 @@ void main() {
 
   group('종목 메타', () {
     test('종목명과 거래소명을 읽는다', () {
-      final StockModel meta = StockModel.fromMetaJson(readJson('stock_meta.json', isEucKr: false));
+      final StockModel meta = StockModel.fromMetaJson(readJson('stock_meta.json'));
 
       expect(meta.symbol, '005930');
-      expect(meta.name, '삼성전자');
+      expect(meta.name, '성훈전자');
       expect(meta.marketName, '코스피');
       expect(meta.symbolWithMarket, '005930 · 코스피');
     });

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cp949_codec/cp949_codec.dart';
 import 'package:dio/dio.dart';
 import 'package:edencrew_assignment_starter/core/repository/core_repository.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
@@ -56,6 +57,15 @@ void main() {
     expect(prices, List<int>.from(prices)..sort((int a, int b) => b - a));
   });
 
+  test('EUC-KR 응답을 거쳐도 종목명이 깨지지 않는다', () {
+    // UTF-8로 읽으면 여기서 깨진다. 실시간 시세는 JSON인데도 EUC-KR로 온다.
+    final FavoriteListItemModel item = controller.items.firstWhere(
+      (FavoriteListItemModel e) => e.stock.symbol == '005930',
+    );
+
+    expect(item.quote!.name, '성훈전자');
+  });
+
   test('가나다순에서도 시세 미수신 행은 뒤로 간다', () {
     controller.changeSort(FavoriteListSort.name);
     final List<FavoriteListItemModel> items = controller.items;
@@ -95,7 +105,11 @@ void _noop(FavoriteListSort _) {}
 
 /// 저장한 실시간 시세 응답을 돌려준다. 999999는 응답에 없다.
 class _MockAdapter implements HttpClientAdapter {
-  late final List<int> _realtime = File('assets/mock/realtime_quote.json').readAsBytesSync();
+  /// 저장본은 UTF-8이지만 실제 endpoint는 EUC-KR로 준다.
+  /// 실제 응답과 같은 바이트를 내보내야 `CoreRepository`의 디코딩까지 검증된다.
+  late final List<int> _realtime = cp949.encode(
+    File('assets/mock/realtime_quote.json').readAsStringSync(),
+  );
 
   @override
   Future<ResponseBody> fetch(

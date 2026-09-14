@@ -86,8 +86,10 @@ class _RecordingAdapter implements HttpClientAdapter {
 
   late final List<int> _dailyHtml =
       File('assets/mock/daily_quote.html').readAsBytesSync();
-  late final List<int> _realtimeJson =
-      File('assets/mock/realtime_quote.json').readAsBytesSync();
+  /// 저장본은 UTF-8이지만 실제 endpoint는 EUC-KR로 준다. 실제 응답과 같은 바이트로 맞춘다.
+  late final List<int> _realtimeJson = cp949.encode(
+    File('assets/mock/realtime_quote.json').readAsStringSync(),
+  );
 
   @override
   Future<ResponseBody> fetch(
