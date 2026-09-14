@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/app_icons.dart';
-import '../../../../constants/app_text_styles.dart';
 import '../../../../models/stock.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
+import '../../../../widgets/stock_label.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
 
 /// 검색 결과 한 행. 종목명(검색어 하이라이트) · 코드 · 관심 토글.
@@ -41,21 +41,7 @@ class SearchResultRow extends StatelessWidget {
         child: Row(
           spacing: dimens.space3,
           children: [
-            Expanded(
-              child: Column(
-                spacing: dimens.spaceHalf,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text.rich(_highlighted(colors), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  Text(
-                    item.symbolWithMarket,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: StockLabel.highlighted(stock: item, keyword: keyword)),
             _FavoriteButton(item: item, onToggled: onFavoriteToggled),
           ],
         ),
@@ -63,31 +49,6 @@ class SearchResultRow extends StatelessWidget {
     );
   }
 
-  /// 종목명에서 검색어와 일치하는 부분만 강조한다.
-  TextSpan _highlighted(AppColors colors) {
-    final TextStyle base = AppTextStyles.body.copyWith(color: colors.textPrimary);
-    final String trimmed = keyword.trim();
-
-    if (trimmed.isEmpty) {
-      return TextSpan(text: item.name, style: base);
-    }
-
-    final int start = item.name.toLowerCase().indexOf(trimmed.toLowerCase());
-    if (start < 0) return TextSpan(text: item.name, style: base);
-
-    final int end = start + trimmed.length;
-    return TextSpan(
-      style: base,
-      children: [
-        TextSpan(text: item.name.substring(0, start)),
-        TextSpan(
-          text: item.name.substring(start, end),
-          style: TextStyle(color: colors.searchHighlight),
-        ),
-        TextSpan(text: item.name.substring(end)),
-      ],
-    );
-  }
 }
 
 class _FavoriteButton extends StatelessWidget {

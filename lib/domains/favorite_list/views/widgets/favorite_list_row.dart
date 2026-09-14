@@ -1,9 +1,9 @@
 import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/quote_cell.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_text_styles.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
+import '../../../../widgets/stock_label.dart';
 import '../../models/favorite_list_item.dart';
 
 /// 관심 목록 한 행. 종목명 · 코드 · 현재가 · 등락.
@@ -32,26 +32,7 @@ class FavoriteListRow extends StatelessWidget {
         child: Row(
           spacing: dimens.space3,
           children: [
-            Expanded(
-              child: Column(
-                spacing: dimens.spaceHalf,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.stock.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.body.copyWith(color: colors.textPrimary),
-                  ),
-                  Text(
-                    item.stock.symbolWithMarket,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: StockLabel(stock: item.stock)),
             QuoteCell(quote: item.quote),
           ],
         ),
