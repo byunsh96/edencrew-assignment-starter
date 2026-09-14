@@ -4,7 +4,6 @@ import 'package:cp949_codec/cp949_codec.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../constants/dev_config.dart';
 import '../../utils/log_util.dart';
 import '../models/api_response.dart';
 
@@ -34,6 +33,10 @@ class CoreRepository {
   static const String _file = 'CoreRepository';
 
   static const Duration _timeout = Duration(seconds: 10);
+
+  /// 네트워크 로그에 찍을 응답 본문의 최대 길이.
+  /// 일별 시세 HTML은 한 페이지가 수만 자라 그대로 찍으면 콘솔이 덮인다.
+  static const int _logBodyLimit = 500;
 
   /// finance.naver.com은 기본 UA로 요청하면 응답을 주지 않는 경우가 있다.
   static const String _userAgent =
@@ -149,7 +152,7 @@ class CoreRepository {
   /// 응답 본문이 길면 앞부분만 남긴다. 일별 시세 HTML은 한 페이지가 수만 자다.
   String _summarize(String? body) {
     if (body == null) return '';
-    if (body.length <= DevConfig.networkLogBodyLimit) return body;
-    return '${body.substring(0, DevConfig.networkLogBodyLimit)}... (${body.length}자)';
+    if (body.length <= _logBodyLimit) return body;
+    return '${body.substring(0, _logBodyLimit)}... (${body.length}자)';
   }
 }
