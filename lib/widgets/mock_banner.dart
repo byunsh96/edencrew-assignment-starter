@@ -4,8 +4,6 @@ import '../constants/app_text_styles.dart';
 import '../theme/theme.dart';
 import '../utils/mock_notice.dart';
 
-//TODO 리뷰 확인
-
 /// 저장된 mock 응답이 화면에 쓰이고 있음을 알리는 띠.
 ///
 /// 네이버가 차단하면 `assets/mock/`의 과거 응답으로 화면을 이어가는데,
@@ -34,10 +32,7 @@ class MockBanner extends StatelessWidget {
                 bottom: false,
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: dimens.space4,
-                    vertical: dimens.space2,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space2),
                   child: Text(
                     '저장된 mock 응답 사용 중 · ${sources.join(" · ")}',
                     textAlign: TextAlign.center,

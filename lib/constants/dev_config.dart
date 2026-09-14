@@ -1,5 +1,3 @@
-//TODO 리뷰 확인
-
 /// 개발 중에만 켜는 플래그.
 abstract final class DevConfig {
   /// 네이버가 차단하거나 5xx를 돌려줄 때 `assets/mock/`에 저장해 둔 응답으로 이어간다.

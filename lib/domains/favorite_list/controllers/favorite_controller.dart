@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../../models/stock_model.dart';
 
-//TODO 리뷰 확인
-
 /// 관심 종목 상태. 관심 · 검색 · 상세 세 화면이 같은 인스턴스를 본다.
 ///
 /// 유일하게 전역(`AppProviders.global`)에 올리는 컨트롤러다.
@@ -14,13 +12,11 @@ class FavoriteController extends ChangeNotifier {
   /// 등록한 순서를 유지한다. 정렬은 화면 컨트롤러가 맡는다.
   List<StockModel> get items => List<StockModel>.unmodifiable(_items);
 
-  List<String> get symbols =>
-      _items.map((StockModel e) => e.symbol).toList(growable: false);
+  List<String> get symbols => _items.map((StockModel e) => e.symbol).toList(growable: false);
 
   bool get isEmpty => _items.isEmpty;
 
-  bool contains(String symbol) =>
-      _items.any((StockModel e) => e.symbol == symbol);
+  bool contains(String symbol) => _items.any((StockModel e) => e.symbol == symbol);
 
   /// [StockModel.canonicalId] 기준으로 등록 여부를 본다.
   bool containsStock(StockModel stock) => _items.contains(stock);

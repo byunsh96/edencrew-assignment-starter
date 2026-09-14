@@ -5,8 +5,6 @@ import 'app_dimens.dart';
 import 'app_palette.dart';
 import 'app_typography.dart';
 
-//TODO summer + 추가 필요 부분있는지 확인
-
 /// 앱 전역 테마입니다.
 ///
 /// `MaterialApp`에 아래와 같이 연결해서 사용해 주세요.
@@ -49,9 +47,7 @@ abstract final class AppTheme {
 /// SizedBox(height: context.dimens.space4)
 /// ```
 extension AppThemeContext on BuildContext {
-  AppColors get colors =>
-      Theme.of(this).extension<AppColors>() ?? const AppColors.dark();
+  AppColors get colors => Theme.of(this).extension<AppColors>() ?? const AppColors.dark();
 
-  AppDimens get dimens =>
-      Theme.of(this).extension<AppDimens>() ?? const AppDimens.standard();
+  AppDimens get dimens => Theme.of(this).extension<AppDimens>() ?? const AppDimens.standard();
 }

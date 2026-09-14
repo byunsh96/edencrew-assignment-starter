@@ -2,8 +2,6 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
 
-//TODO summer + 추가 필요 부분있는지 확인
-
 /// Figma `Scale` 컬렉션을 옮긴 간격 / 반경 / 크기 토큰입니다.
 ///
 /// 화면 코드에서는 `context.dimens.space4` 형태로 사용해 주세요.

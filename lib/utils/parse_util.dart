@@ -1,7 +1,5 @@
 import 'log_util.dart';
 
-//TODO 리뷰 확인
-
 /// JSON 필드를 타입 안전하게 꺼낸다.
 ///
 /// 네이버 응답은 같은 자리에 숫자가 오기도 하고 `"1,234"` 같은 문자열이 오기도 한다.
@@ -84,9 +82,8 @@ abstract final class ParseUtil {
   }
 
   /// 일별 시세 HTML의 숫자에는 쉼표와 개행, non-breaking space(`\u00A0`)가 섞여 있다.
-  static String _stripNumberNoise(String raw) => raw
-      .replaceAll(RegExp(r'[,\s\u00A0]'), '')
-      .replaceFirst(RegExp(r'^\+'), '');
+  static String _stripNumberNoise(String raw) =>
+      raw.replaceAll(RegExp(r'[,\s\u00A0]'), '').replaceFirst(RegExp(r'^\+'), '');
 
   static T _emptyOf<T>(String key) {
     if (T == String) return '' as T;

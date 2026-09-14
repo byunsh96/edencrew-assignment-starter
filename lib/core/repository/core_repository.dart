@@ -7,12 +7,8 @@ import 'package:flutter/foundation.dart';
 import '../../utils/log_util.dart';
 import '../models/api_response_model.dart';
 
-//TODO 리뷰 확인
-
 /// 모든 네트워크 요청이 지나가는 지점.
-///
-/// 네이버 endpoint는 호스트가 서로 달라 `baseUrl`을 두지 않는다.
-/// 호출부가 `NaverApi`의 전체 URL을 그대로 넘긴다.
+
 class CoreRepository {
   CoreRepository({Dio? dio}) : _dio = dio ?? Dio(_defaultOptions);
 

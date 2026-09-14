@@ -117,8 +117,10 @@ void main() {
       page = DailyQuotePageModel.fromHtml(html, requestedPage: 1);
     });
 
+    final int rowsPerPage = 10;
+
     test('한 페이지에서 거래일 10건을 읽는다', () {
-      expect(page.quotes.length, DailyQuotePageModel.rowsPerPage);
+      expect(page.quotes.length, rowsPerPage);
       expect(page.isEmpty, isFalse);
     });
 

@@ -1,8 +1,4 @@
-//TODO 리뷰 확인
-
 /// 네이버 증권 endpoint 모음.
-///
-/// endpoint마다 호스트가 달라 `CoreRepository`에 `baseUrl`을 두지 않는다.
 /// 호출부는 여기 상수를 전체 URL 그대로 넘긴다.
 abstract final class NaverApi {
   /// 검색 자동완성. query: `q`, `target`

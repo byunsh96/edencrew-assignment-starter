@@ -5,8 +5,6 @@ import '../constants/dev_config.dart';
 import '../utils/log_util.dart';
 import '../utils/mock_notice.dart';
 
-//TODO 리뷰 확인
-
 /// `assets/mock/`에 저장해 둔 응답을 읽는다.
 ///
 /// 네이버 endpoint는 호출이 잦으면 차단될 수 있어 개발 중 대체 경로로 쓴다.

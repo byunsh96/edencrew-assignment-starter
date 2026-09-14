@@ -14,5 +14,3 @@ export 'app_dimens.dart';
 export 'app_palette.dart';
 export 'app_theme.dart';
 export 'app_typography.dart';
-
-//TODO summer + 추가 필요 부분있는지 확인

@@ -1,5 +1,3 @@
-//TODO 리뷰 확인
-
 /// 화면 표기용 포맷 변환.
 ///
 /// 모델은 계산까지만 책임지고, 문자열 표기는 여기로 모은다.
@@ -68,6 +66,5 @@ abstract final class FormatUtil {
   }
 
   /// 날짜를 `yyyyMMdd`로 정규화한다. `2026.09.11`, `2026-09-11` 모두 받는다.
-  static String normalizeDate(String raw) =>
-      raw.replaceAll(RegExp(r'[^0-9]'), '');
+  static String normalizeDate(String raw) => raw.replaceAll(RegExp(r'[^0-9]'), '');
 }
