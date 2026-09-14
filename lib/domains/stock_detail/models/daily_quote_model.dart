@@ -12,6 +12,7 @@ class DailyQuoteModel {
     required this.change,
   });
 
+  //날짜는 앱 내부에서 yyyyMMdd 기준으로 정규화해서 사용합니다. DateTime 보단 String 타입 사용이유
   final String localDate;
   final int closePrice;
   final int openPrice;

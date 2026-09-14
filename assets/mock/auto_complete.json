@@ -1,9 +1,9 @@
 {
-  "query": "삼성",
+  "query": "성훈",
   "items": [
     {
       "code": "005930",
-      "name": "삼성전자",
+      "name": "성훈전자",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/005930/total",
@@ -15,7 +15,7 @@
     },
     {
       "code": "009150",
-      "name": "삼성전기",
+      "name": "성훈전기",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/009150/total",
@@ -27,7 +27,7 @@
     },
     {
       "code": "006400",
-      "name": "삼성SDI",
+      "name": "성훈SDI",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/006400/total",
@@ -39,7 +39,7 @@
     },
     {
       "code": "010140",
-      "name": "삼성중공업",
+      "name": "성훈중공업",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/010140/total",
@@ -51,7 +51,7 @@
     },
     {
       "code": "005935",
-      "name": "삼성전자우",
+      "name": "성훈전자우",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/005935/total",
@@ -63,7 +63,7 @@
     },
     {
       "code": "028050",
-      "name": "삼성E&A",
+      "name": "성훈E&A",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/028050/total",
@@ -75,7 +75,7 @@
     },
     {
       "code": "018260",
-      "name": "삼성에스디에스",
+      "name": "성훈에스디에스",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/018260/total",
@@ -87,7 +87,7 @@
     },
     {
       "code": "000810",
-      "name": "삼성화재",
+      "name": "성훈화재",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/000810/total",
@@ -99,7 +99,7 @@
     },
     {
       "code": "028260",
-      "name": "삼성물산",
+      "name": "성훈물산",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/028260/total",
@@ -111,7 +111,7 @@
     },
     {
       "code": "207940",
-      "name": "삼성바이오로직스",
+      "name": "성훈바이오로직스",
       "typeCode": "KOSPI",
       "typeName": "코스피",
       "url": "/domestic/stock/207940/total",

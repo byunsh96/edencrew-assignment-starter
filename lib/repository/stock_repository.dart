@@ -5,7 +5,9 @@ import '../models/stock_model.dart';
 import '../domains/stock_detail/models/daily_quote_page_model.dart';
 import '../models/stock_quote_model.dart';
 import '../utils/log_util.dart';
+import 'mock_repository.dart';
 import '../utils/parse_util.dart';
+import 'dart:convert';
 
 //TODO 리뷰 확인
 
@@ -22,6 +24,7 @@ class StockRepository {
   static const String _file = 'StockRepository';
 
   final CoreRepository _coreRepository;
+  final MockRepository _mockRepository = MockRepository();
 
   //GET https://ac.stock.naver.com/ac (검색 자동완성)
   Future<List<StockModel>> getAutoComplete(String keyword) async {
@@ -31,7 +34,9 @@ class StockRepository {
         query: <String, dynamic>{'q': keyword, 'target': 'stock,ipo,index,marketindicator'},
       );
 
-      final Map<String, dynamic>? json = response.asMap;
+      // 차단되거나 5xx면 저장해 둔 응답으로 이어간다.
+      final Map<String, dynamic>? json =
+          response.asMap ?? await _mockMap('auto_complete.json', source: '검색 자동완성');
       if (json == null) return <StockModel>[];
 
       // 지수·ETF·해외 종목이 함께 내려오므로 국내 주식만 남긴다.
@@ -58,7 +63,8 @@ class StockRepository {
         query: <String, dynamic>{'query': '${NaverApi.realtimeQueryPrefix}${symbols.join(',')}'},
       );
 
-      final Map<String, dynamic>? json = response.asMap;
+      final Map<String, dynamic>? json =
+          response.asMap ?? await _mockMap('realtime_quote.json', source: '실시간 시세');
       final Object? areas = (json?['result'] as Map<String, dynamic>?)?['areas'];
       if (areas is! List || areas.isEmpty) return <StockQuoteModel>[];
 
@@ -81,7 +87,8 @@ class StockRepository {
     try {
       final ApiResponseModel response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
 
-      final Map<String, dynamic>? json = response.asMap;
+      final Map<String, dynamic>? json =
+          response.asMap ?? await _mockMap('stock_meta.json', source: '종목 메타');
       if (json == null) return null;
 
       return StockModel.fromMetaJson(json);
@@ -101,12 +108,38 @@ class StockRepository {
         query: <String, dynamic>{'code': symbol, 'page': page},
       );
 
-      if (html == null) return DailyQuotePageModel.empty();
+      // 네이버는 차단해도 200에 안내 페이지를 준다. 상태 코드로는 못 잡고
+      // 표를 파싱해 0행이면 정상 응답이 아니라고 본다.
+      final DailyQuotePageModel parsed = html == null
+          ? DailyQuotePageModel.empty()
+          : DailyQuotePageModel.fromHtml(html, requestedPage: page);
+      if (parsed.quotes.isNotEmpty) return parsed;
 
-      return DailyQuotePageModel.fromHtml(html, requestedPage: page);
+      // 저장본은 1페이지 분량뿐이다. 2페이지 이상을 같은 내용으로 채우면
+      // 같은 날짜가 반복되어 차트가 어긋나므로 1페이지만 대체한다.
+      if (page != 1) return parsed;
+
+      final String? mock = await _mockRepository.loadHtml('daily_quote.html', source: '일별 시세');
+      if (mock == null) return parsed;
+
+      return DailyQuotePageModel.fromHtml(mock, requestedPage: page);
     } catch (e) {
       LogUtil().logError('getDailyQuotes($symbol, $page): $e', module: _file);
     }
     return DailyQuotePageModel.empty();
+  }
+
+  /// 저장해 둔 JSON 응답을 Map으로 읽는다. 대체하지 않기로 했으면 `null`이다.
+  Future<Map<String, dynamic>?> _mockMap(String fileName, {required String source}) async {
+    final String? raw = await _mockRepository.loadJson(fileName, source: source);
+    if (raw == null) return null;
+
+    try {
+      final Object? decoded = jsonDecode(raw);
+      return decoded is Map<String, dynamic> ? decoded : null;
+    } catch (e) {
+      LogUtil().logError('_mockMap($fileName): $e', module: _file);
+      return null;
+    }
   }
 }
