@@ -6,11 +6,7 @@ import '../../../../enums/price_direction.dart';
 import '../../../../theme/theme.dart';
 import '../../models/daily_quote.dart';
 
-//TODO 리뷰 확인
-
 /// 일별 시세를 캔들로 그린다.
-///
-/// 패키지를 쓰면 토큰 색과 시안 여백을 맞추기 어려워 `CustomPainter`로 직접 그렸다.
 class CandleChart extends StatelessWidget {
   const CandleChart({required this.quotes, super.key});
 
@@ -74,8 +70,7 @@ class _CandlePainter extends CustomPainter {
 
     final double range = math.max(highest - lowest, _minPriceRange);
     final double slotWidth = size.width / quotes.length;
-    final double bodyWidth =
-        math.max(slotWidth * (1 - _gapRatio), _minBodyWidth);
+    final double bodyWidth = math.max(slotWidth * (1 - _gapRatio), _minBodyWidth);
 
     double toY(num price) => size.height * (highest - price) / range;
 

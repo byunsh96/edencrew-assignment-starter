@@ -3,8 +3,6 @@ import 'package:provider/single_child_widget.dart';
 
 import '../domains/favorite_list/controllers/favorite_controller.dart';
 
-//TODO 리뷰 확인
-
 /// 앱 전역 의존성. `main`에서 `MultiProvider`로 감싼다.
 ///
 /// 상태 없는 Repository는 여기 올리지 않는다. `CoreRepository.instance`를
@@ -20,9 +18,7 @@ import '../domains/favorite_list/controllers/favorite_controller.dart';
 /// ```
 abstract final class AppProviders {
   static List<SingleChildWidget> get global => <SingleChildWidget>[
-        // 관심 · 검색 · 상세 세 화면이 같은 인스턴스를 봐야 한다.
-        ChangeNotifierProvider<FavoriteController>(
-          create: (_) => FavoriteController(),
-        ),
-      ];
+    // 관심 · 검색 · 상세 세 화면이 같은 인스턴스를 봐야 한다.
+    ChangeNotifierProvider<FavoriteController>(create: (_) => FavoriteController()),
+  ];
 }

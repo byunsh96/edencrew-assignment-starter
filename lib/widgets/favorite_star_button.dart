@@ -9,8 +9,6 @@ import 'app_ink_well.dart';
 import 'app_svg_icon.dart';
 import 'app_toast.dart';
 
-//TODO 리뷰 확인
-
 /// 관심 등록 · 해제 별 버튼.
 ///
 /// 검색 결과 행과 상세 상단바가 같은 버튼을 쓴다.

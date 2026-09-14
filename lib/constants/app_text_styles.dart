@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
-//TODO 리뷰 확인
-
 /// Figma `Screens` 페이지의 텍스트 스타일을 옮긴 서체 스케일.
 ///
 /// 스타터의 `AppTypography`는 서체와 굵기만 정의한다. 크기와 행간은 Figma가 변수가
@@ -72,7 +70,6 @@ abstract final class AppTextStyles {
     fontFamily: AppTypography.fontFamily,
     fontSize: 11,
     height: 14 / 11,
-    letterSpacing: 0,
     fontWeight: AppTypography.regular,
   );
 }

@@ -22,15 +22,19 @@ class FavoriteController extends ChangeNotifier {
   bool contains(String symbol) =>
       _items.any((Stock e) => e.symbol == symbol);
 
+  /// [Stock.canonicalId] 기준으로 등록 여부를 본다.
+  bool containsStock(Stock stock) => _items.contains(stock);
+
   /// 관심 등록 / 해제를 뒤집고 결과를 돌려준다.
   ///
   /// 토스트 문구가 등록과 해제로 갈리므로 호출부가 결과를 알아야 한다.
   bool toggle(Stock stock) {
-    final bool willAdd = !contains(stock.symbol);
+    // Stock의 ==가 canonicalId를 보므로 목록 연산이 곧 canonical id 비교다.
+    final bool willAdd = !_items.contains(stock);
     if (willAdd) {
       _items.add(stock);
     } else {
-      _items.removeWhere((Stock e) => e.symbol == stock.symbol);
+      _items.remove(stock);
     }
     notifyListeners();
     return willAdd;

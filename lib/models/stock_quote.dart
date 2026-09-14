@@ -1,8 +1,6 @@
 import '../enums/price_direction.dart';
 import '../utils/parse_util.dart';
 
-//TODO 리뷰 확인
-
 /// 실시간 시세 한 건.
 ///
 /// 응답에 등락액(`cv`)과 등락률(`cr`)이 있지만 둘 다 절댓값이고 방향은 별도 코드(`rf`)로
@@ -46,8 +44,7 @@ class StockQuote {
 
   int get change => currentPrice - previousClose;
 
-  double get changeRate =>
-      previousClose == 0 ? 0 : change / previousClose;
+  double get changeRate => previousClose == 0 ? 0 : change / previousClose;
 
   PriceDirection get direction => PriceDirection.of(change);
 

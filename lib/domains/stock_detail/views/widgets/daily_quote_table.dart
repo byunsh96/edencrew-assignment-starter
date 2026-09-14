@@ -6,8 +6,6 @@ import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 import '../../models/daily_quote.dart';
 
-//TODO 리뷰 확인
-
 /// 일별 시세 표. 날짜 · 종가 · 등락 · 거래량.
 class DailyQuoteTable extends StatelessWidget {
   const DailyQuoteTable({required this.quotes, super.key});
@@ -17,24 +15,25 @@ class DailyQuoteTable extends StatelessWidget {
 
   /// 행 높이와 세로 여백.
   static const double _rowHeight = 32;
-  static const double _rowVerticalPadding = 7;
 
   final List<DailyQuote> quotes;
 
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
 
     return Column(
+      spacing: dimens.space1,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          '일별 시세',
-          style: AppTextStyles.label.copyWith(color: colors.textPrimary),
+        Text('일별 시세', style: AppTextStyles.label.copyWith(color: colors.textPrimary)),
+        Column(
+          children: [
+            const _HeadRow(),
+            for (final DailyQuote quote in quotes) _QuoteRow(quote: quote),
+          ],
         ),
-        SizedBox(height: context.dimens.space1),
-        const _HeadRow(),
-        for (final DailyQuote quote in quotes) _QuoteRow(quote: quote),
       ],
     );
   }
@@ -48,11 +47,8 @@ class _HeadRow extends StatelessWidget {
     final Color color = context.colors.textSecondary;
 
     return _TableRow(
-      date: Text(
-        '날짜',
-        style: AppTextStyles.caption.copyWith(color: color),
-      ),
-      cells: <Widget>[
+      date: Text('날짜', style: AppTextStyles.caption.copyWith(color: color)),
+      cells: [
         for (final String label in <String>['종가', '등락', '거래량'])
           Text(
             label,
@@ -80,10 +76,7 @@ class _QuoteRow extends StatelessWidget {
         style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
       ),
       cells: <Widget>[
-        _NumberCell(
-          text: FormatUtil.decimal(quote.closePrice),
-          color: colors.textPrimary,
-        ),
+        _NumberCell(text: FormatUtil.decimal(quote.closePrice), color: colors.textPrimary),
         _NumberCell(
           text: FormatUtil.signedDecimal(quote.change),
           color: quote.direction.text(colors),
@@ -117,11 +110,7 @@ class _NumberCell extends StatelessWidget {
 
 /// 머리글과 데이터 행이 같은 열 폭을 쓰도록 한곳에서 배치한다.
 class _TableRow extends StatelessWidget {
-  const _TableRow({
-    required this.date,
-    required this.cells,
-    this.hasTopBorder = false,
-  });
+  const _TableRow({required this.date, required this.cells, this.hasTopBorder = false});
 
   final Widget date;
   final List<Widget> cells;
@@ -133,26 +122,20 @@ class _TableRow extends StatelessWidget {
 
     return Container(
       height: DailyQuoteTable._rowHeight,
-      padding: const EdgeInsets.symmetric(
-        vertical: DailyQuoteTable._rowVerticalPadding,
-      ),
       decoration: hasTopBorder
           ? BoxDecoration(
               border: Border(
-                top: BorderSide(
-                  color: context.colors.borderSubtle,
-                  width: dimens.borderHairline,
-                ),
+                top: BorderSide(color: context.colors.borderSubtle, width: dimens.borderHairline),
               ),
             )
           : null,
       child: Row(
+        spacing: dimens.space2,
         children: [
           SizedBox(width: DailyQuoteTable._dateColumnWidth, child: date),
-          for (final Widget cell in cells) ...<Widget>[
-            SizedBox(width: dimens.space2),
-            Expanded(child: cell),
-          ],
+          ...cells.map((Widget cell) {
+            return Expanded(child: cell);
+          }),
         ],
       ),
     );

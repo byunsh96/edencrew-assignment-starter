@@ -6,8 +6,6 @@ import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 
-//TODO 리뷰 확인
-
 /// 현재가와 전일 대비 등락.
 class StockPriceHeader extends StatelessWidget {
   const StockPriceHeader({required this.quote, super.key});
@@ -17,18 +15,17 @@ class StockPriceHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
     final PriceDirection direction = quote.direction;
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
+      spacing: dimens.space2,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           FormatUtil.decimal(quote.currentPrice),
-          style:
-              AppTextStyles.displayPrice.copyWith(color: colors.textPrimary),
+          style: AppTextStyles.displayPrice.copyWith(color: colors.textPrimary),
         ),
-        SizedBox(width: context.dimens.space2),
         Flexible(
           child: Text(
             '${direction.sign} ${FormatUtil.decimal(quote.change.abs())} '

@@ -78,33 +78,38 @@ class _StockDetailView extends StatelessWidget {
                         dimens.space4,
                       ),
                       child: Column(
+                        spacing: dimens.space6,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          if (controller.quote case final StockQuote quote) ...<Widget>[
-                            StockPriceHeader(quote: quote),
-                            SizedBox(height: dimens.space4),
-                          ],
-                          PeriodTabs(
-                            selected: controller.period,
-                            onChanged: controller.changePeriod,
+                          //price
+                          Column(
+                            spacing: dimens.space4,
+                            children: [
+                              if (controller.quote case final StockQuote quote) ...<Widget>[
+                                StockPriceHeader(quote: quote),
+                              ],
+                              PeriodTabs(
+                                selected: controller.period,
+                                onChanged: controller.changePeriod,
+                              ),
+                              if (controller.isPeriodLoading)
+                                const SizedBox(
+                                  height: CandleChart.height,
+                                  child: Center(child: CircularProgressIndicator()),
+                                )
+                              else
+                                CandleChart(quotes: controller.dailyQuotes),
+                              // 앞의 간격을 요약 카드와 함께 묶는다. Figma에서 이 16은
+                              // Price 그룹 내부 간격이라 카드가 빠지면 함께 사라져야 한다.
+                              // 뒤의 24는 Price와 Daily 사이 간격이라 항상 남는다.
+                              if (controller.quote case final StockQuote quote) ...<Widget>[
+                                QuoteSummary(quote: quote),
+                              ],
+                            ],
                           ),
-                          SizedBox(height: dimens.space4),
-                          if (controller.isPeriodLoading)
-                            const SizedBox(
-                              height: CandleChart.height,
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          else
-                            CandleChart(quotes: controller.dailyQuotes),
-                          // 앞의 간격을 요약 카드와 함께 묶는다. Figma에서 이 16은
-                          // Price 그룹 내부 간격이라 카드가 빠지면 함께 사라져야 한다.
-                          // 뒤의 24는 Price와 Daily 사이 간격이라 항상 남는다.
-                          if (controller.quote case final StockQuote quote) ...<Widget>[
-                            SizedBox(height: dimens.space4),
-                            QuoteSummary(quote: quote),
-                          ],
-                          SizedBox(height: dimens.space6),
+                          //daily
                           if (controller.dailyQuotes.isEmpty)
+                            // empty 임의로 처리
                             Text(
                               '일별 시세를 불러오지 못했습니다.',
                               textAlign: TextAlign.center,
