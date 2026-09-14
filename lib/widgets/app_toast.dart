@@ -115,17 +115,17 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
     final AppDimens dimens = context.dimens;
 
     return Positioned(
-      left: 16,
-      right: 16,
-      bottom: 12,
+      left: dimens.space4,
+      right: dimens.space4,
+      bottom: dimens.space3,
       child: FadeTransition(
         opacity: _controller,
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14, // Figma 토스트 세로 여백
+            padding: EdgeInsets.symmetric(
+              horizontal: dimens.space4,
+              vertical: dimens.space3Mid, // Figma 토스트 세로 여백
             ),
             decoration: BoxDecoration(
               color: colors.surfaceOverlay,
