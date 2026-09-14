@@ -23,7 +23,7 @@ class StockDetailAppBar extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space2Mid),
-      decoration: BoxDecoration(
+      foregroundDecoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
         ),
