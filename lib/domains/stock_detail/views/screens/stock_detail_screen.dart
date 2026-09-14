@@ -55,22 +55,22 @@ class _StockDetailView extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.surfaceBase,
       body: SafeArea(
-        child: Column(
-          children: [
-            // 종목명·거래소명은 메타 endpoint 응답으로 갱신되므로 컨트롤러에서 읽는다.
-            //
-            // Selector를 쓰지 않는다. Stock의 ==는 종목 식별자(canonicalId)만 보므로
-            // 이름이 바뀌어도 같은 값으로 판정되어 리빌드가 일어나지 않는다.
-            Consumer<StockDetailController>(
-              builder: (BuildContext context, StockDetailController controller, _) =>
-                  StockDetailAppBar(
-                    stock: controller.stock,
-                    onFavoriteToggled: (bool added) => _onFavoriteToggled(context, added),
-                  ),
-            ),
-            Expanded(
-              // 탭 바가 없는 화면이라 본문 영역이 곧 토스트의 아래쪽 경계가 된다.
-              child: AppToastScope(
+        child: AppToastScope(
+          child: Column(
+            children: [
+              // 종목명·거래소명은 메타 endpoint 응답으로 갱신되므로 컨트롤러에서 읽는다.
+              //
+              // Selector를 쓰지 않는다. Stock의 ==는 종목 식별자(canonicalId)만 보므로
+              // 이름이 바뀌어도 같은 값으로 판정되어 리빌드가 일어나지 않는다.
+              Consumer<StockDetailController>(
+                builder: (BuildContext context, StockDetailController controller, _) =>
+                    StockDetailAppBar(
+                      stock: controller.stock,
+                      onFavoriteToggled: (bool added) => _onFavoriteToggled(context, added),
+                    ),
+              ),
+              Expanded(
+                // 탭 바가 없는 화면이라 본문 영역이 곧 토스트의 아래쪽 경계가 된다.
                 child: Consumer<StockDetailController>(
                   builder: (BuildContext context, StockDetailController controller, _) {
                     if (controller.isLoading) {
@@ -125,8 +125,8 @@ class _StockDetailView extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
