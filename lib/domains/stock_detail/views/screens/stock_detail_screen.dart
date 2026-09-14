@@ -48,11 +48,6 @@ class StockDetailScreen extends StatelessWidget {
 class _StockDetailView extends StatelessWidget {
   const _StockDetailView({required this.stock});
 
-  /// Figma Body 여백과 섹션 간격.
-  static const double _bodyTopPadding = 14;
-  static const double _sectionGap = 24;
-  static const double _priceGroupGap = 16;
-
   final Stock stock;
 
   void _onFavoriteToggled(BuildContext context, bool added) =>
@@ -61,6 +56,7 @@ class _StockDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
 
     return Scaffold(
       backgroundColor: colors.surfaceBase,
@@ -90,19 +86,24 @@ class _StockDetailView extends StatelessWidget {
                   }
 
                   return SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(16, _bodyTopPadding, 16, 16),
+                    padding: EdgeInsets.fromLTRB(
+                      dimens.space4,
+                      dimens.space3Mid,
+                      dimens.space4,
+                      dimens.space4,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         if (controller.quote case final StockQuote quote) ...[
                           StockPriceHeader(quote: quote),
-                          const SizedBox(height: _priceGroupGap),
+                          SizedBox(height: dimens.space4),
                         ],
                         PeriodTabs(
                           selected: controller.period,
                           onChanged: controller.changePeriod,
                         ),
-                        const SizedBox(height: _priceGroupGap),
+                        SizedBox(height: dimens.space4),
                         if (controller.isPeriodLoading)
                           const SizedBox(
                             height: CandleChart.height,
@@ -110,10 +111,10 @@ class _StockDetailView extends StatelessWidget {
                           )
                         else
                           CandleChart(quotes: controller.dailyQuotes),
-                        const SizedBox(height: _priceGroupGap),
+                        SizedBox(height: dimens.space4),
                         if (controller.quote case final StockQuote quote)
                           QuoteSummary(quote: quote),
-                        const SizedBox(height: _sectionGap),
+                        SizedBox(height: dimens.space6),
                         if (controller.dailyQuotes.isEmpty)
                           Text(
                             '일별 시세를 불러오지 못했습니다.',

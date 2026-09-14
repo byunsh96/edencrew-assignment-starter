@@ -52,7 +52,7 @@ class FavoriteListSortSheet extends StatelessWidget {
           children: [
             Container(
               height: dimens.bottomSheetTitleHeight,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: dimens.space6),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('정렬', style: AppTextStyles.title.copyWith(color: colors.textPrimary)),
@@ -83,7 +83,7 @@ class _Option extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: dimens.rowMinHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: dimens.space6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

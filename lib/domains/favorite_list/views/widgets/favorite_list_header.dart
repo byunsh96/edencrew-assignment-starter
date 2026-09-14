@@ -20,7 +20,7 @@ class FavoriteListHeader extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +59,7 @@ class _SortChip extends StatelessWidget {
     return AppInkWell(
       onTap: () => FavoriteListSortSheet.show(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
+        padding: EdgeInsets.symmetric(vertical: dimens.space1),
         child: Row(
           children: [
             Selector<FavoriteListController, FavoriteListSort>(

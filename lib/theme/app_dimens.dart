@@ -13,7 +13,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
     required this.spaceHalf,
     required this.space1,
     required this.space2,
+    required this.space2Mid,
     required this.space3,
+    required this.space3Mid,
     required this.space4,
     required this.space5,
     required this.space6,
@@ -37,7 +39,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
     : spaceHalf = 2,
       space1 = 4,
       space2 = 8,
+      space2Mid = 10,
       space3 = 12,
+      space3Mid = 14,
       space4 = 16,
       space5 = 20,
       space6 = 24,
@@ -59,7 +63,16 @@ class AppDimens extends ThemeExtension<AppDimens> {
   final double spaceHalf;
   final double space1;
   final double space2;
+
+  /// space2(8)와 space3(12) 사이 값입니다. Figma `Scale`에 없어 추가했습니다.
+  /// 검색 입력칸 세로 여백이 이 값입니다.
+  final double space2Mid;
+
   final double space3;
+
+  /// space3(12)과 space4(16) 사이 값입니다. Figma `Scale`에 없어 추가했습니다.
+  /// 상세 화면 본문 위쪽 여백이 이 값입니다.
+  final double space3Mid;
   final double space4;
   final double space5;
   final double space6;
@@ -95,7 +108,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? spaceHalf,
     double? space1,
     double? space2,
+    double? space2Mid,
     double? space3,
+    double? space3Mid,
     double? space4,
     double? space5,
     double? space6,
@@ -118,7 +133,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
       spaceHalf: spaceHalf ?? this.spaceHalf,
       space1: space1 ?? this.space1,
       space2: space2 ?? this.space2,
+      space2Mid: space2Mid ?? this.space2Mid,
       space3: space3 ?? this.space3,
+      space3Mid: space3Mid ?? this.space3Mid,
       space4: space4 ?? this.space4,
       space5: space5 ?? this.space5,
       space6: space6 ?? this.space6,
@@ -146,7 +163,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
       spaceHalf: lerpDouble(spaceHalf, other.spaceHalf, t)!,
       space1: lerpDouble(space1, other.space1, t)!,
       space2: lerpDouble(space2, other.space2, t)!,
+      space2Mid: lerpDouble(space2Mid, other.space2Mid, t)!,
       space3: lerpDouble(space3, other.space3, t)!,
+      space3Mid: lerpDouble(space3Mid, other.space3Mid, t)!,
       space4: lerpDouble(space4, other.space4, t)!,
       space5: lerpDouble(space5, other.space5, t)!,
       space6: lerpDouble(space6, other.space6, t)!,

@@ -28,7 +28,7 @@ class FavoriteListRow extends StatelessWidget {
             bottom: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
           ),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space3),
         child: Row(
           spacing: dimens.space3,
           children: [

@@ -46,14 +46,14 @@ class _SearchFieldState extends State<SearchField> {
     final AppDimens dimens = context.dimens;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      padding: EdgeInsets.fromLTRB(dimens.space4, dimens.space2, dimens.space4, dimens.space3),
       child: GestureDetector(
         // 돋보기 옆 빈 공간을 눌러도 입력칸이 열려야 한다.
         // 배경만 있고 자식이 없는 영역까지 탭을 받도록 opaque로 둔다.
         behavior: HitTestBehavior.opaque,
         onTap: _focusNode.requestFocus,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: dimens.space3, vertical: dimens.space2Mid),
           decoration: BoxDecoration(
             color: colors.surfaceSunken,
             borderRadius: BorderRadius.circular(dimens.radiusMd),

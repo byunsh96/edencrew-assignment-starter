@@ -28,7 +28,7 @@ class AppTabBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: dimens.space2),
           child: Row(
             children: <Widget>[
               for (final MainTab tab in MainTab.values)
@@ -57,13 +57,14 @@ class _Tab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
+    final AppDimens dimens = context.dimens;
     final Color color = isSelected ? colors.navActive : colors.navInactive;
 
     return Expanded(
       child: AppInkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: EdgeInsets.symmetric(vertical: dimens.space1),
           child: Column(
             spacing: 3,
             mainAxisSize: MainAxisSize.min,

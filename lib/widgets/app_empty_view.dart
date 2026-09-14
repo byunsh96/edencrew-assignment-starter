@@ -24,7 +24,7 @@ class AppEmptyView extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: dimens.space4),
         child: Column(
           spacing: dimens.space3,
           mainAxisSize: MainAxisSize.min,
