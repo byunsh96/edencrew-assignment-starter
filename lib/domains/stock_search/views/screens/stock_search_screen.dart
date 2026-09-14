@@ -5,7 +5,6 @@ import '../../../../constants/app_icons.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_empty_view.dart';
 import '../../../../models/stock.dart';
-import '../../../../widgets/app_toast.dart';
 import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/stock_search_controller.dart';
 import '../widgets/search_field.dart';
@@ -45,8 +44,6 @@ class _SearchViewState extends State<_SearchView> {
     _textController.clear();
     context.read<StockSearchController>().clear();
   }
-
-  void _onFavoriteToggled(bool added) => AppToast.favorite(context, added: added);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +86,6 @@ class _SearchViewState extends State<_SearchView> {
                 itemBuilder: (BuildContext context, int index) => SearchResultRow(
                   item: results[index],
                   keyword: controller.keyword,
-                  onFavoriteToggled: _onFavoriteToggled,
                   onTap: () => StockDetailScreen.push(context, results[index]),
                 ),
               );

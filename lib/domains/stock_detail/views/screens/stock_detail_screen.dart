@@ -5,7 +5,6 @@ import '../../../../constants/app_text_styles.dart';
 import '../../../../models/stock.dart';
 import '../../../../models/stock_quote.dart';
 import '../../../../theme/theme.dart';
-import '../../../../widgets/app_toast.dart';
 import '../../../../widgets/app_toast_scope.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
 import '../../controllers/stock_detail_controller.dart';
@@ -44,9 +43,6 @@ class StockDetailScreen extends StatelessWidget {
 class _StockDetailView extends StatelessWidget {
   const _StockDetailView();
 
-  void _onFavoriteToggled(BuildContext context, bool added) =>
-      AppToast.favorite(context, added: added);
-
   @override
   Widget build(BuildContext context) {
     final AppColors colors = context.colors;
@@ -64,10 +60,7 @@ class _StockDetailView extends StatelessWidget {
               // 이름이 바뀌어도 같은 값으로 판정되어 리빌드가 일어나지 않는다.
               Consumer<StockDetailController>(
                 builder: (BuildContext context, StockDetailController controller, _) =>
-                    StockDetailAppBar(
-                      stock: controller.stock,
-                      onFavoriteToggled: (bool added) => _onFavoriteToggled(context, added),
-                    ),
+                    StockDetailAppBar(stock: controller.stock),
               ),
               Expanded(
                 // 탭 바가 없는 화면이라 본문 영역이 곧 토스트의 아래쪽 경계가 된다.
