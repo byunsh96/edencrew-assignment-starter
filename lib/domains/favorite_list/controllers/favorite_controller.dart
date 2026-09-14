@@ -18,8 +18,8 @@ class FavoriteController extends ChangeNotifier {
 
   bool contains(String symbol) => _items.any((StockModel e) => e.symbol == symbol);
 
-  /// [StockModel.canonicalId] 기준으로 등록 여부를 본다.
-  bool containsStock(StockModel stock) => _items.contains(stock);
+  // /// [StockModel.canonicalId] 기준으로 등록 여부를 본다.
+  // bool containsStock(StockModel stock) => _items.contains(stock);
 
   /// 관심 등록 / 해제를 뒤집고 결과를 돌려준다.
   ///
