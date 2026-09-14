@@ -42,6 +42,15 @@ class FavoriteListController extends ChangeNotifier {
         .toList();
 
     result.sort(_compare);
+
+    // 조회 중에는 시세를 비워 스켈레톤을 그리게 한다.
+    // 정렬을 마친 뒤에 비우므로 직전 시세 기준 순서가 남아 새로고침 중 행이 튀지 않는다.
+    if (_isLoading) {
+      return result
+          .map((FavoriteListItemModel item) => FavoriteListItemModel(stock: item.stock))
+          .toList();
+    }
+
     return result;
   }
 
