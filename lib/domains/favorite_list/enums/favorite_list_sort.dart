@@ -1,5 +1,3 @@
-//TODO 리뷰 확인
-
 /// 관심 목록 정렬 기준.
 enum FavoriteListSort {
   price('현재가순'),
