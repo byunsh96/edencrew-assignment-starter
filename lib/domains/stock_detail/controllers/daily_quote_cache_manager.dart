@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import '../domains/stock_detail/models/daily_quote_model.dart';
-import '../domains/stock_detail/models/daily_quote_page_model.dart';
+import '../models/daily_quote_model.dart';
+import '../models/daily_quote_page_model.dart';
 
 /// 일별 시세 페이지 캐시를 관리한다.
 ///

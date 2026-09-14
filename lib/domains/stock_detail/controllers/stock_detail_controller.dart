@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../models/stock_model.dart';
 import '../../../models/stock_quote_model.dart';
-import '../../../repository/daily_quote_cache_manager.dart';
+import 'daily_quote_cache_manager.dart';
 import '../../../repository/stock_repository.dart';
 import '../../favorite_list/controllers/favorite_controller.dart';
 import '../enums/chart_period.dart';

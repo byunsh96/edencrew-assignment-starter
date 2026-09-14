@@ -85,8 +85,8 @@ class StockRepository {
     try {
       final ApiResponseModel response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
 
-      final Map<String, dynamic>? json =
-          response.asMap ?? await _mockMap('stock_meta.json', source: '종목 메타');
+      final Map<String, dynamic>? json = response.asMap;
+      // . ?? await _mockMap('stock_meta.json', source: '종목 메타');
       if (json == null) return null;
 
       return StockModel.fromMetaJson(json);
