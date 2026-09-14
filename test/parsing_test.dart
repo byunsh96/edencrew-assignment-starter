@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cp949_codec/cp949_codec.dart';
-import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote.dart';
-import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote_page.dart';
+import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote_model.dart';
+import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote_page_model.dart';
 import 'package:edencrew_assignment_starter/enums/price_direction.dart';
-import 'package:edencrew_assignment_starter/models/stock_quote.dart';
+import 'package:edencrew_assignment_starter/models/stock_quote_model.dart';
 import 'package:edencrew_assignment_starter/utils/parse_util.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:edencrew_assignment_starter/models/stock.dart';
+import 'package:edencrew_assignment_starter/models/stock_model.dart';
 
 /// `assets/mock/`에 저장해 둔 실제 응답으로 파싱을 검증한다.
 ///
@@ -28,20 +28,20 @@ void main() {
       final Map<String, dynamic> json =
           readJson('auto_complete.json', isEucKr: false);
 
-      final List<Stock> items = ParseUtil.parseList<
+      final List<StockModel> items = ParseUtil.parseList<
           Map<String, dynamic>>(json, 'items', (Map<String, dynamic> e) => e)
-          .where(Stock.isDomesticStock)
-          .map(Stock.fromJson)
+          .where(StockModel.isDomesticStock)
+          .map(StockModel.fromJson)
           .toList();
 
       expect(items, isNotEmpty);
-      for (final Stock item in items) {
+      for (final StockModel item in items) {
         expect(item.symbol, matches(RegExp(r'^\d{6}$')));
         expect(item.name, isNotEmpty);
       }
 
-      final Stock samsung =
-          items.firstWhere((Stock e) => e.symbol == '005930');
+      final StockModel samsung =
+          items.firstWhere((StockModel e) => e.symbol == '005930');
       expect(samsung.name, '삼성전자');
       expect(samsung.marketName, '코스피');
       expect(samsung.canonicalId, 'domestic:005930');
@@ -58,13 +58,13 @@ void main() {
             .first as Map<dynamic, dynamic>,
       );
 
-      final List<StockQuote> quotes =
-          ParseUtil.parseList<StockQuote>(area, 'datas', StockQuote.fromJson);
+      final List<StockQuoteModel> quotes =
+          ParseUtil.parseList<StockQuoteModel>(area, 'datas', StockQuoteModel.fromJson);
 
       expect(quotes.length, 3);
 
-      final StockQuote samsung =
-          quotes.firstWhere((StockQuote e) => e.symbol == '005930');
+      final StockQuoteModel samsung =
+          quotes.firstWhere((StockQuoteModel e) => e.symbol == '005930');
       expect(samsung.name, '삼성전자'); // UTF-8로 읽으면 깨진다
       expect(samsung.currentPrice, greaterThan(0));
       expect(samsung.listedShareCount, greaterThan(0));
@@ -77,8 +77,8 @@ void main() {
         ((json['result'] as Map<String, dynamic>)['areas'] as List<dynamic>)
             .first as Map<dynamic, dynamic>,
       );
-      final StockQuote quote =
-          ParseUtil.parseList<StockQuote>(area, 'datas', StockQuote.fromJson)
+      final StockQuoteModel quote =
+          ParseUtil.parseList<StockQuoteModel>(area, 'datas', StockQuoteModel.fromJson)
               .first;
 
       expect(quote.change, quote.currentPrice - quote.previousClose);
@@ -96,8 +96,8 @@ void main() {
 
   group('종목 메타', () {
     test('종목명과 거래소명을 읽는다', () {
-      final Stock meta =
-          Stock.fromMetaJson(readJson('stock_meta.json', isEucKr: false));
+      final StockModel meta =
+          StockModel.fromMetaJson(readJson('stock_meta.json', isEucKr: false));
 
       expect(meta.symbol, '005930');
       expect(meta.name, '삼성전자');
@@ -107,7 +107,7 @@ void main() {
   });
 
   group('일별 시세 HTML', () {
-    late DailyQuotePage page;
+    late DailyQuotePageModel page;
 
     setUpAll(() {
       final String html =
@@ -115,11 +115,11 @@ void main() {
         File('assets/mock/daily_quote.html').readAsBytesSync(),
         allowInvalid: true,
       );
-      page = DailyQuotePage.fromHtml(html, requestedPage: 1);
+      page = DailyQuotePageModel.fromHtml(html, requestedPage: 1);
     });
 
     test('한 페이지에서 거래일 10건을 읽는다', () {
-      expect(page.quotes.length, DailyQuotePage.rowsPerPage);
+      expect(page.quotes.length, DailyQuotePageModel.rowsPerPage);
       expect(page.isEmpty, isFalse);
     });
 
@@ -128,14 +128,14 @@ void main() {
     });
 
     test('날짜는 yyyyMMdd로 정규화된다', () {
-      for (final DailyQuote quote in page.quotes) {
+      for (final DailyQuoteModel quote in page.quotes) {
         expect(quote.date, matches(RegExp(r'^\d{8}$')));
       }
     });
 
     test('전일비는 절댓값이므로 하락 표시에 부호를 붙인다', () {
       // 시안 종목(005930) 1페이지 첫 행은 하락이다.
-      final DailyQuote first = page.quotes.first;
+      final DailyQuoteModel first = page.quotes.first;
       expect(first.change, isNot(0));
       expect(
         first.direction,
@@ -144,7 +144,7 @@ void main() {
     });
 
     test('시가·고가·저가·거래량이 모두 양수로 파싱된다', () {
-      for (final DailyQuote quote in page.quotes) {
+      for (final DailyQuoteModel quote in page.quotes) {
         expect(quote.closePrice, greaterThan(0));
         expect(quote.openPrice, greaterThan(0));
         expect(quote.highPrice, greaterThanOrEqualTo(quote.lowPrice));

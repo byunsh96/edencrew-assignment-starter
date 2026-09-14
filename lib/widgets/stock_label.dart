@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_text_styles.dart';
-import '../models/stock.dart';
+import '../models/stock_model.dart';
 import '../theme/theme.dart';
 
 //TODO Figma 확인 필요.
@@ -19,7 +19,7 @@ class StockLabel extends StatelessWidget {
   /// 종목명에서 [keyword]와 일치하는 부분을 강조한다. 검색 결과에서 쓴다.
   const StockLabel.highlighted({required this.stock, required String this.keyword, super.key});
 
-  final Stock stock;
+  final StockModel stock;
 
   /// 강조할 검색어. `null`이면 종목명을 그대로 그린다.
   /// 두 생성자를 가르는 유일한 값이다.

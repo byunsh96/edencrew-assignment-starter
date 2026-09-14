@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/stock.dart';
+import '../../../../models/stock_model.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/favorite_star_button.dart';
@@ -15,7 +15,7 @@ class SearchResultRow extends StatelessWidget {
     super.key,
   });
 
-  final Stock item;
+  final StockModel item;
   final String keyword;
   final VoidCallback? onTap;
 

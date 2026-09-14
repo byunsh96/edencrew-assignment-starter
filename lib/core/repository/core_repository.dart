@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../utils/log_util.dart';
-import '../models/api_response.dart';
+import '../models/api_response_model.dart';
 
 //TODO 리뷰 확인
 
@@ -54,7 +54,7 @@ class CoreRepository {
   final Dio _dio;
 
   /// JSON 응답을 받는다.
-  Future<ApiResponse> getData(
+  Future<ApiResponseModel> getData(
     String url, {
     Map<String, dynamic>? query,
   }) async {
@@ -74,7 +74,7 @@ class CoreRepository {
           'getData($url): $statusCode ${response.statusMessage}',
           module: _file,
         );
-        return ApiResponse(
+        return ApiResponseModel(
           statusCode: statusCode,
           errorMessage: response.statusMessage,
         );
@@ -83,13 +83,13 @@ class CoreRepository {
       final String body = _decode(response);
       LogUtil().logNetwork('<- $statusCode ${_summarize(body)}', module: _file);
 
-      return ApiResponse(
+      return ApiResponseModel(
         statusCode: statusCode,
         data: body.isEmpty ? null : jsonDecode(body),
       );
     } catch (e) {
       LogUtil().logError('getData($url): $e', module: _file);
-      return const ApiResponse.failure('네트워크 요청에 실패했다.');
+      return const ApiResponseModel.failure('네트워크 요청에 실패했다.');
     }
   }
 

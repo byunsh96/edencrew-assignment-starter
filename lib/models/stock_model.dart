@@ -6,16 +6,16 @@ import '../utils/parse_util.dart';
 ///
 /// 이름과 거래소명을 함께 들고 있는다. 실시간 시세 응답에는 거래소명이 없어서
 /// 매번 메타 endpoint를 종목마다 부르지 않으려면 등록 시점에 저장해 둬야 한다.
-class Stock {
-  const Stock({
+class StockModel {
+  const StockModel({
     required this.symbol,
     required this.name,
     required this.marketName,
   });
 
   /// 검색 자동완성(`ac.stock.naver.com`) 응답에서 만든다.
-  factory Stock.fromJson(Map<String, dynamic> json) {
-    return Stock(
+  factory StockModel.fromJson(Map<String, dynamic> json) {
+    return StockModel(
       symbol: ParseUtil.parse<String>(json, 'code'),
       name: ParseUtil.parse<String>(json, 'name'),
       marketName: ParseUtil.parse<String>(json, 'typeName'),
@@ -25,8 +25,8 @@ class Stock {
   /// 종목 메타(`stock.naver.com`) 응답에서 만든다.
   ///
   /// 같은 정보인데 endpoint마다 키 이름이 달라 생성자를 나눈다.
-  factory Stock.fromMetaJson(Map<String, dynamic> json) {
-    return Stock(
+  factory StockModel.fromMetaJson(Map<String, dynamic> json) {
+    return StockModel(
       symbol: ParseUtil.parse<String>(json, 'symbolCode'),
       name: ParseUtil.parse<String>(json, 'stockName'),
       marketName: ParseUtil.parse<String>(json, 'stockExchangeNameKor'),
@@ -72,7 +72,7 @@ class Stock {
   /// 종목코드만 비교하면 해외 종목이 추가됐을 때 같은 번호끼리 충돌한다.
   @override
   bool operator ==(Object other) =>
-      other is Stock && other.canonicalId == canonicalId;
+      other is StockModel && other.canonicalId == canonicalId;
 
   @override
   int get hashCode => canonicalId.hashCode;

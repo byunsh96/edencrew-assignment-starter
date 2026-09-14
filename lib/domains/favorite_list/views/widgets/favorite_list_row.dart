@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/stock_label.dart';
-import '../../models/favorite_list_item.dart';
+import '../../models/favorite_list_item_model.dart';
 
 /// 관심 목록 한 행. 종목명 · 코드 · 현재가 · 등락.
 class FavoriteListRow extends StatelessWidget {
   const FavoriteListRow({required this.item, this.onTap, super.key});
 
-  final FavoriteListItem item;
+  final FavoriteListItemModel item;
   final VoidCallback? onTap;
 
   @override

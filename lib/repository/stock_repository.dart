@@ -1,9 +1,9 @@
 import '../constants/naver_api.dart';
-import '../core/models/api_response.dart';
+import '../core/models/api_response_model.dart';
 import '../core/repository/core_repository.dart';
-import '../models/stock.dart';
-import '../domains/stock_detail/models/daily_quote_page.dart';
-import '../models/stock_quote.dart';
+import '../models/stock_model.dart';
+import '../domains/stock_detail/models/daily_quote_page_model.dart';
+import '../models/stock_quote_model.dart';
 import '../utils/log_util.dart';
 import '../utils/parse_util.dart';
 
@@ -24,67 +24,67 @@ class StockRepository {
   final CoreRepository _coreRepository;
 
   //GET https://ac.stock.naver.com/ac (검색 자동완성)
-  Future<List<Stock>> getAutoComplete(String keyword) async {
+  Future<List<StockModel>> getAutoComplete(String keyword) async {
     try {
-      final ApiResponse response = await _coreRepository.getData(
+      final ApiResponseModel response = await _coreRepository.getData(
         NaverApi.autoComplete,
         query: <String, dynamic>{'q': keyword, 'target': 'stock,ipo,index,marketindicator'},
       );
 
       final Map<String, dynamic>? json = response.asMap;
-      if (json == null) return <Stock>[];
+      if (json == null) return <StockModel>[];
 
       // 지수·ETF·해외 종목이 함께 내려오므로 국내 주식만 남긴다.
       return ParseUtil.parseList<Map<String, dynamic>>(
         json,
         'items',
         (Map<String, dynamic> item) => item,
-      ).where(Stock.isDomesticStock).map(Stock.fromJson).toList();
+      ).where(StockModel.isDomesticStock).map(StockModel.fromJson).toList();
     } catch (e) {
       LogUtil().logError('getAutoComplete: $e', module: _file);
     }
-    return <Stock>[];
+    return <StockModel>[];
   }
 
   //GET https://polling.finance.naver.com/api/realtime (실시간 시세)
   ///
   /// 관심종목 전체를 한 번의 요청으로 조회한다. 종목마다 따로 호출하지 않는다.
-  Future<List<StockQuote>> getRealtimeQuotes(List<String> symbols) async {
-    if (symbols.isEmpty) return <StockQuote>[];
+  Future<List<StockQuoteModel>> getRealtimeQuotes(List<String> symbols) async {
+    if (symbols.isEmpty) return <StockQuoteModel>[];
 
     try {
-      final ApiResponse response = await _coreRepository.getData(
+      final ApiResponseModel response = await _coreRepository.getData(
         NaverApi.realtime,
         query: <String, dynamic>{'query': '${NaverApi.realtimeQueryPrefix}${symbols.join(',')}'},
       );
 
       final Map<String, dynamic>? json = response.asMap;
       final Object? areas = (json?['result'] as Map<String, dynamic>?)?['areas'];
-      if (areas is! List || areas.isEmpty) return <StockQuote>[];
+      if (areas is! List || areas.isEmpty) return <StockQuoteModel>[];
 
       final Object? first = areas.first;
-      if (first is! Map) return <StockQuote>[];
+      if (first is! Map) return <StockQuoteModel>[];
 
-      return ParseUtil.parseList<StockQuote>(
+      return ParseUtil.parseList<StockQuoteModel>(
         Map<String, dynamic>.from(first),
         'datas',
-        StockQuote.fromJson,
+        StockQuoteModel.fromJson,
       );
     } catch (e) {
       LogUtil().logError('getRealtimeQuotes: $e', module: _file);
     }
-    return <StockQuote>[];
+    return <StockQuoteModel>[];
   }
 
   //GET https://stock.naver.com/api/securityFe/api/fchart/domestic/stock/{symbol} (종목 메타)
-  Future<Stock?> getStockMeta(String symbol) async {
+  Future<StockModel?> getStockMeta(String symbol) async {
     try {
-      final ApiResponse response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
+      final ApiResponseModel response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
 
       final Map<String, dynamic>? json = response.asMap;
       if (json == null) return null;
 
-      return Stock.fromMetaJson(json);
+      return StockModel.fromMetaJson(json);
     } catch (e) {
       LogUtil().logError('getStockMeta($symbol): $e', module: _file);
     }
@@ -94,18 +94,18 @@ class StockRepository {
   //GET https://finance.naver.com/item/sise_day.naver (일별 시세 HTML)
   ///
   /// 응답이 JSON이 아니라 EUC-KR HTML이다. 파싱 결과와 함께 마지막 페이지 번호를 돌려준다.
-  Future<DailyQuotePage> getDailyQuotes(String symbol, {required int page}) async {
+  Future<DailyQuotePageModel> getDailyQuotes(String symbol, {required int page}) async {
     try {
       final String? html = await _coreRepository.getHtml(
         NaverApi.dailyQuote,
         query: <String, dynamic>{'code': symbol, 'page': page},
       );
-      if (html == null) return DailyQuotePage.empty;
+      if (html == null) return DailyQuotePageModel.empty;
 
-      return DailyQuotePage.fromHtml(html, requestedPage: page);
+      return DailyQuotePageModel.fromHtml(html, requestedPage: page);
     } catch (e) {
       LogUtil().logError('getDailyQuotes($symbol, $page): $e', module: _file);
     }
-    return DailyQuotePage.empty;
+    return DailyQuotePageModel.empty;
   }
 }

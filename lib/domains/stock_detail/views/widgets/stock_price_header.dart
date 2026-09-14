@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/app_text_styles.dart';
 import '../../../../enums/price_direction.dart';
-import '../../../../models/stock_quote.dart';
+import '../../../../models/stock_quote_model.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 
@@ -10,7 +10,7 @@ import '../../../../utils/format_util.dart';
 class StockPriceHeader extends StatelessWidget {
   const StockPriceHeader({required this.quote, super.key});
 
-  final StockQuote quote;
+  final StockQuoteModel quote;
 
   @override
   Widget build(BuildContext context) {

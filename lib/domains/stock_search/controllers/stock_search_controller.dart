@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import '../../../repository/stock_repository.dart';
-import '../../../models/stock.dart';
+import '../../../models/stock_model.dart';
 
 //TODO 리뷰 확인
 
@@ -19,13 +19,13 @@ class StockSearchController extends ChangeNotifier {
 
   Timer? _debounceTimer;
   String _keyword = '';
-  List<Stock> _results = <Stock>[];
+  List<StockModel> _results = <StockModel>[];
   bool _isLoading = false;
 
   String get keyword => _keyword;
 
-  List<Stock> get results =>
-      List<Stock>.unmodifiable(_results);
+  List<StockModel> get results =>
+      List<StockModel>.unmodifiable(_results);
 
   bool get isLoading => _isLoading;
 
@@ -37,7 +37,7 @@ class StockSearchController extends ChangeNotifier {
     _debounceTimer?.cancel();
 
     if (!hasKeyword) {
-      _results = <Stock>[];
+      _results = <StockModel>[];
       _isLoading = false;
       notifyListeners();
       return;
@@ -52,7 +52,7 @@ class StockSearchController extends ChangeNotifier {
 
   Future<void> _search() async {
     final String requested = _keyword.trim();
-    final List<Stock> results =
+    final List<StockModel> results =
         await _stockRepository.getAutoComplete(requested);
 
     // 응답이 도착하는 사이 검색어가 바뀌었으면 버린다.

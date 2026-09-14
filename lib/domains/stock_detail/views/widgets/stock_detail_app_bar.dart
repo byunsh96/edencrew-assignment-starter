@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../constants/app_icons.dart';
-import '../../../../models/stock.dart';
+import '../../../../models/stock_model.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
@@ -12,7 +12,7 @@ import '../../../../widgets/stock_label.dart';
 class StockDetailAppBar extends StatelessWidget {
   const StockDetailAppBar({required this.stock, super.key});
 
-  final Stock stock;
+  final StockModel stock;
 
   @override
   Widget build(BuildContext context) {

@@ -3,19 +3,13 @@ import 'package:html/parser.dart';
 
 import '../../../utils/format_util.dart';
 import '../../../utils/parse_util.dart';
-import 'daily_quote.dart';
+import 'daily_quote_model.dart';
 
-//TODO 리뷰 확인
-
-/// 일별 시세 HTML 한 페이지의 파싱 결과.
-///
-/// `lastPage`를 알아야 그보다 큰 페이지를 요청하지 않는다.
-class DailyQuotePage {
-  const DailyQuotePage({required this.quotes, required this.lastPage});
+class DailyQuotePageModel {
+  const DailyQuotePageModel({required this.quotes, required this.lastPage});
 
   /// 응답이 비었거나 파싱에 실패했을 때의 fallback.
-  static const DailyQuotePage empty =
-      DailyQuotePage(quotes: <DailyQuote>[], lastPage: 1);
+  static const DailyQuotePageModel empty = DailyQuotePageModel(quotes: <DailyQuoteModel>[], lastPage: 1);
 
   /// 한 페이지에 담기는 거래일 수.
   static const int rowsPerPage = 10;
@@ -24,15 +18,15 @@ class DailyQuotePage {
   ///
   /// [requestedPage]는 `맨뒤` 링크를 찾지 못했을 때 쓰는 fallback이다.
   /// 마지막 페이지에서는 그 링크가 사라지므로 없다고 해서 오류는 아니다.
-  factory DailyQuotePage.fromHtml(String html, {required int requestedPage}) {
+  factory DailyQuotePageModel.fromHtml(String html, {required int requestedPage}) {
     final Document document = parse(html);
-    return DailyQuotePage(
+    return DailyQuotePageModel(
       quotes: _parseRows(document),
       lastPage: _parseLastPage(document) ?? requestedPage,
     );
   }
 
-  final List<DailyQuote> quotes;
+  final List<DailyQuoteModel> quotes;
   final int lastPage;
 
   bool get isEmpty => quotes.isEmpty;
@@ -41,8 +35,8 @@ class DailyQuotePage {
   ///
   /// 헤더와 여백 행이 섞여 있어 `td`가 7개이고 날짜가 온전한 행만 남긴다.
   /// 전일비는 절댓값으로 오고 방향은 `em.bu_pdn`(하락) 클래스로 구분한다.
-  static List<DailyQuote> _parseRows(Document document) {
-    final List<DailyQuote> result = <DailyQuote>[];
+  static List<DailyQuoteModel> _parseRows(Document document) {
+    final List<DailyQuoteModel> result = <DailyQuoteModel>[];
 
     for (final Element row in document.querySelectorAll('table.type2 tr')) {
       final List<Element> cells = row.querySelectorAll('td');
@@ -55,7 +49,7 @@ class DailyQuotePage {
       final int changeAmount = _number(cells[2]);
 
       result.add(
-        DailyQuote(
+        DailyQuoteModel(
           date: date,
           closePrice: _number(cells[1]),
           change: isDown ? -changeAmount : changeAmount,
@@ -71,8 +65,7 @@ class DailyQuotePage {
 
   /// 페이지 네비게이션의 `맨뒤` 링크에서 마지막 페이지를 읽는다.
   static int? _parseLastPage(Document document) {
-    final String? href =
-        document.querySelector('td.pgRR a')?.attributes['href'];
+    final String? href = document.querySelector('td.pgRR a')?.attributes['href'];
     if (href == null) return null;
 
     final String? page = Uri.tryParse(href)?.queryParameters['page'];
@@ -80,7 +73,6 @@ class DailyQuotePage {
   }
 
   /// 셀에서 숫자만 남겨 파싱한다.
-  ///
   /// 전일비 셀에는 방향을 알리는 `하락` / `상승` 텍스트가 숫자와 함께 들어 있다.
   static int _number(Element cell) {
     final String digits = cell.text.replaceAll(RegExp(r'[^0-9]'), '');

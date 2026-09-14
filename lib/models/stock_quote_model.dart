@@ -5,8 +5,8 @@ import '../utils/parse_util.dart';
 ///
 /// 응답에 등락액(`cv`)과 등락률(`cr`)이 있지만 둘 다 절댓값이고 방향은 별도 코드(`rf`)로
 /// 온다. 코드 해석에 기대는 대신 `nv - pcv`로 직접 계산한다.
-class StockQuote {
-  const StockQuote({
+class StockQuoteModel {
+  const StockQuoteModel({
     required this.symbol,
     required this.name,
     required this.currentPrice,
@@ -18,8 +18,8 @@ class StockQuote {
     required this.listedShareCount,
   });
 
-  factory StockQuote.fromJson(Map<String, dynamic> json) {
-    return StockQuote(
+  factory StockQuoteModel.fromJson(Map<String, dynamic> json) {
+    return StockQuoteModel(
       symbol: ParseUtil.parse<String>(json, 'cd'),
       name: ParseUtil.parse<String>(json, 'nm'),
       currentPrice: ParseUtil.parse<int>(json, 'nv'),

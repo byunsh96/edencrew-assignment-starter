@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../enums/price_direction.dart';
 import '../../../../theme/theme.dart';
-import '../../models/daily_quote.dart';
+import '../../models/daily_quote_model.dart';
 
 /// 일별 시세를 캔들로 그린다.
 class CandleChart extends StatelessWidget {
@@ -13,7 +13,7 @@ class CandleChart extends StatelessWidget {
   /// Figma 차트 영역 높이.
   static const double height = 200;
 
-  final List<DailyQuote> quotes;
+  final List<DailyQuoteModel> quotes;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _CandlePainter extends CustomPainter {
   /// 고가와 저가가 같은 종목(상한가 등)에서 0으로 나누는 것을 막는 여유값.
   static const double _minPriceRange = 1;
 
-  final List<DailyQuote> quotes;
+  final List<DailyQuoteModel> quotes;
   final Color upColor;
   final Color downColor;
   final Color flatColor;
@@ -63,7 +63,7 @@ class _CandlePainter extends CustomPainter {
 
     double highest = quotes.first.highPrice.toDouble();
     double lowest = quotes.first.lowPrice.toDouble();
-    for (final DailyQuote quote in quotes) {
+    for (final DailyQuoteModel quote in quotes) {
       highest = math.max(highest, quote.highPrice.toDouble());
       lowest = math.min(lowest, quote.lowPrice.toDouble());
     }
@@ -75,7 +75,7 @@ class _CandlePainter extends CustomPainter {
     double toY(num price) => size.height * (highest - price) / range;
 
     for (int i = 0; i < quotes.length; i++) {
-      final DailyQuote quote = quotes[i];
+      final DailyQuoteModel quote = quotes[i];
       final double centerX = slotWidth * (i + 0.5);
       final Paint paint = Paint()
         ..color = switch (quote.candleDirection) {

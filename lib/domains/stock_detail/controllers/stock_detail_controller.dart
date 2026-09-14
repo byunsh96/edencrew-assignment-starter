@@ -2,13 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 
-import '../../../models/stock.dart';
-import '../../../models/stock_quote.dart';
+import '../../../models/stock_model.dart';
+import '../../../models/stock_quote_model.dart';
 import '../../../repository/stock_repository.dart';
 import '../../favorite_list/controllers/favorite_controller.dart';
 import '../enums/chart_period.dart';
-import '../models/daily_quote.dart';
-import '../models/daily_quote_page.dart';
+import '../models/daily_quote_model.dart';
+import '../models/daily_quote_page_model.dart';
 
 //TODO 리뷰 확인
 
@@ -16,7 +16,7 @@ import '../models/daily_quote_page.dart';
 class StockDetailController extends ChangeNotifier {
   StockDetailController({
     required FavoriteController favoriteController,
-    required Stock stock,
+    required StockModel stock,
   })  : _favoriteController = favoriteController,
         _stock = stock {
     _load();
@@ -26,25 +26,25 @@ class StockDetailController extends ChangeNotifier {
   final FavoriteController _favoriteController;
 
   /// 목록에서 받은 종목 정보. 메타 endpoint 응답이 오면 그 값으로 갈아끼운다.
-  Stock _stock;
+  StockModel _stock;
 
   /// 페이지 번호 -> 그 페이지의 일별 시세.
   ///
   /// 기간 탭을 오갈 때 이미 받은 페이지를 다시 요청하지 않기 위한 캐시다.
   /// 1년을 본 뒤 1개월로 돌아오면 요청이 한 건도 나가지 않는다.
-  final Map<int, List<DailyQuote>> _pageCache = <int, List<DailyQuote>>{};
+  final Map<int, List<DailyQuoteModel>> _pageCache = <int, List<DailyQuoteModel>>{};
 
   /// 응답에서 읽은 마지막 페이지. 이 값을 넘는 페이지는 요청하지 않는다.
   int? _lastPage;
 
-  StockQuote? _quote;
+  StockQuoteModel? _quote;
   ChartPeriod _period = ChartPeriod.oneMonth;
   bool _isLoading = true;
   bool _isPeriodLoading = false;
 
-  Stock get stock => _stock;
+  StockModel get stock => _stock;
 
-  StockQuote? get quote => _quote;
+  StockQuoteModel? get quote => _quote;
 
   ChartPeriod get period => _period;
 
@@ -55,10 +55,10 @@ class StockDetailController extends ChangeNotifier {
   bool get isFavorite => _favoriteController.contains(_stock.symbol);
 
   /// 선택한 기간에 해당하는 일별 시세. 최신 날짜가 앞이다.
-  List<DailyQuote> get dailyQuotes {
+  List<DailyQuoteModel> get dailyQuotes {
     final int target = math.min(_period.pageCount, _lastPage ?? _period.pageCount);
 
-    final List<DailyQuote> result = <DailyQuote>[];
+    final List<DailyQuoteModel> result = <DailyQuoteModel>[];
     for (int page = 1; page <= target; page++) {
       result.addAll(_pageCache[page] ?? const []);
     }
@@ -95,7 +95,7 @@ class StockDetailController extends ChangeNotifier {
   }
 
   Future<void> _fetchQuote() async {
-    final List<StockQuote> quotes =
+    final List<StockQuoteModel> quotes =
         await _stockRepository.getRealtimeQuotes(<String>[_stock.symbol]);
     _quote = quotes.isEmpty ? null : quotes.first;
   }
@@ -106,7 +106,7 @@ class StockDetailController extends ChangeNotifier {
   /// 상세는 한 종목만 보므로 요청이 1건이다. 검색·관심 목록에서 종목마다 부르면
   /// 목록 크기만큼 요청이 늘어나므로 그쪽은 자동완성이 준 값을 그대로 쓴다.
   Future<void> _fetchMeta() async {
-    final Stock? meta = await _stockRepository.getStockMeta(_stock.symbol);
+    final StockModel? meta = await _stockRepository.getStockMeta(_stock.symbol);
     if (meta != null) _stock = meta;
   }
 
@@ -114,7 +114,7 @@ class StockDetailController extends ChangeNotifier {
   Future<void> _ensurePages(int required) async {
     // lastPage를 알아야 그보다 큰 페이지를 거를 수 있으므로 1페이지를 먼저 받는다.
     if (_lastPage == null) {
-      final DailyQuotePage first =
+      final DailyQuotePageModel first =
           await _stockRepository.getDailyQuotes(_stock.symbol, page: 1);
       if (first.isEmpty) return;
 
@@ -130,7 +130,7 @@ class StockDetailController extends ChangeNotifier {
     if (missing.isEmpty) return;
 
     // 남은 페이지는 한꺼번에 받는다. 1년(25페이지)을 순차로 받으면 너무 느리다.
-    final List<DailyQuotePage> results = await Future.wait(
+    final List<DailyQuotePageModel> results = await Future.wait(
       missing.map(
         (int page) =>
             _stockRepository.getDailyQuotes(_stock.symbol, page: page),

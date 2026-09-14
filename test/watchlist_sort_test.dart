@@ -6,29 +6,29 @@ import 'package:edencrew_assignment_starter/core/repository/core_repository.dart
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_list_controller.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/enums/favorite_list_sort.dart';
-import 'package:edencrew_assignment_starter/domains/favorite_list/models/favorite_list_item.dart';
+import 'package:edencrew_assignment_starter/domains/favorite_list/models/favorite_list_item_model.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/favorite_list_sort_sheet.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:edencrew_assignment_starter/models/stock.dart';
+import 'package:edencrew_assignment_starter/models/stock_model.dart';
 
 /// 정렬 바텀시트와 정렬 규칙을 검증한다.
 void main() {
-  const List<Stock> stocks = <Stock>[
-    Stock(symbol: '005930', name: '삼성전자', marketName: '코스피'),
-    Stock(symbol: '000660', name: 'SK하이닉스', marketName: '코스피'),
-    Stock(symbol: '035720', name: '카카오', marketName: '코스피'),
+  const List<StockModel> stocks = <StockModel>[
+    StockModel(symbol: '005930', name: '삼성전자', marketName: '코스피'),
+    StockModel(symbol: '000660', name: 'SK하이닉스', marketName: '코스피'),
+    StockModel(symbol: '035720', name: '카카오', marketName: '코스피'),
     // 시세 응답에 없는 종목. 스켈레톤으로 그려진다.
-    Stock(symbol: '999999', name: '가상종목', marketName: '코스닥'),
+    StockModel(symbol: '999999', name: '가상종목', marketName: '코스닥'),
   ];
 
   late FavoriteListController controller;
 
   setUp(() async {
     final FavoriteController favorites = FavoriteController();
-    for (final Stock stock in stocks) {
+    for (final StockModel stock in stocks) {
       favorites.toggle(stock);
     }
 
@@ -44,21 +44,21 @@ void main() {
   tearDown(() => controller.dispose());
 
   test('현재가순은 내림차순이고 시세 미수신 행이 맨 뒤로 간다', () {
-    final List<FavoriteListItem> items = controller.items;
+    final List<FavoriteListItemModel> items = controller.items;
 
     expect(items.last.stock.symbol, '999999');
     expect(items.last.hasQuote, isFalse);
 
     final List<int> prices = items
-        .where((FavoriteListItem e) => e.hasQuote)
-        .map((FavoriteListItem e) => e.quote!.currentPrice)
+        .where((FavoriteListItemModel e) => e.hasQuote)
+        .map((FavoriteListItemModel e) => e.quote!.currentPrice)
         .toList();
     expect(prices, List<int>.from(prices)..sort((int a, int b) => b - a));
   });
 
   test('가나다순에서도 시세 미수신 행은 뒤로 간다', () {
     controller.changeSort(FavoriteListSort.name);
-    final List<FavoriteListItem> items = controller.items;
+    final List<FavoriteListItemModel> items = controller.items;
 
     // '가상종목'은 가나다순으로 맨 앞이지만 시세가 없어 뒤로 밀린다.
     expect(items.last.stock.name, '가상종목');

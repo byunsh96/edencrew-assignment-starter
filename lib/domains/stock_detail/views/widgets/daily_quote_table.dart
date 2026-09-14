@@ -4,7 +4,7 @@ import '../../../../constants/app_text_styles.dart';
 import '../../../../enums/price_direction.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
-import '../../models/daily_quote.dart';
+import '../../models/daily_quote_model.dart';
 
 /// 일별 시세 표. 날짜 · 종가 · 등락 · 거래량.
 class DailyQuoteTable extends StatelessWidget {
@@ -16,7 +16,7 @@ class DailyQuoteTable extends StatelessWidget {
   /// 행 높이와 세로 여백.
   static const double _rowHeight = 32;
 
-  final List<DailyQuote> quotes;
+  final List<DailyQuoteModel> quotes;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class DailyQuoteTable extends StatelessWidget {
         Column(
           children: [
             const _HeadRow(),
-            for (final DailyQuote quote in quotes) _QuoteRow(quote: quote),
+            for (final DailyQuoteModel quote in quotes) _QuoteRow(quote: quote),
           ],
         ),
       ],
@@ -63,7 +63,7 @@ class _HeadRow extends StatelessWidget {
 class _QuoteRow extends StatelessWidget {
   const _QuoteRow({required this.quote});
 
-  final DailyQuote quote;
+  final DailyQuoteModel quote;
 
   @override
   Widget build(BuildContext context) {

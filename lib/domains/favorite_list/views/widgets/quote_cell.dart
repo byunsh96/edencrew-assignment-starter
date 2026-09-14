@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/app_text_styles.dart';
 import '../../../../enums/price_direction.dart';
-import '../../../../models/stock_quote.dart';
+import '../../../../models/stock_quote_model.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/format_util.dart';
 
@@ -12,11 +12,11 @@ import '../../../../utils/format_util.dart';
 class QuoteCell extends StatelessWidget {
   const QuoteCell({super.key, this.quote});
 
-  final StockQuote? quote;
+  final StockQuoteModel? quote;
 
   @override
   Widget build(BuildContext context) {
-    if (quote case final StockQuote quote) return _Quote(quote: quote);
+    if (quote case final StockQuoteModel quote) return _Quote(quote: quote);
     return const _QuoteSkeleton();
   }
 }
@@ -24,7 +24,7 @@ class QuoteCell extends StatelessWidget {
 class _Quote extends StatelessWidget {
   const _Quote({required this.quote});
 
-  final StockQuote quote;
+  final StockQuoteModel quote;
 
   @override
   Widget build(BuildContext context) {

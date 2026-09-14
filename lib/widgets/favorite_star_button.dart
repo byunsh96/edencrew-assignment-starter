@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../constants/app_icons.dart';
 import '../domains/favorite_list/controllers/favorite_controller.dart';
-import '../models/stock.dart';
+import '../models/stock_model.dart';
 import '../theme/theme.dart';
 import 'app_ink_well.dart';
 import 'app_svg_icon.dart';
@@ -17,7 +17,7 @@ import 'app_toast.dart';
 class FavoriteStarButton extends StatelessWidget {
   const FavoriteStarButton({required this.stock, super.key});
 
-  final Stock stock;
+  final StockModel stock;
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../models/stock.dart';
-import '../../../models/stock_quote.dart';
+import '../../../models/stock_model.dart';
+import '../../../models/stock_quote_model.dart';
 import '../../../repository/stock_repository.dart';
 import '../enums/favorite_list_sort.dart';
-import '../models/favorite_list_item.dart';
+import '../models/favorite_list_item_model.dart';
 import 'favorite_controller.dart';
 
 //TODO 리뷰 확인
@@ -21,7 +21,7 @@ class FavoriteListController extends ChangeNotifier {
   final FavoriteController _favoriteController;
 
   /// symbol로 바로 찾을 수 있게 Map으로 들고 있는다.
-  final Map<String, StockQuote> _quotes = <String, StockQuote>{};
+  final Map<String, StockQuoteModel> _quotes = <String, StockQuoteModel>{};
 
   bool _isLoading = true;
   bool _hasError = false;
@@ -36,9 +36,9 @@ class FavoriteListController extends ChangeNotifier {
   FavoriteListSort get sort => _sort;
 
   /// 관심 목록에 현재 시세를 붙이고 정렬해서 돌려준다.
-  List<FavoriteListItem> get items {
-    final List<FavoriteListItem> result = _favoriteController.items
-        .map((Stock stock) => FavoriteListItem(stock: stock, quote: _quotes[stock.symbol]))
+  List<FavoriteListItemModel> get items {
+    final List<FavoriteListItemModel> result = _favoriteController.items
+        .map((StockModel stock) => FavoriteListItemModel(stock: stock, quote: _quotes[stock.symbol]))
         .toList();
 
     result.sort(_compare);
@@ -60,12 +60,12 @@ class FavoriteListController extends ChangeNotifier {
     _hasError = false;
     notifyListeners();
 
-    final List<StockQuote> quotes = await _stockRepository.getRealtimeQuotes(symbols);
+    final List<StockQuoteModel> quotes = await _stockRepository.getRealtimeQuotes(symbols);
 
     // 관심 목록에서 빠진 종목의 시세가 남지 않도록 통째로 갈아끼운다.
     _quotes
       ..clear()
-      ..addEntries(quotes.map((StockQuote e) => MapEntry<String, StockQuote>(e.symbol, e)));
+      ..addEntries(quotes.map((StockQuoteModel e) => MapEntry<String, StockQuoteModel>(e.symbol, e)));
 
     // 요청은 했는데 한 건도 못 받았다면 네트워크 문제로 본다.
     _hasError = quotes.isEmpty;
@@ -88,9 +88,9 @@ class FavoriteListController extends ChangeNotifier {
   ///
   /// Figma에 정의되지 않은 부분이다. 0으로 취급하면 하락 종목과 섞여
   /// 실제로 떨어진 종목처럼 읽히므로 목록 끝으로 몰았다.
-  int _compare(FavoriteListItem a, FavoriteListItem b) {
-    final StockQuote? left = a.quote;
-    final StockQuote? right = b.quote;
+  int _compare(FavoriteListItemModel a, FavoriteListItemModel b) {
+    final StockQuoteModel? left = a.quote;
+    final StockQuoteModel? right = b.quote;
 
     if (left == null && right == null) {
       return a.stock.name.compareTo(b.stock.name);

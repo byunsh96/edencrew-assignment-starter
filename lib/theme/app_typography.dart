@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-//TODO summer + 추가 필요 부분있는지 확인
-
 /// Figma `Typography` 컬렉션을 옮긴 서체 토큰입니다.
 ///
 /// Figma는 서체와 굵기만 변수로 정의해 두었습니다.

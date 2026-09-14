@@ -8,12 +8,12 @@ import 'package:edencrew_assignment_starter/domains/stock_detail/controllers/sto
 import 'package:edencrew_assignment_starter/domains/stock_detail/enums/chart_period.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:edencrew_assignment_starter/models/stock.dart';
+import 'package:edencrew_assignment_starter/models/stock_model.dart';
 
 /// 일별 시세 페이지를 필요한 만큼만 요청하고 재사용하는지 검증한다.
 /// 평가 중점 항목이라 네트워크를 가짜 어댑터로 바꿔 요청 횟수를 센다.
 void main() {
-  const Stock samsung = Stock(
+  const StockModel samsung = StockModel(
     symbol: '005930',
     name: '삼성전자',
     marketName: '코스피',

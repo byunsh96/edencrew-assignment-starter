@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../constants/app_text_styles.dart';
-import '../../../../models/stock.dart';
-import '../../../../models/stock_quote.dart';
+import '../../../../models/stock_model.dart';
+import '../../../../models/stock_quote_model.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_toast_scope.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
@@ -19,10 +19,10 @@ import '../widgets/stock_price_header.dart';
 class StockDetailScreen extends StatelessWidget {
   const StockDetailScreen({required this.stock, super.key});
 
-  final Stock stock;
+  final StockModel stock;
 
   /// 관심 · 검색 목록에서 이 화면으로 이동한다.
-  static Future<void> push(BuildContext context, Stock stock) {
+  static Future<void> push(BuildContext context, StockModel stock) {
     return Navigator.of(
       context,
     ).push(MaterialPageRoute<void>(builder: (_) => StockDetailScreen(stock: stock)));
@@ -85,7 +85,7 @@ class _StockDetailView extends StatelessWidget {
                           Column(
                             spacing: dimens.space4,
                             children: [
-                              if (controller.quote case final StockQuote quote) ...<Widget>[
+                              if (controller.quote case final StockQuoteModel quote) ...<Widget>[
                                 StockPriceHeader(quote: quote),
                               ],
                               PeriodTabs(
@@ -102,7 +102,7 @@ class _StockDetailView extends StatelessWidget {
                               // 앞의 간격을 요약 카드와 함께 묶는다. Figma에서 이 16은
                               // Price 그룹 내부 간격이라 카드가 빠지면 함께 사라져야 한다.
                               // 뒤의 24는 Price와 Daily 사이 간격이라 항상 남는다.
-                              if (controller.quote case final StockQuote quote) ...<Widget>[
+                              if (controller.quote case final StockQuoteModel quote) ...<Widget>[
                                 QuoteSummary(quote: quote),
                               ],
                             ],

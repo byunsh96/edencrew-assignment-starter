@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/app_icons.dart';
 import '../../../../theme/theme.dart';
 import '../../../../widgets/app_empty_view.dart';
-import '../../../../models/stock.dart';
+import '../../../../models/stock_model.dart';
 import '../../../stock_detail/views/screens/stock_detail_screen.dart';
 import '../../controllers/stock_search_controller.dart';
 import '../widgets/search_field.dart';
@@ -71,7 +71,7 @@ class _SearchViewState extends State<_SearchView> {
                 );
               }
 
-              final List<Stock> results = controller.results;
+              final List<StockModel> results = controller.results;
               if (results.isEmpty) {
                 return AppEmptyView(
                   icon: AppIcons.searchEmpty,
