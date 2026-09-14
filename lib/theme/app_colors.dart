@@ -142,6 +142,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 검색 결과에서 검색어와 일치하는 부분.
   final Color searchHighlight;
 
+  // drop shadow
+  static Color get dropShadow => AppPalette.neutral1000.withValues(alpha: 0.55);
+
   @override
   AppColors copyWith({
     Color? surfaceBase,

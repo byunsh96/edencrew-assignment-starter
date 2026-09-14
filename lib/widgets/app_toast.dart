@@ -5,8 +5,6 @@ import '../constants/app_text_styles.dart';
 import '../theme/theme.dart';
 import 'app_svg_icon.dart';
 
-//TODO 리뷰 확인
-
 /// 화면 하단에 잠깐 떴다 사라지는 알림.
 ///
 /// Figma에는 떠 있는 모습만 있다. 노출 시간과 사라지는 방식은 직접 정했다.
@@ -18,32 +16,38 @@ abstract final class AppToast {
   static const Duration _visibleDuration = Duration(seconds: 2);
   static const Duration _fadeDuration = Duration(milliseconds: 200);
 
-  /// Figma 토스트 아이콘 크기.
-  static const double _iconSize = 18;
-
   static OverlayEntry? _current;
 
   /// 관심 등록 · 해제 토스트.
-  ///
-  /// 두 화면에서 같은 문구와 아이콘을 쓰므로 여기서 한 번에 정한다.
   static void favorite(BuildContext context, {required bool added}) {
     final AppColors colors = context.colors;
 
     show(
       context,
       icon: added ? AppIcons.starFill : AppIcons.star,
-      // 등록은 채워진 금색 별, 해제는 외곽선 회색 별이다.
       iconColor: added ? colors.favoriteActive : colors.textSecondary,
       message: added ? '관심이 등록되었습니다' : '관심이 해제되었습니다',
     );
   }
 
-  static void show(BuildContext context, {required String icon, required Color iconColor, required String message}) {
+  static void show(
+    BuildContext context, {
+    required String icon,
+    required Color iconColor,
+    required String message,
+  }) {
     final OverlayState overlay = Overlay.of(context);
     _dismiss();
 
     final OverlayEntry entry = OverlayEntry(
-      builder: (BuildContext context) => _ToastCard(icon: icon, iconColor: iconColor, message: message, visibleDuration: _visibleDuration, fadeDuration: _fadeDuration, onFinished: _dismiss),
+      builder: (BuildContext context) => _ToastCard(
+        icon: icon,
+        iconColor: iconColor,
+        message: message,
+        visibleDuration: _visibleDuration,
+        fadeDuration: _fadeDuration,
+        onFinished: _dismiss,
+      ),
     );
 
     _current = entry;
@@ -57,7 +61,14 @@ abstract final class AppToast {
 }
 
 class _ToastCard extends StatefulWidget {
-  const _ToastCard({required this.icon, required this.iconColor, required this.message, required this.visibleDuration, required this.fadeDuration, required this.onFinished});
+  const _ToastCard({
+    required this.icon,
+    required this.iconColor,
+    required this.message,
+    required this.visibleDuration,
+    required this.fadeDuration,
+    required this.onFinished,
+  });
 
   final String icon;
   final Color iconColor;
@@ -71,7 +82,10 @@ class _ToastCard extends StatefulWidget {
 }
 
 class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(vsync: this, duration: widget.fadeDuration);
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: widget.fadeDuration,
+  );
 
   @override
   void initState() {
@@ -101,10 +115,9 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
     final AppDimens dimens = context.dimens;
 
     return Positioned(
-      left: dimens.space4,
-      right: dimens.space4,
-      // 아래쪽 경계는 `AppToastScope`가 정한다. 여기서 탭 바 높이나 safe area를 계산하지 않는다.
-      bottom: dimens.space3,
+      left: 16,
+      right: 16,
+      bottom: 12,
       child: FadeTransition(
         opacity: _controller,
         child: Material(
@@ -117,21 +130,20 @@ class _ToastCardState extends State<_ToastCard> with SingleTickerProviderStateMi
             decoration: BoxDecoration(
               color: colors.surfaceOverlay,
               borderRadius: BorderRadius.circular(dimens.radiusLg),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
-                  color: Color(0x8C000000), // rgba(0, 0, 0, 0.55)
-                  blurRadius: 24,
-                  offset: Offset(0, 8),
-                ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(color: AppColors.dropShadow, blurRadius: 24, offset: Offset(0, 8)),
               ],
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                AppSvgIcon(widget.icon, size: AppToast._iconSize, color: widget.iconColor),
+                AppSvgIcon(widget.icon, size: dimens.iconSmMd, color: widget.iconColor),
                 SizedBox(width: dimens.space2),
                 Flexible(
-                  child: Text(widget.message, style: AppTextStyles.label.copyWith(color: colors.textPrimary)),
+                  child: Text(
+                    widget.message,
+                    style: AppTextStyles.label.copyWith(color: colors.textPrimary),
+                  ),
                 ),
               ],
             ),

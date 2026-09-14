@@ -113,9 +113,8 @@ class _SearchViewState extends State<_SearchView> {
   /// 검색 결과 없음 안내. 사용자가 입력한 검색어를 그대로 넣는다.
   ///
   /// 검색어가 길면 안내문이 화면을 넘기므로 잘라서 보여준다.
-  /// Figma에 정의되지 않은 부분이라 직접 정했다.
   String _notFoundMessage(String keyword) {
-    const int maxLength = 20;
+    const int maxLength = 20; //임의의 값 셋팅해둠.
     final String trimmed = keyword.trim();
     final String shown = trimmed.length <= maxLength
         ? trimmed

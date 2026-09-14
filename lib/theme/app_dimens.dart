@@ -23,6 +23,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
     required this.radiusXlg,
     required this.borderHairline,
     required this.iconSm,
+    required this.iconSmMd,
     required this.iconMd,
     required this.iconMdLg,
     required this.iconLg,
@@ -46,6 +47,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       radiusXlg = 16,
       borderHairline = 1,
       iconSm = 16,
+      iconSmMd = 18,
       iconMd = 20,
       iconMdLg = 22,
       iconLg = 24,
@@ -71,13 +73,9 @@ class AppDimens extends ThemeExtension<AppDimens> {
   final double borderHairline;
 
   final double iconSm;
+  final double iconSmMd;
   final double iconMd;
-
-  /// 관심 별 · 탭 바 아이콘 크기입니다.
-  ///
-  /// Figma가 iconMd(20)와 iconLg(24) 사이 값을 쓰므로 스케일에 끼워 둡니다.
   final double iconMdLg;
-
   final double iconLg;
 
   /// 빈 상태 일러스트 크기입니다.
@@ -107,6 +105,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
     double? radiusXlg,
     double? borderHairline,
     double? iconSm,
+    double? iconSmMd,
     double? iconMd,
     double? iconMdLg,
     double? iconLg,
@@ -129,6 +128,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       radiusXlg: radiusXlg ?? this.radiusXlg,
       borderHairline: borderHairline ?? this.borderHairline,
       iconSm: iconSm ?? this.iconSm,
+      iconSmMd: iconSmMd ?? this.iconSmMd,
       iconMd: iconMd ?? this.iconMd,
       iconMdLg: iconMdLg ?? this.iconMdLg,
       iconLg: iconLg ?? this.iconLg,
@@ -156,6 +156,7 @@ class AppDimens extends ThemeExtension<AppDimens> {
       radiusXlg: lerpDouble(radiusXlg, other.radiusXlg, t)!,
       borderHairline: lerpDouble(borderHairline, other.borderHairline, t)!,
       iconSm: lerpDouble(iconSm, other.iconSm, t)!,
+      iconSmMd: lerpDouble(iconSmMd, other.iconSmMd, t)!,
       iconMd: lerpDouble(iconMd, other.iconMd, t)!,
       iconMdLg: lerpDouble(iconMdLg, other.iconMdLg, t)!,
       iconLg: lerpDouble(iconLg, other.iconLg, t)!,

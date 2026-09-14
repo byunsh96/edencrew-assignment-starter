@@ -1,7 +1,5 @@
 import 'dart:ui' show Color;
 
-//TODO summer + 추가 필요 부분있는지 확인
-
 /// Figma `Primitives` 컬렉션을 그대로 옮긴 원시 팔레트입니다.
 ///
 /// 화면 코드에서 이 클래스를 직접 참조하지 마세요.
@@ -44,6 +42,8 @@ abstract final class AppPalette {
   static const Color blueAlpha12 = Color(0x1F4D9BEE);
   static const Color violetAlpha12 = Color(0x1F8B7CF6);
 
-  //TODO bottom sheet FAFAFA 색상
+  // 하단 시트 FAFAFA 색상
   static const Color fafafa = Color(0xFFFAFAFA);
+  // drop shadow에 사용될 000000
+  static const Color neutral1000 = Color(0xFF000000);
 }

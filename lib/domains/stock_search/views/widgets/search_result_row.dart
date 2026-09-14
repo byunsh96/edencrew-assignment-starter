@@ -5,11 +5,10 @@ import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../models/favorite_stock.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
 import '../../models/stock_search_item.dart';
-
-//TODO 리뷰 확인
 
 /// 검색 결과 한 행. 종목명(검색어 하이라이트) · 코드 · 관심 토글.
 class SearchResultRow extends StatelessWidget {
@@ -31,47 +30,33 @@ class SearchResultRow extends StatelessWidget {
     final AppColors colors = context.colors;
     final AppDimens dimens = context.dimens;
 
-    return InkWell(
+    return AppInkWell(
       onTap: onTap,
       child: Container(
-        constraints: BoxConstraints(minHeight: dimens.rowMinHeight),
-        // 구분선이 행 높이를 먹지 않도록 foregroundDecoration에 둔다.
-        // decoration에 두면 Border 두께가 padding에 더해져 rowMinHeight를 1px 넘긴다.
         foregroundDecoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: colors.borderSubtle,
-              width: dimens.borderHairline,
-            ),
+            bottom: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
           ),
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
-          children: <Widget>[
+          spacing: dimens.space3,
+          children: [
             Expanded(
               child: Column(
+                spacing: dimens.spaceHalf,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text.rich(
-                    _highlighted(colors),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: dimens.space1 / 2),
+                children: [
+                  Text.rich(_highlighted(colors), maxLines: 1, overflow: TextOverflow.ellipsis),
                   Text(
                     item.symbolWithMarket,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.caption
-                        .copyWith(color: colors.textSecondary),
+                    style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
                   ),
                 ],
               ),
             ),
-            SizedBox(width: dimens.space3),
             _FavoriteButton(item: item, onToggled: onFavoriteToggled),
           ],
         ),
@@ -81,8 +66,7 @@ class SearchResultRow extends StatelessWidget {
 
   /// 종목명에서 검색어와 일치하는 부분만 강조한다.
   TextSpan _highlighted(AppColors colors) {
-    final TextStyle base =
-        AppTextStyles.body.copyWith(color: colors.textPrimary);
+    final TextStyle base = AppTextStyles.body.copyWith(color: colors.textPrimary);
     final String trimmed = keyword.trim();
 
     if (trimmed.isEmpty) {
@@ -120,17 +104,12 @@ class _FavoriteButton extends StatelessWidget {
 
     // 관심 상태만 구독한다. 목록 전체가 아니라 이 행만 다시 그린다.
     return Selector<FavoriteController, bool>(
-      selector: (_, FavoriteController controller) =>
-          controller.contains(item.symbol),
+      selector: (_, FavoriteController controller) => controller.contains(item.symbol),
       builder: (BuildContext context, bool isFavorite, _) => InkWell(
         onTap: () {
           final bool added = context.read<FavoriteController>().toggle(
-                FavoriteStock(
-                  symbol: item.symbol,
-                  name: item.name,
-                  marketName: item.marketName,
-                ),
-              );
+            FavoriteStock(symbol: item.symbol, name: item.name, marketName: item.marketName),
+          );
           onToggled(added);
         },
         child: AppSvgIcon(
