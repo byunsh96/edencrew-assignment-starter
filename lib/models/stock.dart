@@ -13,11 +13,23 @@ class Stock {
     required this.marketName,
   });
 
+  /// 검색 자동완성(`ac.stock.naver.com`) 응답에서 만든다.
   factory Stock.fromJson(Map<String, dynamic> json) {
     return Stock(
       symbol: ParseUtil.parse<String>(json, 'code'),
       name: ParseUtil.parse<String>(json, 'name'),
       marketName: ParseUtil.parse<String>(json, 'typeName'),
+    );
+  }
+
+  /// 종목 메타(`stock.naver.com`) 응답에서 만든다.
+  ///
+  /// 같은 정보인데 endpoint마다 키 이름이 달라 생성자를 나눈다.
+  factory Stock.fromMetaJson(Map<String, dynamic> json) {
+    return Stock(
+      symbol: ParseUtil.parse<String>(json, 'symbolCode'),
+      name: ParseUtil.parse<String>(json, 'stockName'),
+      marketName: ParseUtil.parse<String>(json, 'stockExchangeNameKor'),
     );
   }
 
@@ -39,6 +51,12 @@ class Stock {
   final String marketName;
 
   String get symbolWithMarket => '$symbol · $marketName';
+
+  /// 앱 내부에서 종목을 가리키는 canonical id.
+  ///
+  /// 해외 종목이 들어와도 구분되도록 국가 접두사를 붙인다.
+  /// (`docs/NAVER_API.md` 1번 - `domestic:{symbol}`)
+  String get canonicalId => 'domestic:$symbol';
 
   /// 국내 주식이면서 6자리 종목코드인 항목만 통과시킨다.
   ///

@@ -1,10 +1,10 @@
 import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/favorite_controller.dart';
-import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:edencrew_assignment_starter/models/stock.dart';
 
 /// 관심 상태는 세 화면이 공유하므로 어긋나면 안 된다.
 void main() {
-  const FavoriteStock samsung = FavoriteStock(
+  const Stock samsung = Stock(
     symbol: '005930',
     name: '삼성전자',
     marketName: '코스피',
@@ -39,7 +39,7 @@ void main() {
   test('등록 시 이름과 거래소명을 함께 보관한다', () {
     controller.toggle(samsung);
 
-    final FavoriteStock stored = controller.items.single;
+    final Stock stored = controller.items.single;
     expect(stored.name, '삼성전자');
     expect(stored.symbolWithMarket, '005930 · 코스피');
   });
@@ -47,7 +47,7 @@ void main() {
   test('같은 종목은 중복 등록되지 않는다', () {
     controller.toggle(samsung);
     controller.toggle(
-      const FavoriteStock(symbol: '005930', name: '삼성전자', marketName: '코스피'),
+      const Stock(symbol: '005930', name: '삼성전자', marketName: '코스피'),
     );
 
     expect(controller.items, isEmpty); // 두 번째 toggle은 해제로 동작한다

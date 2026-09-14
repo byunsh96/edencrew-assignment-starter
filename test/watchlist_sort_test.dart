@@ -8,27 +8,27 @@ import 'package:edencrew_assignment_starter/domains/favorite_list/controllers/fa
 import 'package:edencrew_assignment_starter/domains/favorite_list/enums/favorite_list_sort.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/models/favorite_list_item.dart';
 import 'package:edencrew_assignment_starter/domains/favorite_list/views/widgets/favorite_list_sort_sheet.dart';
-import 'package:edencrew_assignment_starter/models/favorite_stock.dart';
 import 'package:edencrew_assignment_starter/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:edencrew_assignment_starter/models/stock.dart';
 
 /// 정렬 바텀시트와 정렬 규칙을 검증한다.
 void main() {
-  const List<FavoriteStock> stocks = <FavoriteStock>[
-    FavoriteStock(symbol: '005930', name: '삼성전자', marketName: '코스피'),
-    FavoriteStock(symbol: '000660', name: 'SK하이닉스', marketName: '코스피'),
-    FavoriteStock(symbol: '035720', name: '카카오', marketName: '코스피'),
+  const List<Stock> stocks = <Stock>[
+    Stock(symbol: '005930', name: '삼성전자', marketName: '코스피'),
+    Stock(symbol: '000660', name: 'SK하이닉스', marketName: '코스피'),
+    Stock(symbol: '035720', name: '카카오', marketName: '코스피'),
     // 시세 응답에 없는 종목. 스켈레톤으로 그려진다.
-    FavoriteStock(symbol: '999999', name: '가상종목', marketName: '코스닥'),
+    Stock(symbol: '999999', name: '가상종목', marketName: '코스닥'),
   ];
 
   late FavoriteListController controller;
 
   setUp(() async {
     final FavoriteController favorites = FavoriteController();
-    for (final FavoriteStock stock in stocks) {
+    for (final Stock stock in stocks) {
       favorites.toggle(stock);
     }
 

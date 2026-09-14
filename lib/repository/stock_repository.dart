@@ -3,7 +3,6 @@ import '../core/models/api_response.dart';
 import '../core/repository/core_repository.dart';
 import '../models/stock.dart';
 import '../domains/stock_detail/models/daily_quote_page.dart';
-import '../models/stock_meta.dart';
 import '../models/stock_quote.dart';
 import '../utils/log_util.dart';
 import '../utils/parse_util.dart';
@@ -78,14 +77,14 @@ class StockRepository {
   }
 
   //GET https://stock.naver.com/api/securityFe/api/fchart/domestic/stock/{symbol} (종목 메타)
-  Future<StockMeta?> getStockMeta(String symbol) async {
+  Future<Stock?> getStockMeta(String symbol) async {
     try {
       final ApiResponse response = await _coreRepository.getData(NaverApi.stockMeta(symbol));
 
       final Map<String, dynamic>? json = response.asMap;
       if (json == null) return null;
 
-      return StockMeta.fromJson(json);
+      return Stock.fromMetaJson(json);
     } catch (e) {
       LogUtil().logError('getStockMeta($symbol): $e', module: _file);
     }

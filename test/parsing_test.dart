@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cp949_codec/cp949_codec.dart';
-import 'package:edencrew_assignment_starter/domains/stock_search/models/stock_search_item.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote.dart';
 import 'package:edencrew_assignment_starter/domains/stock_detail/models/daily_quote_page.dart';
 import 'package:edencrew_assignment_starter/enums/price_direction.dart';
-import 'package:edencrew_assignment_starter/models/stock_meta.dart';
 import 'package:edencrew_assignment_starter/models/stock_quote.dart';
 import 'package:edencrew_assignment_starter/utils/parse_util.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:edencrew_assignment_starter/models/stock.dart';
 
 /// `assets/mock/`에 저장해 둔 실제 응답으로 파싱을 검증한다.
 ///
@@ -29,20 +28,20 @@ void main() {
       final Map<String, dynamic> json =
           readJson('auto_complete.json', isEucKr: false);
 
-      final List<StockSearchItem> items = ParseUtil.parseList<
+      final List<Stock> items = ParseUtil.parseList<
           Map<String, dynamic>>(json, 'items', (Map<String, dynamic> e) => e)
-          .where(StockSearchItem.isDomesticStock)
-          .map(StockSearchItem.fromJson)
+          .where(Stock.isDomesticStock)
+          .map(Stock.fromJson)
           .toList();
 
       expect(items, isNotEmpty);
-      for (final StockSearchItem item in items) {
+      for (final Stock item in items) {
         expect(item.symbol, matches(RegExp(r'^\d{6}$')));
         expect(item.name, isNotEmpty);
       }
 
-      final StockSearchItem samsung =
-          items.firstWhere((StockSearchItem e) => e.symbol == '005930');
+      final Stock samsung =
+          items.firstWhere((Stock e) => e.symbol == '005930');
       expect(samsung.name, '삼성전자');
       expect(samsung.marketName, '코스피');
       expect(samsung.canonicalId, 'domestic:005930');
@@ -97,8 +96,8 @@ void main() {
 
   group('종목 메타', () {
     test('종목명과 거래소명을 읽는다', () {
-      final StockMeta meta =
-          StockMeta.fromJson(readJson('stock_meta.json', isEucKr: false));
+      final Stock meta =
+          Stock.fromMetaJson(readJson('stock_meta.json', isEucKr: false));
 
       expect(meta.symbol, '005930');
       expect(meta.name, '삼성전자');
