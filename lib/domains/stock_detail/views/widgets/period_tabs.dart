@@ -26,7 +26,7 @@ class PeriodTabs extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Row(
-      children: <Widget>[
+      children: [
         for (final ChartPeriod period in ChartPeriod.values) ...<Widget>[
           if (period != ChartPeriod.values.first)
             SizedBox(width: dimens.space1),
@@ -36,8 +36,8 @@ class PeriodTabs extends StatelessWidget {
               borderRadius: BorderRadius.circular(dimens.radiusMd),
               child: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: dimens.space3,
                   vertical: _verticalPadding,
                 ),
                 decoration: BoxDecoration(

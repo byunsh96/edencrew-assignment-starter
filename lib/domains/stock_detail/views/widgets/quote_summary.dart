@@ -13,7 +13,6 @@ class QuoteSummary extends StatelessWidget {
 
   /// Figma 카드 안쪽 여백.
   static const double _cellVerticalPadding = 9;
-  static const double _cellHorizontalPadding = 10;
 
   /// 라벨과 값 사이 간격.
   static const double _cellGap = 3;
@@ -25,9 +24,9 @@ class QuoteSummary extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Column(
-      children: <Widget>[
+      children: [
         Row(
-          children: <Widget>[
+          children: [
             _Cell(label: '시가', value: FormatUtil.decimal(quote.openPrice)),
             SizedBox(width: dimens.space2),
             _Cell(label: '고가', value: FormatUtil.decimal(quote.highPrice)),
@@ -37,7 +36,7 @@ class QuoteSummary extends StatelessWidget {
         ),
         SizedBox(height: dimens.space2),
         Row(
-          children: <Widget>[
+          children: [
             _Cell(
               label: '거래량',
               value: FormatUtil.volume(quote.accumulatedTradingVolume),
@@ -66,8 +65,8 @@ class _Cell extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: QuoteSummary._cellHorizontalPadding,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.dimens.space2Mid,
           vertical: QuoteSummary._cellVerticalPadding,
         ),
         decoration: BoxDecoration(
@@ -76,7 +75,7 @@ class _Cell extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Text(
               label,
               style: AppTextStyles.caption

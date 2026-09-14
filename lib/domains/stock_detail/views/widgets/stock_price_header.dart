@@ -22,7 +22,7 @@ class StockPriceHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
-      children: <Widget>[
+      children: [
         Text(
           FormatUtil.decimal(quote.currentPrice),
           style:

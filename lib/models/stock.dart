@@ -67,10 +67,13 @@ class Stock {
         _symbolPattern.hasMatch(ParseUtil.parse<String>(json, 'code'));
   }
 
-  /// 관심 목록 중복 등록을 막는다. 종목코드가 같으면 같은 종목이다.
+  /// 관심 목록 중복 등록을 막는다. [canonicalId]가 같으면 같은 종목이다.
+  ///
+  /// 종목코드만 비교하면 해외 종목이 추가됐을 때 같은 번호끼리 충돌한다.
   @override
-  bool operator ==(Object other) => other is Stock && other.symbol == symbol;
+  bool operator ==(Object other) =>
+      other is Stock && other.canonicalId == canonicalId;
 
   @override
-  int get hashCode => symbol.hashCode;
+  int get hashCode => canonicalId.hashCode;
 }

@@ -78,7 +78,7 @@ class SearchResultRow extends StatelessWidget {
     final int end = start + trimmed.length;
     return TextSpan(
       style: base,
-      children: <TextSpan>[
+      children: [
         TextSpan(text: item.name.substring(0, start)),
         TextSpan(
           text: item.name.substring(start, end),

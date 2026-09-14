@@ -5,21 +5,13 @@ import '../../../../constants/app_icons.dart';
 import '../../../../constants/app_text_styles.dart';
 import '../../../../models/stock.dart';
 import '../../../../theme/theme.dart';
+import '../../../../widgets/app_ink_well.dart';
 import '../../../../widgets/app_svg_icon.dart';
 import '../../../favorite_list/controllers/favorite_controller.dart';
 
-//TODO 리뷰 확인
-
 /// 상세 화면 상단. 뒤로가기 · 종목명 · 관심 토글.
 class StockDetailAppBar extends StatelessWidget {
-  const StockDetailAppBar({
-    required this.stock,
-    required this.onFavoriteToggled,
-    super.key,
-  });
-
-  /// Figma 상단바 세로 여백.
-  static const double _verticalPadding = 10;
+  const StockDetailAppBar({required this.stock, required this.onFavoriteToggled, super.key});
 
   final Stock stock;
   final ValueChanged<bool> onFavoriteToggled;
@@ -30,64 +22,46 @@ class StockDetailAppBar extends StatelessWidget {
     final AppDimens dimens = context.dimens;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: _verticalPadding,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: dimens.space4, vertical: dimens.space2Mid),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: colors.borderSubtle,
-            width: dimens.borderHairline,
-          ),
+          bottom: BorderSide(color: colors.borderSubtle, width: dimens.borderHairline),
         ),
       ),
       child: Row(
-        children: <Widget>[
-          InkWell(
+        spacing: dimens.space3,
+        children: [
+          AppInkWell(
             onTap: Navigator.of(context).pop,
-            child: AppSvgIcon(
-              AppIcons.back,
-              size: dimens.iconMd,
-              color: colors.textSecondary,
-            ),
+            child: AppSvgIcon(AppIcons.back, size: dimens.iconMd, color: colors.textSecondary),
           ),
-          SizedBox(width: dimens.space3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   stock.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style:
-                      AppTextStyles.body.copyWith(color: colors.textPrimary),
+                  style: AppTextStyles.body.copyWith(color: colors.textPrimary),
                 ),
                 Text(
                   stock.symbolWithMarket,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.caption
-                      .copyWith(color: colors.textSecondary),
+                  style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
                 ),
               ],
             ),
           ),
-          SizedBox(width: dimens.space3),
           Selector<FavoriteController, bool>(
-            selector: (_, FavoriteController controller) =>
-                controller.contains(stock.symbol),
+            selector: (_, FavoriteController controller) => controller.contains(stock.symbol),
             builder: (BuildContext context, bool isFavorite, _) => InkWell(
-              onTap: () => onFavoriteToggled(
-                context.read<FavoriteController>().toggle(stock),
-              ),
+              onTap: () => onFavoriteToggled(context.read<FavoriteController>().toggle(stock)),
               child: AppSvgIcon(
                 isFavorite ? AppIcons.starFill : AppIcons.star,
                 size: dimens.iconMdLg,
-                color: isFavorite
-                    ? colors.favoriteActive
-                    : colors.favoriteInactive,
+                color: isFavorite ? colors.favoriteActive : colors.favoriteInactive,
               ),
             ),
           ),

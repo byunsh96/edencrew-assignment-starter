@@ -24,7 +24,9 @@ class StockDetailController extends ChangeNotifier {
 
   final StockRepository _stockRepository = StockRepository();
   final FavoriteController _favoriteController;
-  final Stock _stock;
+
+  /// 목록에서 받은 종목 정보. 메타 endpoint 응답이 오면 그 값으로 갈아끼운다.
+  Stock _stock;
 
   /// 페이지 번호 -> 그 페이지의 일별 시세.
   ///
@@ -58,7 +60,7 @@ class StockDetailController extends ChangeNotifier {
 
     final List<DailyQuote> result = <DailyQuote>[];
     for (int page = 1; page <= target; page++) {
-      result.addAll(_pageCache[page] ?? const <DailyQuote>[]);
+      result.addAll(_pageCache[page] ?? const []);
     }
     return result;
   }
@@ -84,6 +86,7 @@ class StockDetailController extends ChangeNotifier {
 
     await Future.wait(<Future<void>>[
       _fetchQuote(),
+      _fetchMeta(),
       _ensurePages(_period.pageCount),
     ]);
 
@@ -95,6 +98,16 @@ class StockDetailController extends ChangeNotifier {
     final List<StockQuote> quotes =
         await _stockRepository.getRealtimeQuotes(<String>[_stock.symbol]);
     _quote = quotes.isEmpty ? null : quotes.first;
+  }
+
+  /// 종목명과 거래소명을 메타 endpoint에서 받아 갱신한다.
+  ///
+  /// 목록에서 넘어온 값이 이미 있으므로 실패해도 화면은 그대로 그려진다.
+  /// 상세는 한 종목만 보므로 요청이 1건이다. 검색·관심 목록에서 종목마다 부르면
+  /// 목록 크기만큼 요청이 늘어나므로 그쪽은 자동완성이 준 값을 그대로 쓴다.
+  Future<void> _fetchMeta() async {
+    final Stock? meta = await _stockRepository.getStockMeta(_stock.symbol);
+    if (meta != null) _stock = meta;
   }
 
   /// [required] 페이지까지 확보한다. 이미 받은 페이지는 건너뛴다.

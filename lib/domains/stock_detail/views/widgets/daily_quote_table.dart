@@ -27,7 +27,7 @@ class DailyQuoteTable extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+      children: [
         Text(
           '일별 시세',
           style: AppTextStyles.label.copyWith(color: colors.textPrimary),
@@ -147,7 +147,7 @@ class _TableRow extends StatelessWidget {
             )
           : null,
       child: Row(
-        children: <Widget>[
+        children: [
           SizedBox(width: DailyQuoteTable._dateColumnWidth, child: date),
           for (final Widget cell in cells) ...<Widget>[
             SizedBox(width: dimens.space2),
