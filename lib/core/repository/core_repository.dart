@@ -54,10 +54,7 @@ class CoreRepository {
   final Dio _dio;
 
   /// JSON 응답을 받는다.
-  Future<ApiResponseModel> getData(
-    String url, {
-    Map<String, dynamic>? query,
-  }) async {
+  Future<ApiResponseModel> getData(String url, {Map<String, dynamic>? query}) async {
     try {
       LogUtil().logNetwork('GET $url ${query ?? ''}', module: _file);
 
@@ -70,23 +67,14 @@ class CoreRepository {
       final int statusCode = response.statusCode ?? 0;
 
       if (statusCode < 200 || statusCode >= 300) {
-        LogUtil().logError(
-          'getData($url): $statusCode ${response.statusMessage}',
-          module: _file,
-        );
-        return ApiResponseModel(
-          statusCode: statusCode,
-          errorMessage: response.statusMessage,
-        );
+        LogUtil().logError('getData($url): $statusCode ${response.statusMessage}', module: _file);
+        return ApiResponseModel(statusCode: statusCode, errorMessage: response.statusMessage);
       }
 
       final String body = _decode(response);
       LogUtil().logNetwork('<- $statusCode ${_summarize(body)}', module: _file);
 
-      return ApiResponseModel(
-        statusCode: statusCode,
-        data: body.isEmpty ? null : jsonDecode(body),
-      );
+      return ApiResponseModel(statusCode: statusCode, data: body.isEmpty ? null : jsonDecode(body));
     } catch (e) {
       LogUtil().logError('getData($url): $e', module: _file);
       return const ApiResponseModel.failure('네트워크 요청에 실패했다.');
@@ -97,26 +85,26 @@ class CoreRepository {
   ///
   /// Dio가 본문을 UTF-8로 디코딩하면 한글이 깨진다.
   /// `ResponseType.bytes`로 원문을 받아 EUC-KR로 직접 디코딩한다.
-  Future<String?> getHtml(
-    String url, {
-    Map<String, dynamic>? query,
-  }) async {
+  Future<String?> getHtml(String url, {Map<String, dynamic>? query}) async {
     try {
       LogUtil().logNetwork('GET(HTML) $url ${query ?? ''}', module: _file);
 
       final Response<List<int>> response = await _dio.get<List<int>>(
         url,
         queryParameters: query,
+        // 원시 바이트로 받는다
         options: Options(responseType: ResponseType.bytes),
       );
 
       final int statusCode = response.statusCode ?? 0;
-      if (statusCode != 200 || response.data == null) {
-        LogUtil().logError('getHtml($url): status $statusCode', module: _file);
-        return null;
+
+      if (statusCode == 200 && response.data != null) {
+        //
+        return _decode(response);
       }
 
-      return _decode(response);
+      LogUtil().logError('getHtml($url): status $statusCode', module: _file);
+      return null;
     } catch (e) {
       LogUtil().logError('getHtml($url): $e', module: _file);
     }

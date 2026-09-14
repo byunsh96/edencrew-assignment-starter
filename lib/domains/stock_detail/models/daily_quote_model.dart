@@ -1,11 +1,9 @@
 import '../../../enums/price_direction.dart';
 
-//TODO 리뷰 확인
-
 /// 일별 시세 한 행. 차트 캔들과 일별 시세 표에 함께 쓴다.
 class DailyQuoteModel {
   const DailyQuoteModel({
-    required this.date,
+    required this.localDate,
     required this.closePrice,
     required this.openPrice,
     required this.highPrice,
@@ -14,9 +12,7 @@ class DailyQuoteModel {
     required this.change,
   });
 
-  /// `yyyyMMdd`로 정규화한 날짜.
-  final String date;
-
+  final String localDate;
   final int closePrice;
   final int openPrice;
   final int highPrice;
@@ -29,6 +25,5 @@ class DailyQuoteModel {
   PriceDirection get direction => PriceDirection.of(change);
 
   /// 캔들 몸통의 방향. 시가보다 종가가 높으면 상승 캔들이다.
-  PriceDirection get candleDirection =>
-      PriceDirection.of(closePrice - openPrice);
+  PriceDirection get candleDirection => PriceDirection.of(closePrice - openPrice);
 }

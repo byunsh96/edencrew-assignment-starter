@@ -100,12 +100,13 @@ class StockRepository {
         NaverApi.dailyQuote,
         query: <String, dynamic>{'code': symbol, 'page': page},
       );
-      if (html == null) return DailyQuotePageModel.empty;
+
+      if (html == null) return DailyQuotePageModel.empty();
 
       return DailyQuotePageModel.fromHtml(html, requestedPage: page);
     } catch (e) {
       LogUtil().logError('getDailyQuotes($symbol, $page): $e', module: _file);
     }
-    return DailyQuotePageModel.empty;
+    return DailyQuotePageModel.empty();
   }
 }

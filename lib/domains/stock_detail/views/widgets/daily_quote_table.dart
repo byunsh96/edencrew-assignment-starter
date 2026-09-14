@@ -72,7 +72,7 @@ class _QuoteRow extends StatelessWidget {
     return _TableRow(
       hasTopBorder: true,
       date: Text(
-        FormatUtil.monthDay(quote.date),
+        FormatUtil.monthDay(quote.localDate),
         style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
       ),
       cells: <Widget>[

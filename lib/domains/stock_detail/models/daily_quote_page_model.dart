@@ -1,3 +1,4 @@
+import 'package:edencrew_assignment_starter/utils/log_util.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
@@ -8,11 +9,11 @@ import 'daily_quote_model.dart';
 class DailyQuotePageModel {
   const DailyQuotePageModel({required this.quotes, required this.lastPage});
 
-  /// 응답이 비었거나 파싱에 실패했을 때의 fallback.
-  static const DailyQuotePageModel empty = DailyQuotePageModel(quotes: <DailyQuoteModel>[], lastPage: 1);
+  final List<DailyQuoteModel> quotes;
+  final int lastPage;
 
   /// 한 페이지에 담기는 거래일 수.
-  static const int rowsPerPage = 10;
+  // static const int rowsPerPage = 10;
 
   /// EUC-KR로 디코딩된 HTML을 파싱한다.
   ///
@@ -26,8 +27,10 @@ class DailyQuotePageModel {
     );
   }
 
-  final List<DailyQuoteModel> quotes;
-  final int lastPage;
+  ///
+  factory DailyQuotePageModel.empty() {
+    return DailyQuotePageModel(quotes: <DailyQuoteModel>[], lastPage: 1);
+  }
 
   bool get isEmpty => quotes.isEmpty;
 
@@ -40,6 +43,9 @@ class DailyQuotePageModel {
 
     for (final Element row in document.querySelectorAll('table.type2 tr')) {
       final List<Element> cells = row.querySelectorAll('td');
+
+      LogUtil().logInfo(cells.toString());
+
       if (cells.length != 7) continue;
 
       final String date = FormatUtil.normalizeDate(cells[0].text.trim());
@@ -50,13 +56,13 @@ class DailyQuotePageModel {
 
       result.add(
         DailyQuoteModel(
-          date: date,
+          localDate: date,
           closePrice: _number(cells[1]),
-          change: isDown ? -changeAmount : changeAmount,
           openPrice: _number(cells[3]),
           highPrice: _number(cells[4]),
           lowPrice: _number(cells[5]),
           accumulatedTradingVolume: _number(cells[6]),
+          change: isDown ? -changeAmount : changeAmount,
         ),
       );
     }
